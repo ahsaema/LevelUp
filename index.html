@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" dir="ltr">
+<html lang="fa" dir="rtl">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
@@ -8,189 +8,235 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="LevelUp">
 <meta name="theme-color" content="#0A0A0B">
-<title>LevelUp · Gym</title>
+<title>LevelUp · باشگاه</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Vazirmatn:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#0A0A0B; --bg2:#111112; --surface:#161618; --surface2:#222225; --line:rgba(255,255,255,.07); --gline:rgba(212,175,55,.28);
   --text:#F4EFE3; --muted:#9A9384;
-  --gold:#D4AF37; --gold2:#F3D98B; --gold3:#8C6A1C; --gold-ink:#1A1405;
+  --gold:#D4AF37; --gold2:#F3D98B; --gold-ink:#1A1405;
   --goldgrad:linear-gradient(135deg,#F7E3A1 0%,#D4AF37 45%,#A67C1F 100%);
-  --ok:#D4AF37; --warn:#FF8A3D; --danger:#FF4D5E;
+  --ok:#D4AF37; --warn:#FF8A3D; --danger:#FF4D5E; --paid:#4CC38A;
   --shadow:0 14px 36px rgba(0,0,0,.55);
-  --r-lg:24px; --r-md:18px;
-  --tab-h:74px;
+  --r-lg:24px; --r-md:18px; --tab-h:74px;
   color-scheme:dark;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
 html,body{margin:0;height:100%;background:var(--bg);color:var(--text)}
-body{font-family:'Manrope',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:15px;line-height:1.55;overscroll-behavior-y:none;-webkit-font-smoothing:antialiased}
+body{font-family:'Vazirmatn',system-ui,-apple-system,Tahoma,sans-serif;font-size:15px;line-height:1.6;overscroll-behavior-y:none;-webkit-font-smoothing:antialiased}
 button,input,textarea,select{font:inherit;color:inherit}
 button{cursor:pointer;border:0;background:none;padding:0}
+button:disabled{opacity:.3;cursor:default}
 :focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:8px}
 svg{display:block}
 
-/* ---------- layout ---------- */
-.top{position:sticky;top:0;z-index:20;padding:calc(env(safe-area-inset-top,0px) + 12px) 20px 12px;
-  background:linear-gradient(var(--bg) 70%,transparent);display:flex;align-items:center;justify-content:space-between;gap:12px}
-.logo{display:flex;align-items:center;gap:10px}
-.logo-mark{width:38px;height:38px;border-radius:12px;background:var(--goldgrad);display:grid;place-items:center;color:var(--gold-ink);font-family:'Russo One',sans-serif;font-size:15px;box-shadow:0 6px 18px rgba(212,175,55,.3)}
-.logo-text{font-family:'Russo One',sans-serif;font-size:19px;line-height:1;letter-spacing:.5px}
+/* ---------- header ---------- */
+.top{position:sticky;top:0;z-index:20;padding:calc(env(safe-area-inset-top,0px) + 12px) 18px 12px;
+  background:linear-gradient(var(--bg) 72%,transparent);display:flex;align-items:center;justify-content:space-between;gap:10px}
+.logo{display:flex;align-items:center;gap:9px;direction:ltr}
+.logo-mark{width:36px;height:36px;border-radius:11px;background:var(--goldgrad);display:grid;place-items:center;color:var(--gold-ink);font-family:'Russo One',sans-serif;font-size:14px}
+.logo-text{font-family:'Russo One',sans-serif;font-size:17px;line-height:1;letter-spacing:.5px}
 .logo-text span{color:var(--gold)}
-.top-date{font-size:13px;color:var(--muted);text-align:right;font-weight:600}
+.top-actions{display:flex;align-items:center;gap:8px}
+.coach-pill{display:flex;align-items:center;gap:7px;height:38px;padding:0 12px 0 8px;border-radius:99px;background:var(--surface);border:1px solid var(--line);font-size:13px;font-weight:700;max-width:170px}
+.coach-pill .dot{width:22px;height:22px;border-radius:99px;background:var(--goldgrad);color:var(--gold-ink);display:grid;place-items:center;font-size:11px;font-weight:800;flex:none}
+.coach-pill span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.coach-pill svg{width:14px;height:14px;color:var(--muted);flex:none}
+.icon-btn{width:38px;height:38px;border-radius:12px;background:var(--surface);border:1px solid var(--line);display:grid;place-items:center;color:var(--muted);flex:none}
+.icon-btn svg{width:19px;height:19px}
+.icon-btn.on{color:var(--gold);border-color:var(--gline)}
+
 main{padding:4px 18px calc(var(--tab-h) + env(safe-area-inset-bottom,0px) + 36px);max-width:720px;margin:0 auto}
 .view-in{animation:vin .28s ease}
 @keyframes vin{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-
-h1{font-size:26px;line-height:1.25;margin:0;font-weight:800;letter-spacing:-.4px}
-h2.sec{font-size:17px;font-weight:800;margin:28px 2px 12px;display:flex;align-items:center;gap:8px;letter-spacing:-.2px}
-h2.sec .n{font-size:12px;font-weight:700;background:var(--surface2);color:var(--muted);border-radius:99px;padding:1px 9px}
+h2.sec{font-size:16.5px;font-weight:800;margin:28px 2px 12px;display:flex;align-items:center;gap:8px}
+h2.sec .n{font-size:12px;font-weight:700;background:var(--surface2);color:var(--muted);border-radius:99px;padding:0 9px}
+h2.sec .more{margin-inline-start:auto;font-size:12.5px;color:var(--gold);font-weight:700}
 .muted{color:var(--muted)}
+.ltr{direction:ltr;unicode-bidi:isolate}
 
-/* ---------- hero (the one bold thing) ---------- */
-.hero{position:relative;overflow:hidden;border-radius:var(--r-lg);padding:22px 20px 20px;margin-top:6px;
-  background:var(--goldgrad);color:var(--gold-ink);box-shadow:0 18px 40px rgba(212,175,55,.18)}
-.hero::before{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.35) 45%,transparent 60%);pointer-events:none}
-.hero::after{content:"LEVEL UP";position:absolute;right:-8px;bottom:-24px;font-family:'Russo One',sans-serif;font-size:76px;color:rgba(26,20,5,.08);white-space:nowrap;pointer-events:none}
-.hero p{margin:6px 0 18px;color:rgba(26,20,5,.72);font-weight:600}
-.hero-xp{display:flex;align-items:center;gap:12px;margin-bottom:18px;position:relative}
-.hero-xp .bar{flex:1;height:10px;border-radius:99px;background:rgba(26,20,5,.16);overflow:hidden}
-.hero-xp .bar i{display:block;height:100%;background:var(--gold-ink);border-radius:99px;transition:width .6s cubic-bezier(.2,.8,.2,1)}
-.hero-xp b{font-size:13px;white-space:nowrap}
-.hero .btn{background:var(--gold-ink);color:var(--gold2);box-shadow:none;position:relative}
+/* ---------- hero ---------- */
+.hero{position:relative;overflow:hidden;border-radius:var(--r-lg);padding:18px;margin-top:4px;background:linear-gradient(160deg,#17150F 0%,#111112 55%);border:1px solid var(--gline)}
+.hero::before{content:"";position:absolute;top:0;left:12%;right:12%;height:1px;background:linear-gradient(90deg,transparent,var(--gold2),transparent)}
+.hero-row{display:flex;align-items:center;gap:16px}
+.hero .t{flex:1;min-width:0}
+.hero .eyebrow{font-size:12.5px;color:var(--gold);font-weight:700}
+.hero h1{font-size:21px;line-height:1.45;margin:2px 0 0;font-weight:800}
+.ring{position:relative;width:78px;height:78px;flex:none}
+.ring svg{width:78px;height:78px;transform:rotate(-90deg)}
+.ring .v{position:absolute;inset:0;display:grid;place-items:center;text-align:center;line-height:1.1}
+.ring .v b{font-size:18px;font-weight:800}
+.ring .v small{display:block;font-size:10px;color:var(--muted)}
+.mini{display:grid;grid-template-columns:repeat(3,1fr);margin:16px 0 14px;border-top:1px solid var(--line);padding-top:14px}
+.mini div{text-align:center}
+.mini div+div{border-inline-start:1px solid var(--line)}
+.mini b{display:block;font-size:19px;font-weight:800;line-height:1.3}
+.mini span{font-size:11.5px;color:var(--muted)}
 
 /* ---------- stats ---------- */
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
-.stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:14px 15px}
-.stat .v{font-size:24px;font-weight:800;line-height:1.3;letter-spacing:-.5px}
-.stat .l{font-size:12.5px;color:var(--muted);font-weight:600}
-.stat.money .v{font-size:18px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:13px 15px}
+.stat .v{font-size:18px;font-weight:800;line-height:1.4}
+.stat .l{font-size:12px;color:var(--muted)}
 
 /* ---------- buttons ---------- */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:48px;padding:0 20px;border-radius:14px;font-weight:800;font-size:15px;background:var(--surface2);color:var(--text);transition:transform .12s}
 .btn:active{transform:scale(.97)}
 .btn svg{width:20px;height:20px}
-.btn.primary{background:var(--goldgrad);color:var(--gold-ink);box-shadow:0 8px 20px rgba(212,175,55,.22)}
+.btn.primary{background:var(--goldgrad);color:var(--gold-ink)}
 .btn.danger{background:rgba(255,77,94,.13);color:var(--danger)}
 .btn.ghost{background:transparent;border:1px solid var(--line)}
 .btn.block{width:100%}
 .btn.sm{height:36px;padding:0 13px;font-size:13px;border-radius:11px}
+.btn.sm svg{width:17px;height:17px}
 
 /* ---------- student card ---------- */
 .list{display:flex;flex-direction:column;gap:10px}
-.stu{display:flex;align-items:center;gap:13px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:13px 14px;cursor:pointer;transition:transform .12s}
+.stu{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:13px 14px;cursor:pointer;transition:transform .12s}
 .stu:active{transform:scale(.99)}
-.ava{flex:none;width:46px;height:46px;border-radius:15px;display:grid;place-items:center;font-weight:800;font-size:16px;color:var(--c);background:color-mix(in srgb,var(--c) 16%,var(--surface2));border:1px solid color-mix(in srgb,var(--c) 35%,transparent)}
+.ava{flex:none;width:46px;height:46px;border-radius:15px;display:grid;place-items:center;font-weight:800;font-size:16px;color:var(--c);background:color-mix(in srgb,var(--c) 15%,var(--surface2));border:1px solid color-mix(in srgb,var(--c) 32%,transparent)}
+.ava.sm{width:38px;height:38px;border-radius:12px;font-size:14px}
 .stu-main{flex:1;min-width:0}
 .stu-name{font-weight:800;font-size:15.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.stu-meta{font-size:12.5px;color:var(--muted);display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:1px}
-.pips{display:flex;gap:3px;margin-top:7px;flex-wrap:wrap;max-width:100%}
+.stu-meta{font-size:12px;color:var(--muted);display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:1px}
+.pips{display:flex;gap:3px;margin-top:7px;flex-wrap:wrap}
 .pips i{width:9px;height:9px;border-radius:3px;background:var(--surface2)}
 .pips i.on{background:var(--c,var(--ok))}
 .pips.big i{width:14px;height:14px;border-radius:5px}
-.rem{flex:none;text-align:center;min-width:44px}
+.rem{flex:none;text-align:center;min-width:40px}
 .rem b{display:block;font-size:22px;font-weight:800;line-height:1.1;color:var(--c,var(--text))}
-.rem small{font-size:11px;color:var(--muted);font-weight:600}
+.rem small{font-size:11px;color:var(--muted)}
 .chk{flex:none;width:48px;height:48px;border-radius:15px;display:grid;place-items:center;background:var(--surface2);color:var(--muted);transition:all .18s}
 .chk svg{width:24px;height:24px}
 .chk.done{background:var(--goldgrad);color:var(--gold-ink)}
 .chk.pop{animation:pop .4s ease}
 @keyframes pop{40%{transform:scale(1.18)}}
-
-.pill{font-size:11.5px;font-weight:700;border-radius:99px;padding:1px 9px;white-space:nowrap}
+.pill{font-size:11.5px;font-weight:700;border-radius:99px;padding:0 9px;white-space:nowrap;line-height:1.8}
 .pill.ok{background:rgba(212,175,55,.13);color:var(--gold)}
 .pill.warn{background:rgba(255,138,61,.14);color:var(--warn)}
 .pill.end{background:rgba(255,77,94,.14);color:var(--danger)}
 .pill.none{background:var(--surface2);color:var(--muted)}
 .pill.debt{background:rgba(255,77,94,.1);color:var(--danger)}
+.pill.paid{background:rgba(76,195,138,.13);color:var(--paid)}
+.pill.coach{background:var(--surface2);color:var(--muted)}
 
-/* ---------- alert rows ---------- */
-.alert{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:12px 14px;border-left:4px solid var(--c);cursor:pointer}
+.alert{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:12px 14px;border-inline-start:4px solid var(--c);cursor:pointer}
 .alert .t{flex:1;min-width:0}
 .alert .t b{display:block;font-weight:800}
 .alert .t span{font-size:12.5px;color:var(--muted)}
-.banner{display:flex;gap:12px;align-items:center;background:rgba(212,175,55,.07);border:1px solid var(--gline);border-radius:var(--r-md);padding:12px 14px;margin-top:14px;font-size:13.5px}
-.banner svg{width:22px;height:22px;color:var(--gold);flex:none}
+.banner{display:flex;gap:10px;align-items:center;border-radius:14px;padding:9px 12px;margin-top:12px;font-size:12.5px;background:var(--surface);border:1px dashed var(--gline);color:var(--muted)}
+.banner svg{width:18px;height:18px;color:var(--gold);flex:none}
 .banner .t{flex:1}
+.banner button{color:var(--gold);font-weight:800;font-size:12.5px}
 
 /* ---------- search & chips ---------- */
 .search{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:0 14px;height:50px;margin-top:6px}
 .search:focus-within{border-color:var(--gline)}
 .search svg{width:20px;height:20px;color:var(--muted);flex:none}
-.search input{flex:1;border:0;background:transparent;outline:0;font-size:16px;height:100%}
+.search input{flex:1;border:0;background:transparent;outline:0;font-size:16px;height:100%;min-width:0}
+.search.sm{height:44px;margin:0}
 .chips{display:flex;gap:8px;overflow-x:auto;padding:12px 0 4px;scrollbar-width:none}
 .chips::-webkit-scrollbar{display:none}
 .chip{flex:none;height:36px;padding:0 15px;border-radius:99px;background:var(--surface);border:1px solid var(--line);font-size:13.5px;font-weight:700;color:var(--muted)}
 .chip.on{background:var(--gold);color:var(--gold-ink);border-color:var(--gold)}
 
-/* ---------- attendance page ---------- */
-.att-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-top:6px}
-.att-count{font-size:42px;font-weight:800;line-height:1;letter-spacing:-1px}
-.att-count small{font-size:16px;color:var(--muted);font-weight:700;letter-spacing:0}
-.ring-bar{height:8px;border-radius:99px;background:var(--surface2);overflow:hidden;margin:14px 0 4px}
-.ring-bar i{display:block;height:100%;background:var(--goldgrad);border-radius:99px;transition:width .5s}
+/* ---------- attendance ---------- */
+.daynav{display:flex;align-items:center;gap:8px;margin-top:4px}
+.daynav .nav{width:44px;height:52px;border-radius:14px;background:var(--surface);border:1px solid var(--line);display:grid;place-items:center;color:var(--gold);flex:none}
+.daynav .nav svg{width:20px;height:20px}
+.daybtn{flex:1;height:52px;border-radius:14px;background:var(--surface);border:1px solid var(--gline);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.35}
+.daybtn small{font-size:11.5px;color:var(--gold);font-weight:700}
+.daybtn b{font-size:15px;font-weight:800}
+.past-note{margin-top:10px;font-size:12.5px;color:var(--warn);text-align:center;background:rgba(255,138,61,.08);border-radius:12px;padding:7px}
+.att-count{display:flex;align-items:baseline;gap:8px;margin-top:16px}
+.att-count b{font-size:38px;font-weight:800;line-height:1}
+.att-count span{color:var(--muted);font-weight:700}
+.bar{height:8px;border-radius:99px;background:var(--surface2);overflow:hidden;margin:10px 0 4px}
+.bar i{display:block;height:100%;background:var(--goldgrad);border-radius:99px;transition:width .5s}
 
-/* ---------- money ---------- */
-.pay{display:flex;align-items:center;gap:12px;padding:12px 2px;border-bottom:1px solid var(--line)}
+/* ---------- money / rows ---------- */
+.box{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:4px 14px}
+.pay{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
 .pay:last-child{border-bottom:0}
 .pay .t{flex:1;min-width:0}
 .pay .t b{display:block;font-weight:700}
 .pay .t span{font-size:12.5px;color:var(--muted)}
 .pay .a{font-weight:800;white-space:nowrap}
-.box{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:4px 14px}
 .month-h{display:flex;justify-content:space-between;align-items:baseline;margin:22px 2px 8px;font-weight:800}
 .month-h span{font-size:13px;color:var(--gold)}
 
+/* ---------- fridge ---------- */
+.fridge-cta{display:flex;align-items:center;gap:14px;width:100%;padding:16px;border-radius:var(--r-lg);background:var(--surface);border:1px solid var(--gline);margin-top:12px;text-align:start}
+.fridge-cta .ic{width:52px;height:52px;border-radius:16px;background:var(--goldgrad);color:var(--gold-ink);display:grid;place-items:center;flex:none}
+.fridge-cta .ic svg{width:26px;height:26px}
+.fridge-cta b{display:block;font-size:16px;font-weight:800}
+.fridge-cta span{font-size:12.5px;color:var(--muted)}
+.pick{display:flex;flex-wrap:wrap;gap:8px;max-height:176px;overflow-y:auto;padding:2px}
+.pick button{height:38px;padding:0 13px;border-radius:12px;background:var(--surface);border:1px solid var(--line);font-weight:700;font-size:13.5px}
+.pick button.on{background:var(--gold);border-color:var(--gold);color:var(--gold-ink)}
+.pick button.guest{border-style:dashed;color:var(--gold)}
+.pick button.guest.on{color:var(--gold-ink)}
+.qty{display:flex;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:8px}
+.qty button{width:58px;height:58px;border-radius:14px;background:var(--surface2);font-size:28px;font-weight:700;color:var(--gold)}
+.qty b{font-size:40px;font-weight:800;color:var(--text)}
+.sum-line{display:flex;justify-content:space-between;align-items:center;background:rgba(212,175,55,.07);border:1px solid var(--gline);border-radius:14px;padding:12px 14px;color:var(--text);font-weight:800}
+.sum-line span{color:var(--muted);font-weight:600;font-size:13px}
+.tog{padding:0 10px;height:28px;border-radius:99px;font-size:12px;font-weight:800}
+.tog.paid{background:rgba(76,195,138,.13);color:var(--paid)}
+.tog.unpaid{background:rgba(255,77,94,.13);color:var(--danger)}
+
 /* ---------- settings ---------- */
-.set{display:flex;align-items:center;gap:14px;padding:14px 2px;border-bottom:1px solid var(--line)}
+.set{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--line)}
 .set:last-child{border-bottom:0}
-.set .t{flex:1}
+.set .t{flex:1;min-width:0}
 .set .t b{display:block;font-weight:700}
 .set .t span{font-size:12.5px;color:var(--muted)}
 .stepper{display:flex;align-items:center;gap:4px;background:var(--surface2);border-radius:12px;padding:3px}
 .stepper button{width:34px;height:34px;border-radius:9px;font-size:20px;font-weight:700}
-.stepper button:active{background:var(--surface)}
 .stepper b{min-width:26px;text-align:center}
 .seg{display:flex;background:var(--surface2);border-radius:12px;padding:3px;gap:2px}
-.seg button{flex:1;height:34px;border-radius:9px;font-size:13px;font-weight:700;color:var(--muted);padding:0 10px;white-space:nowrap}
+.seg button{flex:1;height:34px;border-radius:9px;font-size:13px;font-weight:700;color:var(--muted);padding:0 8px;white-space:nowrap}
 .seg button.on{background:var(--bg);color:var(--gold);box-shadow:0 2px 8px rgba(0,0,0,.3)}
-.cc{width:74px;height:40px;border-radius:11px;border:1px solid var(--line);background:var(--surface2);text-align:center;font-weight:700;outline:0;font-size:16px}
+.seg.big button{height:44px;font-size:14px}
+.seg.big button.on.p{color:var(--paid)}
+.seg.big button.on.u{color:var(--danger)}
+.mini-btn{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;color:var(--muted);background:var(--surface2);flex:none}
+.mini-btn svg{width:16px;height:16px}
 
 /* ---------- empty ---------- */
-.empty{text-align:center;padding:40px 20px;color:var(--muted)}
-.empty .ic{width:72px;height:72px;margin:0 auto 14px;border-radius:24px;background:var(--surface);border:1px solid var(--gline);display:grid;place-items:center;color:var(--gold)}
-.empty .ic svg{width:34px;height:34px}
+.empty{text-align:center;padding:38px 20px;color:var(--muted)}
+.empty .ic{width:70px;height:70px;margin:0 auto 14px;border-radius:22px;background:var(--surface);border:1px solid var(--gline);display:grid;place-items:center;color:var(--gold)}
+.empty .ic svg{width:32px;height:32px}
 .empty b{display:block;color:var(--text);font-size:17px;margin-bottom:4px}
-.empty .btn{margin-top:18px}
+.empty .btn{margin-top:16px}
 
 /* ---------- tab bar ---------- */
-.tabbar{position:fixed;bottom:0;left:0;right:0;z-index:30;padding:8px 10px calc(env(safe-area-inset-bottom,0px) + 8px);
-  background:rgba(10,10,11,.84);-webkit-backdrop-filter:blur(18px) saturate(1.4);backdrop-filter:blur(18px) saturate(1.4);border-top:1px solid var(--line)}
+.tabbar{position:fixed;bottom:0;left:0;right:0;z-index:30;padding:8px 10px calc(env(safe-area-inset-bottom,0px) + 8px);background:rgba(10,10,11,.86);-webkit-backdrop-filter:blur(18px) saturate(1.4);backdrop-filter:blur(18px) saturate(1.4);border-top:1px solid var(--line)}
 .tabbar .in{display:flex;justify-content:space-around;align-items:center;max-width:560px;margin:0 auto}
 .tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;font-weight:700;color:var(--muted);padding:4px 0}
 .tab svg{width:24px;height:24px}
 .tab.on{color:var(--text)}
 .tab.on svg{color:var(--gold)}
-.tab.mid .c{width:56px;height:56px;border-radius:19px;background:var(--goldgrad);display:grid;place-items:center;margin-top:-22px;box-shadow:0 10px 24px rgba(212,175,55,.3);border:4px solid var(--bg)}
+.tab.mid .c{width:56px;height:56px;border-radius:19px;background:var(--goldgrad);display:grid;place-items:center;margin-top:-22px;box-shadow:0 10px 24px rgba(212,175,55,.25);border:4px solid var(--bg)}
 .tab.mid .c svg{width:28px;height:28px;color:var(--gold-ink)}
-.fab{position:fixed;right:20px;bottom:calc(var(--tab-h) + env(safe-area-inset-bottom,0px) + 16px);z-index:25;width:58px;height:58px;border-radius:20px;background:var(--goldgrad);color:var(--gold-ink);display:grid;place-items:center;box-shadow:0 10px 26px rgba(212,175,55,.3)}
+.fab{position:fixed;left:20px;bottom:calc(var(--tab-h) + env(safe-area-inset-bottom,0px) + 16px);z-index:25;width:58px;height:58px;border-radius:20px;background:var(--goldgrad);color:var(--gold-ink);display:grid;place-items:center;box-shadow:0 10px 26px rgba(212,175,55,.3)}
 .fab svg{width:28px;height:28px}
 .fab[hidden]{display:none}
 
-/* ---------- bottom sheet ---------- */
+/* ---------- sheet ---------- */
 .scrim{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.65);opacity:0;pointer-events:none;transition:opacity .25s}
 .scrim.show{opacity:1;pointer-events:auto}
-.sheet{position:fixed;left:0;right:0;bottom:0;z-index:51;max-height:calc(100% - env(safe-area-inset-top,0px) - 24px);display:flex;flex-direction:column;
-  background:var(--bg2);border-radius:28px 28px 0 0;border-top:1px solid var(--gline);transform:translateY(105%);transition:transform .32s cubic-bezier(.2,.9,.25,1);max-width:720px;margin:0 auto;box-shadow:0 -10px 40px rgba(0,0,0,.5)}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:51;max-height:calc(100% - env(safe-area-inset-top,0px) - 24px);display:flex;flex-direction:column;background:var(--bg2);border-radius:28px 28px 0 0;border-top:1px solid var(--gline);transform:translateY(105%);transition:transform .32s cubic-bezier(.2,.9,.25,1);max-width:720px;margin:0 auto;box-shadow:0 -10px 40px rgba(0,0,0,.5)}
 .sheet:not(.show){visibility:hidden;transition:transform .32s cubic-bezier(.2,.9,.25,1),visibility 0s .32s}
 .sheet.show{transform:none;visibility:visible}
 .sheet .grab{width:40px;height:5px;border-radius:99px;background:var(--surface2);margin:10px auto 0;flex:none}
 .sheet .body{overflow-y:auto;-webkit-overflow-scrolling:touch;padding:8px 20px calc(env(safe-area-inset-bottom,0px) + 24px)}
 .sh{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:8px 0 16px}
-.sh h3{margin:0;font-size:20px;font-weight:800;letter-spacing:-.3px}
+.sh h3{margin:0;font-size:19px;font-weight:800}
 .x{width:36px;height:36px;border-radius:12px;background:var(--surface2);display:grid;place-items:center;color:var(--muted);flex:none}
 .x svg{width:18px;height:18px}
 
@@ -200,28 +246,36 @@ h2.sec .n{font-size:12px;font-weight:700;background:var(--surface2);color:var(--
 .fl input,.fl textarea{height:52px;border-radius:14px;border:1px solid var(--line);background:var(--surface);padding:0 14px;font-size:16px;font-weight:600;color:var(--text);outline:0;width:100%;-webkit-appearance:none;appearance:none}
 .fl textarea{height:84px;padding:12px 14px;resize:none}
 .fl input:focus,.fl textarea:focus{border-color:var(--gold)}
-.fl .hint{font-weight:600;font-size:12px;color:var(--gold)}
+.fl input.num{direction:ltr;text-align:left}
+.fl .hint{font-weight:500;font-size:12px;color:var(--gold)}
+.fl .sub{font-weight:500;font-size:12px;color:var(--muted)}
+.datebtn{display:flex;align-items:center;gap:10px;height:52px;border-radius:14px;border:1px solid var(--line);background:var(--surface);padding:0 14px;font-size:15.5px;font-weight:700;color:var(--text);width:100%}
+.datebtn svg{width:20px;height:20px;color:var(--gold)}
+.datebtn small{margin-inline-start:auto;font-size:12px;color:var(--muted);font-weight:600}
 .qchips{display:flex;gap:6px}
-.qchips button{flex:1;min-width:0;height:40px;padding:0 4px;border-radius:12px;background:var(--surface);border:1px solid var(--line);font-weight:800}
+.qchips.wrap{flex-wrap:wrap}
+.qchips button{flex:1;min-width:0;height:40px;padding:0 6px;border-radius:12px;background:var(--surface);border:1px solid var(--line);font-weight:800}
+.qchips.wrap button{flex:none;padding:0 14px}
 .qchips button.on{background:var(--gold);border-color:var(--gold);color:var(--gold-ink)}
 .linkbtn{color:var(--gold);font-weight:700;font-size:12.5px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 
 /* ---------- detail ---------- */
-.det-top{display:flex;align-items:center;gap:14px;margin:6px 0 18px}
-.det-top .ava{width:60px;height:60px;border-radius:20px;font-size:21px}
+.det-top{display:flex;align-items:center;gap:12px;margin:6px 0 16px}
+.det-top .ava{width:58px;height:58px;border-radius:19px;font-size:21px}
 .det-top .n{flex:1;min-width:0}
-.det-top .n b{display:block;font-size:20px;font-weight:800;line-height:1.3;letter-spacing:-.3px}
-.det-top .n span{font-size:13px;color:var(--muted)}
+.det-top .n b{display:block;font-size:19px;font-weight:800;line-height:1.4}
+.det-top .n span{font-size:12.5px;color:var(--muted)}
 .xp-card{background:var(--surface);border:1px solid var(--gline);border-radius:var(--r-lg);padding:18px}
 .xp-card .big{display:flex;align-items:baseline;gap:8px}
-.xp-card .big b{font-size:46px;font-weight:800;line-height:1;color:var(--c);letter-spacing:-1px}
+.xp-card .big b{font-size:44px;font-weight:800;line-height:1;color:var(--c)}
 .xp-card .big span{color:var(--muted);font-weight:700}
 .xp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
 .xp-grid div{text-align:center}
-.xp-grid b{display:block;font-size:16px;font-weight:800}
+.xp-grid b{display:block;font-size:15px;font-weight:800}
 .xp-grid span{font-size:11.5px;color:var(--muted)}
 .acts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0}
-.act{display:flex;flex-direction:column;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 4px;font-size:12px;font-weight:700;text-align:center}
+.act{display:flex;flex-direction:column;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 4px;font-size:12px;font-weight:700}
 .act svg{width:22px;height:22px;color:var(--gold)}
 .act.hot{background:var(--goldgrad);border-color:transparent;color:var(--gold-ink)}
 .act.hot svg{color:var(--gold-ink)}
@@ -230,19 +284,22 @@ h2.sec .n{font-size:12px;font-weight:700;background:var(--surface2);color:var(--
 .contact a{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;height:44px;border-radius:13px;background:var(--surface);border:1px solid var(--line);color:var(--text);text-decoration:none;font-size:13px;font-weight:700}
 .contact a svg{width:18px;height:18px;color:var(--gold)}
 .contact a.wa svg{color:#25D366}
+.fridge-due{display:flex;align-items:center;gap:10px;margin-top:10px;padding:10px 12px;border-radius:14px;background:rgba(255,77,94,.08);border:1px solid rgba(255,77,94,.2);font-size:13px;font-weight:700}
+.fridge-due svg{width:20px;height:20px;color:var(--danger);flex:none}
+.fridge-due .t{flex:1}
 .hist{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:2px 14px;margin-top:12px}
 .hrow{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}
 .hrow:last-child{border-bottom:0}
 .hrow .t{flex:1;min-width:0}
 .hrow .t b{display:block;font-weight:700;font-size:14px}
 .hrow .t span{font-size:12px;color:var(--muted)}
-.hrow .del{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;color:var(--muted)}
+.hrow .del{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;color:var(--muted);flex:none}
 .hrow .del svg{width:17px;height:17px}
 .hrow .no{width:30px;height:30px;border-radius:10px;background:var(--surface2);display:grid;place-items:center;font-size:12px;font-weight:800;flex:none;color:var(--gold)}
 .note{background:var(--surface);border:1px dashed var(--line);border-radius:14px;padding:10px 14px;font-size:13.5px;color:var(--muted);margin-bottom:12px;white-space:pre-wrap}
 
-/* ---------- toast & dialog ---------- */
-.toasts{position:fixed;top:calc(env(safe-area-inset-top,0px) + 10px);left:12px;right:12px;z-index:80;display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none}
+/* ---------- toast / dialog / date picker ---------- */
+.toasts{position:fixed;top:calc(env(safe-area-inset-top,0px) + 10px);left:12px;right:12px;z-index:95;display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none}
 .toast{pointer-events:auto;display:flex;align-items:center;gap:10px;max-width:520px;width:100%;padding:12px 14px;border-radius:16px;background:#1B1B1D;border:1px solid var(--line);box-shadow:var(--shadow);font-weight:700;font-size:14px;animation:tin .3s cubic-bezier(.2,.9,.25,1)}
 .toast .d{width:10px;height:10px;border-radius:99px;background:var(--c);flex:none;box-shadow:0 0 0 4px color-mix(in srgb,var(--c) 25%,transparent)}
 .toast .m{flex:1}
@@ -250,28 +307,39 @@ h2.sec .n{font-size:12px;font-weight:700;background:var(--surface2);color:var(--
 .toast.out{animation:tout .25s forwards}
 @keyframes tin{from{opacity:0;transform:translateY(-14px) scale(.97)}to{opacity:1;transform:none}}
 @keyframes tout{to{opacity:0;transform:translateY(-10px)}}
-.dlg{position:fixed;inset:0;z-index:90;display:grid;place-items:center;padding:24px;background:rgba(0,0,0,.65);opacity:0;pointer-events:none;transition:opacity .2s}
+.dlg{position:fixed;inset:0;z-index:90;display:grid;place-items:center;padding:20px;background:rgba(0,0,0,.65);opacity:0;pointer-events:none;transition:opacity .2s}
 .dlg.show{opacity:1;pointer-events:auto}
-.dlg .card{width:100%;max-width:360px;background:var(--bg2);border:1px solid var(--gline);border-radius:24px;padding:22px;box-shadow:var(--shadow);transform:scale(.95);transition:transform .2s}
+.dlg .card{width:100%;max-width:370px;background:var(--bg2);border:1px solid var(--gline);border-radius:24px;padding:20px;box-shadow:var(--shadow);transform:scale(.95);transition:transform .2s}
 .dlg.show .card{transform:none}
 .dlg h4{margin:0 0 6px;font-size:18px;font-weight:800}
 .dlg p{margin:0 0 20px;color:var(--muted);font-size:14px}
 .dlg .bs{display:flex;gap:10px}
 .dlg .bs .btn{flex:1}
+.dp-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.dp-h b{font-size:17px;font-weight:800}
+.dp-h button{width:40px;height:40px;border-radius:12px;background:var(--surface);display:grid;place-items:center;color:var(--gold)}
+.dp-h button svg{width:20px;height:20px}
+.dp-w,.dp-g{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+.dp-w span{font-size:12px;color:var(--muted);font-weight:700;padding-bottom:6px}
+.dp-g button{height:40px;border-radius:11px;font-weight:700;font-size:14.5px}
+.dp-g button.today{border:1px solid var(--gold);color:var(--gold)}
+.dp-g button.on{background:var(--goldgrad);color:var(--gold-ink);border:0}
+.dp-g button.fri{color:var(--danger)}
+.dp-g button.on.fri{color:var(--gold-ink)}
+.dp-g button:disabled{opacity:.25}
+.dp-foot{display:flex;gap:10px;margin-top:14px}
+.dp-foot .btn{flex:1;height:44px}
 .foot{text-align:center;font-size:12px;color:var(--muted);margin-top:30px}
 .foot b{font-family:'Russo One',sans-serif;font-weight:400;color:var(--gold)}
 </style>
 </head>
 <body>
 <header class="top">
-  <div class="logo">
-    <div class="logo-mark">LU</div>
-    <div class="logo-text">LEVEL<span>UP</span></div>
-  </div>
-  <div class="top-date" id="topDate"></div>
+  <div class="logo"><div class="logo-mark">LU</div><div class="logo-text">LEVEL<span>UP</span></div></div>
+  <div class="top-actions" id="topActions"></div>
 </header>
 <main id="view"></main>
-<button class="fab" id="fab" data-act="addStudent" aria-label="Add student" hidden></button>
+<button class="fab" id="fab" data-act="addStudent" aria-label="شاگرد جدید" hidden></button>
 <nav class="tabbar"><div class="in" id="tabs"></div></nav>
 <div class="scrim" id="scrim" data-act="close"></div>
 <section class="sheet" id="sheet" role="dialog" aria-modal="true"><div class="grab"></div><div class="body" id="sheetBody"></div></section>
@@ -281,99 +349,131 @@ h2.sec .n{font-size:12px;font-weight:700;background:var(--surface2);color:var(--
 
 <script>
 /* ================== ICONS ================== */
+const sv = (p, w=2) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
 const I = {
-  home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>',
-  users:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0"/><path d="M16 4.5a4 4 0 0 1 0 7M22 21a7 7 0 0 0-4-6.3"/></svg>',
-  check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>',
-  plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
-  wallet:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="14" rx="3"/><path d="M3 10h18M16 15h2M6 6l9-3 1.5 3"/></svg>',
-  gear:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>',
-  x:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>',
-  search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>',
-  renew:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 1-15.5 6.2L3 16M3 12a9 9 0 0 1 15.5-6.2L21 8"/><path d="M21 3v5h-5M3 21v-5h5"/></svg>',
-  cash:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2.5"/><circle cx="12" cy="12" r="2.6"/><path d="M6 12h.01M18 12h.01"/></svg>',
-  edit:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13.5 6.5 4 4"/></svg>',
-  trash:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>',
-  phone:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>',
-  msg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8.5 8.5 0 0 1-12.6 7.4L3 21l1.6-5.2A8.5 8.5 0 1 1 21 12z"/></svg>',
-  wa:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7a11.4 11.4 0 0 1-4.4-3.9c-.3-.5-1.1-1.5-1.1-2.8s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.1.1.6-.1 1.2z"/></svg>',
-  alert:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 20h20z"/><path d="M12 10v4M12 17h.01"/></svg>',
-  download:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-4.5-4.5M12 15l4.5-4.5M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>',
-  upload:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3m0 0L7.5 7.5M12 3l4.5 4.5M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>',
-  cal:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',
+  home: sv('<path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/>'),
+  users: sv('<circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0"/><path d="M16 4.5a4 4 0 0 1 0 7M22 21a7 7 0 0 0-4-6.3"/>'),
+  check: sv('<path d="m5 12.5 4.5 4.5L19 7.5"/>', 2.6),
+  plus: sv('<path d="M12 5v14M5 12h14"/>', 2.4),
+  wallet: sv('<rect x="3" y="6" width="18" height="14" rx="3"/><path d="M3 10h18M16 15h2M6 6l9-3 1.5 3"/>'),
+  bottle: sv('<path d="M10 2h4v3l1.5 2.5V20a2 2 0 0 1-2 2h-3a2 2 0 0 1-2-2V7.5L10 5z"/><path d="M8.5 12h7M8.5 16h7"/>'),
+  gear: sv('<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>'),
+  x: sv('<path d="M6 6l12 12M18 6 6 18"/>', 2.4),
+  search: sv('<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>'),
+  renew: sv('<path d="M21 12a9 9 0 0 1-15.5 6.2L3 16M3 12a9 9 0 0 1 15.5-6.2L21 8"/><path d="M21 3v5h-5M3 21v-5h5"/>'),
+  cash: sv('<rect x="2" y="6" width="20" height="12" rx="2.5"/><circle cx="12" cy="12" r="2.6"/><path d="M6 12h.01M18 12h.01"/>'),
+  edit: sv('<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13.5 6.5 4 4"/>'),
+  trash: sv('<path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/>'),
+  phone: sv('<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/>'),
+  msg: sv('<path d="M21 12a8.5 8.5 0 0 1-12.6 7.4L3 21l1.6-5.2A8.5 8.5 0 1 1 21 12z"/>'),
+  wa: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7a11.4 11.4 0 0 1-4.4-3.9c-.3-.5-1.1-1.5-1.1-2.8s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.1.1.6-.1 1.2z"/></svg>',
+  alert: sv('<path d="M12 3 2 20h20z"/><path d="M12 10v4M12 17h.01"/>'),
+  download: sv('<path d="M12 3v12m0 0-4.5-4.5M12 15l4.5-4.5M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/>'),
+  upload: sv('<path d="M12 15V3m0 0L7.5 7.5M12 3l4.5 4.5M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/>'),
+  cal: sv('<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/>'),
+  chevR: sv('<path d="m9 6 6 6-6 6"/>', 2.4),
+  chevL: sv('<path d="m15 6-6 6 6 6"/>', 2.4),
+  chevD: sv('<path d="m6 9 6 6 6-6"/>', 2.4),
+  whistle: sv('<circle cx="12" cy="8" r="4"/><path d="M5 21a7 7 0 0 1 14 0"/><path d="M12 12v3"/>'),
 };
+
+/* ================== JALALI CALENDAR ================== */
+const div=(a,b)=>~~(a/b), mod=(a,b)=>a-~~(a/b)*b;
+function jalCal(jy){const br=[-61,9,38,199,426,686,756,818,1111,1181,1210,1635,2060,2097,2192,2262,2324,2394,2456,3178];const gy=jy+621;let leapJ=-14,jp=br[0],jm,jump,leap,n,i;for(i=1;i<br.length;i++){jm=br[i];jump=jm-jp;if(jy<jm)break;leapJ=leapJ+div(jump,33)*8+div(mod(jump,33),4);jp=jm;}n=jy-jp;leapJ=leapJ+div(n,33)*8+div(mod(n,33)+3,4);if(mod(jump,33)===4&&jump-n===4)leapJ+=1;const leapG=div(gy,4)-div((div(gy,100)+1)*3,4)-150;const march=20+leapJ-leapG;if(jump-n<6)n=n-jump+div(jump+4,33)*33;leap=mod(mod(n+1,33)-1,4);if(leap===-1)leap=4;return{leap,gy,march};}
+function g2d(gy,gm,gd){let d=div((gy+div(gm-8,6)+100100)*1461,4)+div(153*mod(gm+9,12)+2,5)+gd-34840408;d=d-div(div(gy+100100+div(gm-8,6),100)*3,4)+752;return d;}
+function d2g(jdn){let j=4*jdn+139361631;j=j+div(div(4*jdn+183187720,146097)*3,4)*4-3908;const i=div(mod(j,1461),4)*5+308;const gd=div(mod(i,153),5)+1;const gm=mod(div(i,153),12)+1;const gy=div(j,1461)-100100+div(8-gm,6);return{gy,gm,gd};}
+function j2d(jy,jm,jd){const r=jalCal(jy);return g2d(r.gy,3,r.march)+(jm-1)*31-div(jm,7)*(jm-7)+jd-1;}
+function d2j(jdn){const gy=d2g(jdn).gy;let jy=gy-621;const r=jalCal(jy);const f=g2d(gy,3,r.march);let jd,jm,k=jdn-f;if(k>=0){if(k<=185){jm=1+div(k,31);jd=mod(k,31)+1;return{jy,jm,jd};}else k-=186;}else{jy-=1;k+=179;if(r.leap===1)k+=1;}jm=7+div(k,30);jd=mod(k,30)+1;return{jy,jm,jd};}
+const toJ=(y,m,d)=>d2j(g2d(y,m,d)), toG=(y,m,d)=>d2g(j2d(y,m,d));
+const jmLen=(y,m)=>m<=6?31:m<=11?30:(jalCal(y).leap===0?30:29);
+const JM=['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
+const WD=['یکشنبه','دوشنبه','سه‌شنبه','چهارشنبه','پنجشنبه','جمعه','شنبه'];
+const jOf = ts => { const d = new Date(ts); return toJ(d.getFullYear(), d.getMonth()+1, d.getDate()); };
+const tsOfJ = (jy,jm,jd) => { const g = toG(jy,jm,jd); return new Date(g.gy, g.gm-1, g.gd, 12, 0, 0).getTime(); };
 
 /* ================== DATA ================== */
 const KEY = 'levelup_gym_v1';
-const DEF = () => ({ students: [], settings: { warnAt: 2, currency: 'toman', calendar: 'gregorian', countryCode: '98', lastBackup: null } });
+const DEF = () => ({ students:[], coaches:[{id:'c1', name:'مهدی'}], items:[{id:'water', name:'بطری آب', price:0}], fridge:[],
+  settings:{ warnAt:2, coachId:'', lastBackup:null } });
+function normalize(d){
+  const D = DEF();
+  d.settings = Object.assign(D.settings, d.settings||{});
+  d.students = d.students || [];
+  if(!Array.isArray(d.coaches) || !d.coaches.length) d.coaches = D.coaches;
+  if(!Array.isArray(d.items) || !d.items.length) d.items = D.items;
+  d.fridge = d.fridge || [];
+  d.students.forEach(s => { s.packages = s.packages||[]; s.attendance = s.attendance||[]; s.payments = s.payments||[]; if(!s.coachId || !d.coaches.some(c=>c.id===s.coachId)) s.coachId = d.coaches[0].id; });
+  if(d.settings.coachId && !d.coaches.some(c=>c.id===d.settings.coachId)) d.settings.coachId = '';
+  return d;
+}
 let db = load();
 function load(){
-  try{ const r = localStorage.getItem(KEY); if(r){ const d = JSON.parse(r); d.settings = Object.assign(DEF().settings, d.settings||{}); d.students = d.students||[]; return d; } }catch(e){}
+  try{ const r = localStorage.getItem(KEY); if(r) return normalize(JSON.parse(r)); }catch(e){}
   return DEF();
 }
 function save(){
   try{ localStorage.setItem(KEY, JSON.stringify(db)); }
-  catch(e){ toast('Could not save. Browser storage is full or unavailable.', 'danger'); }
+  catch(e){ toast('ذخیره نشد. حافظه‌ی مرورگر پر است یا در دسترس نیست.', 'danger'); }
 }
+save();
 try{ navigator.storage && navigator.storage.persist && navigator.storage.persist(); }catch(e){}
 
 /* ================== HELPERS ================== */
 const $ = s => document.querySelector(s);
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,7);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const nf = n => Number(n||0).toLocaleString('en-US');
-const CUR = { toman:{label:'Toman', f:n=>nf(n)+' Toman'}, eur:{label:'€ Euro', f:n=>'€'+nf(n)}, usd:{label:'$ Dollar', f:n=>'$'+nf(n)} };
-const money = n => (CUR[db.settings.currency]||CUR.toman).f(n);
-const curName = () => db.settings.currency==='eur' ? 'EUR' : db.settings.currency==='usd' ? 'USD' : 'Toman';
+const fd = n => String(n).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+const fa = n => Number(n||0).toLocaleString('fa-IR');
+const money = n => fa(n) + ' تومان';
 const toEn = s => String(s ?? '').replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d));
 const num = s => { const n = parseInt(toEn(s).replace(/[^\d]/g,''), 10); return isNaN(n) ? 0 : n; };
-const loc = () => db.settings.calendar==='persian' ? 'en-u-ca-persian' : 'en-GB';
-const fmt = (ts, o) => new Intl.DateTimeFormat(loc(), o).format(new Date(ts)).replace(/\s?AP$/,'');
-const jdate = ts => fmt(ts, {day:'numeric', month:'short', year:'numeric'});
-const jday = ts => fmt(ts, {weekday:'long', day:'numeric', month:'long'});
-const jtime = ts => new Date(ts).toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'});
-const monthKey = ts => { const p = new Intl.DateTimeFormat(loc(),{year:'numeric',month:'numeric'}).formatToParts(new Date(ts)); return (p.find(x=>x.type==='year')||{}).value + '-' + (p.find(x=>x.type==='month')||{}).value; };
-const monthName = ts => fmt(ts, {month:'long', year:'numeric'});
+const jdate = ts => { const j = jOf(ts); return `${fd(j.jd)} ${JM[j.jm-1]} ${fd(j.jy)}`; };
+const jday = ts => { const j = jOf(ts); return `${WD[new Date(ts).getDay()]} ${fd(j.jd)} ${JM[j.jm-1]}`; };
+const jfull = ts => `${WD[new Date(ts).getDay()]} ${jdate(ts)}`;
+const jtime = ts => fd(new Date(ts).toTimeString().slice(0,5));
+const monthKey = ts => { const j = jOf(ts); return j.jy + '-' + j.jm; };
+const monthName = ts => { const j = jOf(ts); return JM[j.jm-1] + ' ' + fd(j.jy); };
 const sameDay = (a,b) => { const x=new Date(a), y=new Date(b); return x.getFullYear()===y.getFullYear() && x.getMonth()===y.getMonth() && x.getDate()===y.getDate(); };
-const isoDay = ts => { const d = new Date(ts); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); };
-const parseDay = v => { if(!v) return Date.now(); const d = new Date(v+'T12:00:00'); if(sameDay(d, Date.now())) return Date.now(); return isNaN(d) ? Date.now() : d.getTime(); };
+const noon = ts => { const d = new Date(ts); d.setHours(12,0,0,0); return d.getTime(); };
+const stamp = ts => sameDay(ts, Date.now()) ? Date.now() : noon(ts);
 const byId = id => db.students.find(s => s.id === id);
-const plural = (n, w) => nf(n) + ' ' + w + (n===1 ? '' : 's');
+const coachOf = id => db.coaches.find(c => c.id === id);
+const itemOf = id => db.items.find(i => i.id === id);
+const scoped = () => db.settings.coachId ? db.students.filter(s => s.coachId === db.settings.coachId) : db.students;
 function rel(ts){
   const a = new Date(); a.setHours(0,0,0,0); const b = new Date(ts); b.setHours(0,0,0,0);
   const d = Math.round((a-b)/86400000);
-  if(d<=0) return 'today'; if(d===1) return 'yesterday'; if(d<7) return d+' days ago';
-  if(d<30) return plural(Math.floor(d/7),'week')+' ago'; return 'on '+jdate(ts);
+  if(d===0) return 'امروز'; if(d===1) return 'دیروز'; if(d===-1) return 'فردا';
+  if(d<0) return fa(-d)+' روز بعد';
+  if(d<7) return fa(d)+' روز پیش'; if(d<30) return fa(Math.floor(d/7))+' هفته پیش'; return jdate(ts);
 }
 const PALETTE = ['#D4AF37','#E0B872','#C98B5B','#9FB4C7','#B89AD8','#7FC4B0','#E08A8A','#C7C08A'];
 function avaColor(name){ let h=0; for(const c of String(name)) h = (h*31 + c.charCodeAt(0))|0; return PALETTE[Math.abs(h)%PALETTE.length]; }
-function initials(name){ const p = String(name).trim().split(/\s+/); return esc(((p[0]||'?').charAt(0) + (p[1] ? p[p.length-1].charAt(0) : '')).toUpperCase()); }
-function ava(s){ return `<div class="ava" style="--c:${avaColor(s.name)}">${initials(s.name)}</div>`; }
-function waPhone(p){
-  const raw = toEn(p).trim(); let d = raw.replace(/[^\d]/g,'');
-  if(raw.startsWith('+')) return d; if(d.startsWith('00')) return d.slice(2);
-  if(d.startsWith('0')) return (db.settings.countryCode||'').replace(/[^\d]/g,'') + d.slice(1);
-  return d;
-}
+function initials(name){ const p = String(name).trim().split(/\s+/); return esc((p[0]||'?').charAt(0) + (p.length>1 ? '‌'+p[p.length-1].charAt(0) : '')); }
+function ava(name, sm){ return `<div class="ava ${sm?'sm':''}" style="--c:${avaColor(name)}">${initials(name)}</div>`; }
+function waPhone(p){ const raw = toEn(p).trim(); let d = raw.replace(/[^\d]/g,''); if(raw.startsWith('+')) return d; if(d.startsWith('00')) return d.slice(2); if(d.startsWith('0')) return '98'+d.slice(1); return d; }
 
-/* ================== STUDENT STATS ================== */
+/* ================== STATS ================== */
 const STATUS = {
-  ok:{label:'Active', c:'var(--ok)'}, warn:{label:'Ending soon', c:'var(--warn)'},
-  end:{label:'Sessions used up', c:'var(--danger)'}, none:{label:'No package', c:'var(--muted)'}
+  ok:{label:'فعال', c:'var(--ok)'}, warn:{label:'رو به اتمام', c:'var(--warn)'},
+  end:{label:'جلسات تمام شده', c:'var(--danger)'}, none:{label:'بدون دوره', c:'var(--muted)'}
 };
+const realAtt = s => s.attendance.filter(a => !a.imported);
+const inDay = (s, day) => realAtt(s).some(a => sameDay(a.date, day));
+function fridgeDue(sid){ return db.fridge.filter(f => f.studentId===sid && !f.paid).reduce((a,f)=>a+f.qty*f.unit,0); }
 function st(s){
-  const pk = s.packages||[], at = s.attendance||[], py = s.payments||[];
-  const total = pk.reduce((a,p)=>a+(+p.sessions||0),0);
-  const used = at.length, remaining = total - used;
-  const price = pk.reduce((a,p)=>a+(+p.price||0),0);
-  const paid = py.reduce((a,p)=>a+(+p.amount||0),0);
+  const total = s.packages.reduce((a,p)=>a+(+p.sessions||0),0);
+  const used = s.attendance.length, remaining = total - used;
+  const price = s.packages.reduce((a,p)=>a+(+p.price||0),0);
+  const paid = s.payments.reduce((a,p)=>a+(+p.amount||0),0);
   const debt = Math.max(0, price - paid);
-  const cur = pk[pk.length-1];
+  const cur = s.packages[s.packages.length-1];
   const curTotal = cur ? +cur.sessions : 0;
-  const last = at.length ? Math.max(...at.map(a=>a.date)) : null;
-  const todayIn = at.some(a=>sameDay(a.date, Date.now()));
-  const status = !pk.length ? 'none' : remaining<=0 ? 'end' : remaining<=db.settings.warnAt ? 'warn' : 'ok';
-  return {total, used, remaining, price, paid, debt, cur, curTotal, last, todayIn, status};
+  const ra = realAtt(s);
+  const last = ra.length ? Math.max(...ra.map(a=>a.date)) : null;
+  const todayIn = inDay(s, Date.now());
+  const status = !s.packages.length ? 'none' : remaining<=0 ? 'end' : remaining<=db.settings.warnAt ? 'warn' : 'ok';
+  return {total, used, remaining, price, paid, debt, cur, curTotal, last, todayIn, status, fridge: fridgeDue(s.id)};
 }
 function pips(x, big){
   const n = Math.min(30, Math.max(x.curTotal, x.remaining, 1));
@@ -383,12 +483,15 @@ function pips(x, big){
 }
 
 /* ================== RENDER ================== */
-let tab = 'home', q = '', filter = 'all', detId = null, detTab = 'att';
+let tab = 'home', q = '', filter = 'all', detId = null, detTab = 'att', attDay = Date.now();
 const TABS = [
-  {id:'home', t:'Home', i:'home'}, {id:'students', t:'Students', i:'users'},
-  {id:'attend', t:'Check-in', i:'check', mid:true}, {id:'money', t:'Payments', i:'wallet'}, {id:'settings', t:'Settings', i:'gear'}
+  {id:'home', t:'خانه', i:'home'}, {id:'students', t:'شاگردان', i:'users'},
+  {id:'attend', t:'حضور', i:'check', mid:true}, {id:'money', t:'مالی', i:'wallet'}, {id:'fridge', t:'یخچال', i:'bottle'}
 ];
-function renderTabs(){
+function renderChrome(){
+  const c = coachOf(db.settings.coachId);
+  $('#topActions').innerHTML = `<button class="coach-pill" data-act="coachPick"><span class="dot">${c ? esc(c.name.charAt(0)) : '★'}</span><span>${c ? 'مربی ' + esc(c.name) : 'همه‌ی مربی‌ها'}</span>${I.chevD}</button>
+    <button class="icon-btn ${tab==='settings'?'on':''}" data-act="tab" data-id="settings" aria-label="تنظیمات">${I.gear}</button>`;
   $('#tabs').innerHTML = TABS.map(t => t.mid
     ? `<button class="tab mid ${tab===t.id?'on':''}" data-act="tab" data-id="${t.id}"><span class="c">${I[t.i]}</span>${t.t}</button>`
     : `<button class="tab ${tab===t.id?'on':''}" data-act="tab" data-id="${t.id}">${I[t.i]}${t.t}</button>`).join('');
@@ -396,369 +499,556 @@ function renderTabs(){
   $('#fab').innerHTML = I.plus;
 }
 function render(anim){
-  $('#topDate').textContent = fmt(Date.now(), {weekday:'short', day:'numeric', month:'short'});
-  renderTabs();
+  renderChrome();
   const v = $('#view');
   v.innerHTML = VIEWS[tab]();
   if(anim){ v.classList.remove('view-in'); void v.offsetWidth; v.classList.add('view-in'); }
 }
 function refresh(){ render(false); if(detId) renderDetail(); }
 
-function studentCard(s){
-  const x = st(s);
-  const meta = [];
-  meta.push(`<span class="pill ${x.status}">${STATUS[x.status].label}</span>`);
-  if(x.debt>0) meta.push(`<span class="pill debt">Owes ${money(x.debt)}</span>`);
-  meta.push(`<span>${x.last ? 'Last seen ' + rel(x.last) : 'No visits yet'}</span>`);
+function studentCard(s, day){
+  day = day || Date.now();
+  const x = st(s), here = inDay(s, day);
+  const meta = [`<span class="pill ${x.status}">${STATUS[x.status].label}</span>`];
+  if(x.debt>0) meta.push(`<span class="pill debt">بدهی ${fa(x.debt)}</span>`);
+  if(x.fridge>0) meta.push(`<span class="pill debt">یخچال ${fa(x.fridge)}</span>`);
+  if(!db.settings.coachId && db.coaches.length>1){ const c = coachOf(s.coachId); if(c) meta.push(`<span class="pill coach">${esc(c.name)}</span>`); }
   return `<div class="stu" data-act="open" data-id="${s.id}">
-    ${ava(s)}
+    ${ava(s.name)}
     <div class="stu-main"><div class="stu-name">${esc(s.name)}</div><div class="stu-meta">${meta.join('')}</div>${x.status!=='none'?pips(x):''}</div>
-    <div class="rem" style="--c:${STATUS[x.status].c}"><b>${nf(x.remaining)}</b><small>left</small></div>
-    <button class="chk ${x.todayIn?'done':''}" data-act="check" data-id="${s.id}" aria-label="${x.todayIn?'Undo today\'s check-in':'Check in today'}">${x.todayIn?I.check:I.plus}</button>
+    <div class="rem" style="--c:${STATUS[x.status].c}"><b>${fa(x.remaining)}</b><small>جلسه</small></div>
+    <button class="chk ${here?'done':''}" data-act="check" data-id="${s.id}" data-day="${day}" aria-label="${here?'لغو حضور':'ثبت حضور'}">${here?I.check:I.plus}</button>
   </div>`;
 }
 function emptyState(title, text, btn){
-  return `<div class="empty"><div class="ic">${I.users}</div><b>${title}</b>${text}${btn?`<div><button class="btn primary" data-act="addStudent">${I.plus} Add student</button></div>`:''}</div>`;
+  return `<div class="empty"><div class="ic">${I.users}</div><b>${title}</b>${text}${btn?`<div><button class="btn primary" data-act="addStudent">${I.plus} افزودن شاگرد</button></div>`:''}</div>`;
+}
+function ringSvg(pct){
+  const r = 32, c = 2*Math.PI*r, off = c*(1-Math.min(pct,100)/100);
+  return `<svg viewBox="0 0 78 78"><defs><linearGradient id="gg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F7E3A1"/><stop offset="1" stop-color="#A67C1F"/></linearGradient></defs>
+    <circle cx="39" cy="39" r="${r}" fill="none" stroke="#222225" stroke-width="7"/>
+    <circle cx="39" cy="39" r="${r}" fill="none" stroke="url(#gg)" stroke-width="7" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${off}"/></svg>`;
 }
 
 const VIEWS = {
   home(){
-    const all = db.students.map(s=>({s, x:st(s)}));
+    const list = scoped(), all = list.map(s=>({s, x:st(s)}));
     const todayCnt = all.filter(o=>o.x.todayIn).length;
     const active = all.filter(o=>o.x.status==='ok'||o.x.status==='warn');
-    const mk = monthKey(Date.now());
-    const income = db.students.flatMap(s=>s.payments||[]).filter(p=>monthKey(p.date)===mk).reduce((a,p)=>a+p.amount,0);
-    const debt = all.reduce((a,o)=>a+o.x.debt,0);
-    const pct = active.length ? Math.round(todayCnt/active.length*100) : 0;
     const need = all.filter(o=>o.x.status==='end'||o.x.status==='warn').sort((a,b)=>a.x.remaining-b.x.remaining);
     const debtors = all.filter(o=>o.x.debt>0).sort((a,b)=>b.x.debt-a.x.debt);
+    const mk = monthKey(Date.now());
+    const income = list.flatMap(s=>s.payments).filter(p=>monthKey(p.date)===mk).reduce((a,p)=>a+p.amount,0);
+    const debt = all.reduce((a,o)=>a+o.x.debt,0);
+    const fridgeOpen = fridgeScoped().filter(f=>!f.paid).reduce((a,f)=>a+f.qty*f.unit,0);
+    const pct = active.length ? Math.round(todayCnt/active.length*100) : 0;
+    const c = coachOf(db.settings.coachId);
     const hour = new Date().getHours();
-    const hi = hour<12 ? 'Good morning' : hour<17 ? 'Good afternoon' : 'Good evening';
+    const hi = hour<12 ? 'صبح بخیر' : hour<17 ? 'روز بخیر' : 'عصر بخیر';
 
     let h = `<section class="hero">
-      <h1>${hi}, Coach Mehdi</h1>
-      <p>${db.students.length ? `${plural(todayCnt,'student')} of ${nf(active.length)} active checked in today.` : 'Add your first student to get the class going.'}</p>
-      ${db.students.length ? `<div class="hero-xp"><div class="bar"><i style="width:${Math.min(pct,100)}%"></i></div><b>${Math.min(pct,100)}% attendance</b></div>
-      <button class="btn" data-act="tab" data-id="attend">${I.check} Take today's attendance</button>`
-      : `<button class="btn" data-act="addStudent">${I.plus} Add student</button>`}
+      <div class="hero-row">
+        <div class="t"><div class="eyebrow">${jfull(Date.now())}</div><h1>${hi}${c ? '، مربی ' + esc(c.name) : ''}</h1></div>
+        <div class="ring">${ringSvg(pct)}<div class="v"><div><b>${fa(pct)}٪</b><small>حضور امروز</small></div></div></div>
+      </div>
+      <div class="mini">
+        <div><b>${fa(todayCnt)}</b><span>حاضر امروز</span></div>
+        <div><b>${fa(active.length)}</b><span>شاگرد فعال</span></div>
+        <div><b style="color:${need.length?'var(--warn)':'inherit'}">${fa(need.length)}</b><span>نیاز به تمدید</span></div>
+      </div>
+      ${list.length ? `<button class="btn primary block" data-act="tab" data-id="attend">${I.check} حضور و غیاب امروز</button>` : `<button class="btn primary block" data-act="addStudent">${I.plus} افزودن اولین شاگرد</button>`}
     </section>`;
-
     if(!db.students.length) return h;
 
     const lb = db.settings.lastBackup;
-    if(!lb || Date.now()-lb > 7*86400000){
-      h += `<div class="banner">${I.alert}<div class="t">${lb ? 'Last backup was ' + rel(lb) + '.' : 'You haven\'t backed up yet.'} Your data lives only on this phone.</div><button class="btn sm primary" data-act="export">Back up</button></div>`;
-    }
+    if(!lb || Date.now()-lb > 7*86400000)
+      h += `<div class="banner">${I.alert}<div class="t">${lb ? 'آخرین بکاپ ' + rel(lb) : 'هنوز بکاپ نگرفتی'}. اطلاعات فقط روی همین گوشیه.</div><button data-act="export">بکاپ بگیر</button></div>`;
 
     h += `<div class="stats">
-      <div class="stat"><div class="v">${nf(active.length)}</div><div class="l">Active students</div></div>
-      <div class="stat"><div class="v" style="color:${need.length?'var(--danger)':'inherit'}">${nf(need.length)}</div><div class="l">Need renewal</div></div>
-      <div class="stat money"><div class="v" style="color:var(--gold)">${money(income)}</div><div class="l">Received in ${fmt(Date.now(),{month:'long'})}</div></div>
-      <div class="stat money"><div class="v" style="color:${debt?'var(--danger)':'inherit'}">${money(debt)}</div><div class="l">Outstanding</div></div>
+      <div class="stat"><div class="v" style="color:var(--gold)">${money(income)}</div><div class="l">دریافتی ${JM[jOf(Date.now()).jm-1]}</div></div>
+      <div class="stat"><div class="v" style="color:${debt?'var(--danger)':'inherit'}">${money(debt)}</div><div class="l">طلب شهریه</div></div>
     </div>`;
+    if(fridgeOpen) h += `<button class="banner" style="width:100%;border-style:solid;border-color:rgba(255,77,94,.25)" data-act="tab" data-id="fridge">${I.bottle}<div class="t" style="text-align:start">${money(fridgeOpen)} از یخچال حساب نشده</div><span style="color:var(--gold);font-weight:800">مشاهده</span></button>`;
 
     if(need.length){
-      h += `<h2 class="sec">Need renewal <span class="n">${nf(need.length)}</span></h2><div class="list">`;
+      h += `<h2 class="sec">نیاز به تمدید <span class="n">${fa(need.length)}</span></h2><div class="list">`;
       h += need.map(({s,x}) => `<div class="alert" style="--c:${STATUS[x.status].c}" data-act="open" data-id="${s.id}">
-        ${ava(s)}<div class="t"><b>${esc(s.name)}</b><span>${x.remaining<=0 ? (x.remaining<0 ? plural(-x.remaining,'session')+' over the package' : 'All sessions used') : 'Only '+plural(x.remaining,'session')+' left'}</span></div>
-        <button class="btn sm primary" data-act="renew" data-id="${s.id}">Renew</button></div>`).join('');
+        ${ava(s.name)}<div class="t"><b>${esc(s.name)}</b><span>${x.remaining<=0 ? (x.remaining<0 ? fa(-x.remaining)+' جلسه بیشتر از دوره اومده' : 'جلسات تمام شده') : 'فقط '+fa(x.remaining)+' جلسه مانده'}</span></div>
+        <button class="btn sm primary" data-act="renew" data-id="${s.id}">تمدید</button></div>`).join('');
       h += `</div>`;
     }
     if(debtors.length){
-      h += `<h2 class="sec">Unpaid balances <span class="n">${nf(debtors.length)}</span></h2><div class="list">`;
+      h += `<h2 class="sec">بدهکار شهریه <span class="n">${fa(debtors.length)}</span></h2><div class="list">`;
       h += debtors.slice(0,6).map(({s,x}) => `<div class="alert" style="--c:var(--danger)" data-act="open" data-id="${s.id}">
-        ${ava(s)}<div class="t"><b>${esc(s.name)}</b><span>${money(x.debt)} due</span></div>
-        <button class="btn sm" data-act="pay" data-id="${s.id}">Add payment</button></div>`).join('');
+        ${ava(s.name)}<div class="t"><b>${esc(s.name)}</b><span>${money(x.debt)} مانده</span></div>
+        <button class="btn sm" data-act="pay" data-id="${s.id}">ثبت پرداخت</button></div>`).join('');
       h += `</div>`;
     }
     const todayList = all.filter(o=>o.x.todayIn);
-    if(todayList.length){
-      h += `<h2 class="sec">Checked in today <span class="n">${nf(todayList.length)}</span></h2><div class="list">${todayList.map(o=>studentCard(o.s)).join('')}</div>`;
-    }
+    if(todayList.length) h += `<h2 class="sec">حاضرین امروز <span class="n">${fa(todayList.length)}</span></h2><div class="list">${todayList.map(o=>studentCard(o.s)).join('')}</div>`;
     return h;
   },
 
   students(){
-    const F = [['all','All'],['ok','Active'],['warn','Ending soon'],['end','Used up'],['debt','Owes money']];
-    let list = db.students.map(s=>({s,x:st(s)}));
-    const ql = q.toLowerCase();
-    if(q) list = list.filter(o => o.s.name.toLowerCase().includes(ql) || toEn(o.s.phone||'').includes(toEn(q)));
-    if(filter==='debt') list = list.filter(o=>o.x.debt>0);
+    const F = [['all','همه'],['ok','فعال'],['warn','رو به اتمام'],['end','تمام شده'],['debt','بدهکار']];
+    let list = scoped().map(s=>({s,x:st(s)}));
+    if(q) list = list.filter(o => o.s.name.includes(q) || toEn(o.s.phone||'').includes(toEn(q)));
+    if(filter==='debt') list = list.filter(o=>o.x.debt>0 || o.x.fridge>0);
     else if(filter!=='all') list = list.filter(o=>o.x.status===filter || (filter==='end' && o.x.status==='none'));
-    list.sort((a,b)=>a.s.name.localeCompare(b.s.name));
-    let h = `<div class="search">${I.search}<input id="q" type="search" placeholder="Search name or phone" value="${esc(q)}" autocomplete="off"></div>
+    list.sort((a,b)=>a.s.name.localeCompare(b.s.name,'fa'));
+    let h = `<div class="search">${I.search}<input id="q" type="search" placeholder="جستجوی نام یا شماره" value="${esc(q)}" autocomplete="off"></div>
       <div class="chips">${F.map(([k,t])=>`<button class="chip ${filter===k?'on':''}" data-act="filter" data-id="${k}">${t}</button>`).join('')}</div>`;
-    if(!db.students.length) return h + emptyState('No students yet', 'Tap the gold button below to add your first one.', true);
-    if(!list.length) return h + `<div id="res"><div class="empty"><b>No matches</b>Try a different search or filter.</div></div>`;
+    if(!scoped().length) return h + emptyState('هنوز شاگردی نداری', 'با دکمه‌ی طلایی پایین صفحه اولین شاگرد رو اضافه کن.', true);
+    if(!list.length) return h + `<div id="res"><div class="empty"><b>کسی پیدا نشد</b>جستجو یا فیلتر رو تغییر بده.</div></div>`;
     return h + `<div id="res"><div class="list" style="margin-top:8px">${list.map(o=>studentCard(o.s)).join('')}</div></div>`;
   },
 
   attend(){
-    let list = db.students.map(s=>({s,x:st(s)}));
-    const present = list.filter(o=>o.x.todayIn).length;
-    const base = list.filter(o=>o.x.status!=='none');
-    const ql = q.toLowerCase();
-    if(q) list = list.filter(o=>o.s.name.toLowerCase().includes(ql));
-    list.sort((a,b) => (a.x.todayIn - b.x.todayIn) || (a.x.status==='none') - (b.x.status==='none') || a.s.name.localeCompare(b.s.name));
-    const pct = base.length ? present/base.length*100 : 0;
-    let h = `<div class="att-head"><div><div class="muted" style="font-size:13px;font-weight:700">${jday(Date.now())}</div>
-      <div class="att-count">${nf(present)} <small>of ${nf(base.length)} checked in</small></div></div></div>
-      <div class="ring-bar"><i style="width:${Math.min(pct,100)}%"></i></div>
-      <div class="search" style="margin-top:14px">${I.search}<input id="q" type="search" placeholder="Quick search" value="${esc(q)}" autocomplete="off"></div>`;
-    if(!db.students.length) return h + emptyState('Nobody to check in', 'Add your students first.', true);
-    return h + `<div id="res"><div class="list" style="margin-top:14px">${list.map(o=>studentCard(o.s)).join('')}</div></div>
-      <p class="muted" style="font-size:12.5px;text-align:center;margin-top:16px">Tap the button next to a student to check them in. Tap again to undo.</p>`;
+    const isToday = sameDay(attDay, Date.now());
+    let list = scoped().map(s=>({s,x:st(s), here:inDay(s, attDay)}));
+    const present = list.filter(o=>o.here).length;
+    const base = list.filter(o=>o.x.status!=='none').length;
+    if(q) list = list.filter(o=>o.s.name.includes(q));
+    list.sort((a,b) => (a.here - b.here) || (a.x.status==='none') - (b.x.status==='none') || a.s.name.localeCompare(b.s.name,'fa'));
+    let h = `<div class="daynav">
+        <button class="nav" data-act="dayNav" data-id="-1" aria-label="روز قبل">${I.chevR}</button>
+        <button class="daybtn" data-act="dayPick"><small>${isToday ? 'امروز' : rel(attDay)} · برای تغییر تاریخ بزن</small><b>${jfull(attDay)}</b></button>
+        <button class="nav" data-act="dayNav" data-id="1" aria-label="روز بعد" ${isToday?'disabled':''}>${I.chevL}</button>
+      </div>
+      ${isToday ? '' : `<div class="past-note">داری حضور روز ${jday(attDay)} رو ثبت می‌کنی. <button class="linkbtn" data-act="dayToday">برگرد به امروز</button></div>`}
+      <div class="att-count"><b>${fa(present)}</b><span>از ${fa(base)} نفر حاضر</span></div>
+      <div class="bar"><i style="width:${base?Math.min(present/base*100,100):0}%"></i></div>
+      <div class="search" style="margin-top:12px">${I.search}<input id="q" type="search" placeholder="جستجوی سریع" value="${esc(q)}" autocomplete="off"></div>`;
+    if(!scoped().length) return h + emptyState('کسی برای حضور و غیاب نیست', 'اول شاگردهات رو اضافه کن.', true);
+    return h + `<div id="res"><div class="list" style="margin-top:12px">${list.map(o=>studentCard(o.s, attDay)).join('')}</div></div>
+      <p class="muted" style="font-size:12.5px;text-align:center;margin-top:16px">با زدن دکمه‌ی کنار هر نفر حضورش ثبت می‌شه، دوباره بزنی لغو می‌شه. برای روزهای قبل، تاریخ بالا رو عوض کن.</p>`;
   },
 
   money(){
-    const pays = db.students.flatMap(s => (s.payments||[]).map(p => ({...p, s})));
+    const list = scoped();
+    const pays = list.flatMap(s => s.payments.map(p => ({...p, s})));
     pays.sort((a,b)=>b.date-a.date);
     const mk = monthKey(Date.now());
     const monthSum = pays.filter(p=>monthKey(p.date)===mk).reduce((a,p)=>a+p.amount,0);
-    const all = db.students.map(s=>({s,x:st(s)}));
+    const all = list.map(s=>({s,x:st(s)}));
     const debtors = all.filter(o=>o.x.debt>0).sort((a,b)=>b.x.debt-a.x.debt);
     const debt = debtors.reduce((a,o)=>a+o.x.debt,0);
+    const fr = fridgeScoped(), frPaid = fr.filter(f=>f.paid && monthKey(f.paidAt||f.date)===mk).reduce((a,f)=>a+f.qty*f.unit,0);
     let h = `<div class="stats" style="margin-top:6px">
-      <div class="stat money"><div class="v" style="color:var(--gold)">${money(monthSum)}</div><div class="l">Received this month</div></div>
-      <div class="stat money"><div class="v" style="color:${debt?'var(--danger)':'inherit'}">${money(debt)}</div><div class="l">Outstanding</div></div></div>`;
+      <div class="stat"><div class="v" style="color:var(--gold)">${money(monthSum)}</div><div class="l">شهریه‌ی دریافتی این ماه</div></div>
+      <div class="stat"><div class="v" style="color:${debt?'var(--danger)':'inherit'}">${money(debt)}</div><div class="l">طلب شهریه</div></div>
+      <div class="stat"><div class="v">${money(frPaid)}</div><div class="l">دریافتی یخچال این ماه</div></div>
+      <div class="stat"><div class="v">${money(monthSum+frPaid)}</div><div class="l">جمع درآمد این ماه</div></div></div>`;
     if(debtors.length){
-      h += `<h2 class="sec">Unpaid balances</h2><div class="box">${debtors.map(({s,x}) => `<div class="pay" data-act="open" data-id="${s.id}" style="cursor:pointer">${ava(s)}<div class="t"><b>${esc(s.name)}</b><span>Paid ${money(x.paid)} of ${money(x.price)}</span></div><div class="a" style="color:var(--danger)">${money(x.debt)}</div></div>`).join('')}</div>`;
+      h += `<h2 class="sec">بدهکارها</h2><div class="box">${debtors.map(({s,x}) => `<div class="pay" data-act="open" data-id="${s.id}" style="cursor:pointer">${ava(s.name,1)}<div class="t"><b>${esc(s.name)}</b><span>از ${money(x.price)}، ${fa(x.paid)} پرداخت شده</span></div><div class="a" style="color:var(--danger)">${fa(x.debt)}</div></div>`).join('')}</div>`;
     }
-    if(!pays.length) return h + `<div class="empty"><div class="ic">${I.wallet}</div><b>No payments yet</b>Payments you record at sign-up or renewal show up here.</div>`;
+    if(!pays.length) return h + `<div class="empty"><div class="ic">${I.wallet}</div><b>هنوز پرداختی ثبت نشده</b>پرداخت‌های ثبت‌نام و تمدید اینجا به تفکیک ماه نشون داده می‌شن.</div>`;
     const groups = {};
     pays.forEach(p => { const k = monthKey(p.date); (groups[k] = groups[k] || {name:monthName(p.date), items:[], sum:0}); groups[k].items.push(p); groups[k].sum += p.amount; });
     Object.values(groups).forEach(g => {
       h += `<div class="month-h">${g.name}<span>${money(g.sum)}</span></div><div class="box">`;
-      h += g.items.map(p => `<div class="pay" data-act="open" data-id="${p.s.id}" style="cursor:pointer">${ava(p.s)}<div class="t"><b>${esc(p.s.name)}</b><span>${jdate(p.date)}${p.note?' · '+esc(p.note):''}</span></div><div class="a">+${money(p.amount)}</div></div>`).join('');
+      h += g.items.map(p => `<div class="pay" data-act="open" data-id="${p.s.id}" style="cursor:pointer">${ava(p.s.name,1)}<div class="t"><b>${esc(p.s.name)}</b><span>${jdate(p.date)}${p.note?' · '+esc(p.note):''}</span></div><div class="a">+${fa(p.amount)}</div></div>`).join('');
       h += `</div>`;
     });
     return h;
   },
 
+  fridge(){
+    const fr = fridgeScoped().sort((a,b)=>b.date-a.date);
+    const open = fr.filter(f=>!f.paid);
+    const openSum = open.reduce((a,f)=>a+f.qty*f.unit,0);
+    const todayQty = fr.filter(f=>sameDay(f.date,Date.now())).reduce((a,f)=>a+f.qty,0);
+    const noPrice = db.items.filter(i=>!i.price);
+    let h = `<button class="fridge-cta" data-act="fridgeAdd"><div class="ic">${I.bottle}</div><div><b>ثبت برداشت از یخچال</b><span>کی برداشت، چندتا، حساب کرد یا نه</span></div></button>
+      <div class="stats">
+        <div class="stat"><div class="v" style="color:${openSum?'var(--danger)':'inherit'}">${money(openSum)}</div><div class="l">حساب‌نشده</div></div>
+        <div class="stat"><div class="v">${fa(todayQty)} عدد</div><div class="l">برداشت امروز</div></div>
+      </div>`;
+    if(noPrice.length) h += `<div class="banner">${I.alert}<div class="t">قیمت «${esc(noPrice[0].name)}» مشخص نشده.</div><button data-act="tab" data-id="settings">تعیین قیمت</button></div>`;
+    // open accounts grouped
+    const groups = {};
+    open.forEach(f => { const k = f.studentId || ('g:'+f.guest); const g = groups[k] = groups[k] || {k, name: f.studentId ? (byId(f.studentId)||{}).name || 'حذف‌شده' : f.guest, guest:!f.studentId, items:{}, sum:0}; g.items[f.name] = (g.items[f.name]||0) + f.qty; g.sum += f.qty*f.unit; });
+    const gl = Object.values(groups).sort((a,b)=>b.sum-a.sum);
+    if(gl.length){
+      h += `<h2 class="sec">حساب‌های باز <span class="n">${fa(gl.length)}</span></h2><div class="list">`;
+      h += gl.map(g => `<div class="alert" style="--c:var(--danger)" ${g.guest?'':`data-act="open" data-id="${g.k}"`}>${ava(g.name,1)}
+        <div class="t"><b>${esc(g.name)}${g.guest?' <span class="pill coach">مهمان</span>':''}</b><span>${Object.entries(g.items).map(([n,c])=>fa(c)+' '+esc(n)).join('، ')} · ${money(g.sum)}</span></div>
+        <button class="btn sm primary" data-act="fridgeSettle" data-id="${esc(g.k)}">حساب کرد</button></div>`).join('');
+      h += `</div>`;
+    }
+    if(!fr.length) return h + `<div class="empty"><div class="ic">${I.bottle}</div><b>هنوز چیزی ثبت نشده</b>هر کی از یخچال برداشت، با دکمه‌ی بالا ثبتش کن.</div>`;
+    h += `<h2 class="sec">آخرین برداشت‌ها</h2><div class="box">`;
+    h += fr.slice(0,40).map(f => { const nm = f.studentId ? (byId(f.studentId)||{}).name || 'حذف‌شده' : f.guest;
+      return `<div class="pay">${ava(nm,1)}<div class="t"><b>${esc(nm)}</b><span>${fa(f.qty)} ${esc(f.name)} · ${rel(f.date)}${f.unit?' · '+money(f.qty*f.unit):''}</span></div>
+      <button class="tog ${f.paid?'paid':'unpaid'}" data-act="fridgeToggle" data-id="${f.id}">${f.paid?'حساب کرد':'نسیه'}</button>
+      <button class="mini-btn" data-act="fridgeDel" data-id="${f.id}" aria-label="حذف">${I.trash}</button></div>`; }).join('');
+    return h + `</div>`;
+  },
+
   settings(){
     const S = db.settings;
-    const cnt = db.students.length, att = db.students.reduce((a,s)=>a+(s.attendance||[]).length,0);
-    return `<h2 class="sec" style="margin-top:8px">Class</h2><div class="box">
-      <div class="set"><div class="t"><b>Low-session alert</b><span>Warn when this many sessions or fewer are left</span></div>
-        <div class="stepper"><button data-act="warn" data-id="-1" aria-label="Decrease">−</button><b>${S.warnAt}</b><button data-act="warn" data-id="1" aria-label="Increase">+</button></div></div>
-      <div class="set"><div class="t"><b>Currency</b></div>
-        <div class="seg">${Object.entries(CUR).map(([k,c])=>`<button class="${S.currency===k?'on':''}" data-act="currency" data-id="${k}">${k==='toman'?'Toman':k==='eur'?'€':'$'}</button>`).join('')}</div></div>
-      <div class="set"><div class="t"><b>Calendar</b><span>How dates are shown</span></div>
-        <div class="seg"><button class="${S.calendar==='gregorian'?'on':''}" data-act="calendar" data-id="gregorian">Gregorian</button><button class="${S.calendar==='persian'?'on':''}" data-act="calendar" data-id="persian">Persian</button></div></div>
-      <div class="set"><div class="t"><b>Country code</b><span>Used for WhatsApp links when a number starts with 0</span></div>
-        <input class="cc" id="cc" inputmode="numeric" value="+${esc(S.countryCode)}"></div>
+    const cnt = db.students.length, att = db.students.reduce((a,s)=>a+s.attendance.length,0);
+    return `<h2 class="sec" style="margin-top:6px">مربی‌ها <button class="more" data-act="coachForm">+ مربی جدید</button></h2><div class="box">
+      ${db.coaches.map(c => `<div class="set">${ava(c.name,1)}<div class="t"><b>${esc(c.name)}</b><span>${fa(db.students.filter(s=>s.coachId===c.id).length)} شاگرد</span></div>
+        <button class="mini-btn" data-act="coachForm" data-id="${c.id}" aria-label="ویرایش">${I.edit}</button>
+        <button class="mini-btn" data-act="coachDel" data-id="${c.id}" aria-label="حذف">${I.trash}</button></div>`).join('')}
     </div>
-    <h2 class="sec">Data & backup</h2><div class="box">
-      <div class="set"><div class="t"><b>Back up</b><span>${S.lastBackup ? 'Last backup: ' + jdate(S.lastBackup) : 'No backup yet'}</span></div><button class="btn sm primary" data-act="export">${I.download} Save</button></div>
-      <div class="set"><div class="t"><b>Restore from backup</b><span>Pick a LevelUp backup file</span></div><button class="btn sm" data-act="import">${I.upload} Choose file</button></div>
-      <div class="set"><div class="t"><b>Erase everything</b><span>${plural(cnt,'student')}, ${plural(att,'check-in')}</span></div><button class="btn sm danger" data-act="reset">Erase</button></div>
+    <h2 class="sec">یخچال <button class="more" data-act="itemForm">+ آیتم جدید</button></h2><div class="box">
+      ${db.items.map(i => `<div class="set"><div class="t"><b>${esc(i.name)}</b><span>${i.price ? money(i.price) : 'قیمت تعیین نشده'}</span></div>
+        <button class="mini-btn" data-act="itemForm" data-id="${i.id}" aria-label="ویرایش">${I.edit}</button>
+        <button class="mini-btn" data-act="itemDel" data-id="${i.id}" aria-label="حذف">${I.trash}</button></div>`).join('')}
     </div>
-    <h2 class="sec">Install on iPhone</h2><div class="box"><div class="set"><div class="t"><span style="font-size:13.5px;line-height:1.8">In Safari, tap Share, then “Add to Home Screen”. LevelUp will open like a regular app. All data stays on this phone only, so back up regularly and keep the file in iCloud or Telegram.</span></div></div></div>
-    <div class="foot"><b>LEVELUP</b> · Coach Mehdi</div>`;
+    <h2 class="sec">کلاس</h2><div class="box">
+      <div class="set"><div class="t"><b>هشدار اتمام جلسات</b><span>وقتی این تعداد جلسه یا کمتر مونده باشه</span></div>
+        <div class="stepper"><button data-act="warn" data-id="1" aria-label="افزایش">+</button><b>${fa(S.warnAt)}</b><button data-act="warn" data-id="-1" aria-label="کاهش">−</button></div></div>
+    </div>
+    <h2 class="sec">اطلاعات و بکاپ</h2><div class="box">
+      <div class="set"><div class="t"><b>گرفتن بکاپ</b><span>${S.lastBackup ? 'آخرین بکاپ: ' + jdate(S.lastBackup) : 'هنوز بکاپی گرفته نشده'}</span></div><button class="btn sm primary" data-act="export">${I.download} ذخیره</button></div>
+      <div class="set"><div class="t"><b>بازگردانی از بکاپ</b><span>فایل بکاپ LevelUp رو انتخاب کن</span></div><button class="btn sm" data-act="import">${I.upload} انتخاب</button></div>
+      <div class="set"><div class="t"><b>پاک کردن همه‌چیز</b><span>${fa(cnt)} شاگرد و ${fa(att)} حضور</span></div><button class="btn sm danger" data-act="reset">پاک کن</button></div>
+    </div>
+    <div class="foot"><b>LEVELUP</b> · باشگاه</div>`;
   }
 };
+function fridgeScoped(){
+  if(!db.settings.coachId) return db.fridge;
+  const ids = new Set(scoped().map(s=>s.id));
+  return db.fridge.filter(f => !f.studentId || ids.has(f.studentId));
+}
 
-/* ================== DETAIL SHEET ================== */
+/* ================== DETAIL ================== */
 function openDetail(id){ detId = id; detTab = 'att'; renderDetail(); showSheet(); }
 function renderDetail(){
   const s = byId(detId); if(!s){ closeSheet(); return; }
-  const x = st(s);
-  const S = STATUS[x.status];
-  const remText = x.remaining<=0 ? (x.remaining<0 ? `Attended ${plural(-x.remaining,'session')} beyond the package` : 'This package is used up') : x.remaining<=db.settings.warnAt ? 'Package ending soon' : 'Package in progress';
-  const first = s.name.split(/\s+/)[0];
-  const msgText = x.remaining<=0
-    ? `Hi ${first},\nYour sessions at LevelUp gym are used up. Let me know when you'd like to renew.\nCoach Mehdi`
-    : x.debt>0 ? `Hi ${first},\nA balance of ${money(x.debt)} is still open for your LevelUp membership. Thanks for settling it when you can.\nCoach Mehdi`
-    : `Hi ${first},\nYou have ${plural(x.remaining,'session')} left in your LevelUp package.\nCoach Mehdi`;
+  const x = st(s), S = STATUS[x.status], coach = coachOf(s.coachId);
+  const remText = x.remaining<=0 ? (x.remaining<0 ? `${fa(-x.remaining)} جلسه بیشتر از دوره حاضر شده` : 'جلسات این دوره تموم شده') : x.remaining<=db.settings.warnAt ? 'دوره داره تموم می‌شه' : 'دوره در جریانه';
+  const sign = coach ? `\nمربی ${coach.name}` : '';
+  const msgText = x.remaining<=0 ? `سلام ${s.name} عزیز\nجلسات دوره‌ی شما در باشگاه LevelUp به پایان رسیده. برای تمدید لطفاً هماهنگ کنید.${sign}`
+    : x.debt>0 ? `سلام ${s.name} عزیز\nمبلغ ${fa(x.debt)} تومان از شهریه‌ی باشگاه LevelUp باقی مانده. ممنون می‌شم تسویه کنید.${sign}`
+    : `سلام ${s.name} عزیز\nاز دوره‌ی شما در باشگاه LevelUp ${fa(x.remaining)} جلسه باقی مانده.${sign}`;
   const phone = toEn(s.phone||'');
-
-  let left = (s.attendance||[]).length;
-  const pks = (s.packages||[]).map((p,i) => { const u = Math.min(left, +p.sessions); left -= u; return {...p, used:u, n:i+1}; });
+  let left = s.attendance.length;
+  const pks = s.packages.map((p,i) => { const u = Math.min(left, +p.sessions); left -= u; return {...p, used:u, n:i+1}; });
 
   let list = '';
   if(detTab==='att'){
-    const at = [...(s.attendance||[])].sort((a,b)=>b.date-a.date);
-    list = `<button class="btn sm ghost" style="margin-top:12px" data-act="attDate" data-id="${s.id}">${I.cal} Check in for another date</button>`;
-    list += at.length ? `<div class="hist">${at.map((a,i)=>`<div class="hrow"><div class="no">${at.length-i}</div><div class="t"><b>${jday(a.date)}</b><span>${jtime(a.date)}</span></div><button class="del" data-act="delAtt" data-id="${a.id}" aria-label="Delete">${I.trash}</button></div>`).join('')}</div>`
-      : `<div class="empty" style="padding:26px">No check-ins yet.</div>`;
+    const imp = s.attendance.filter(a=>a.imported);
+    const at = realAtt(s).sort((a,b)=>b.date-a.date);
+    list = `<button class="btn sm ghost" style="margin-top:12px" data-act="attDate" data-id="${s.id}">${I.cal} ثبت حضور با تاریخ دیگه</button>`;
+    const rows = at.map((a,i)=>`<div class="hrow"><div class="no">${fa(s.attendance.length-i)}</div><div class="t"><b>${jday(a.date)}</b><span>${jdate(a.date)}${sameDay(a.date,noon(a.date))&&new Date(a.date).getHours()===12&&new Date(a.date).getMinutes()===0?'':' · ساعت '+jtime(a.date)}</span></div><button class="del" data-act="delAtt" data-id="${a.id}" aria-label="حذف">${I.trash}</button></div>`);
+    if(imp.length) rows.push(`<div class="hrow"><div class="no">${fa(imp.length)}</div><div class="t"><b>${fa(imp.length)} جلسه از قبل</b><span>قبل از شروع استفاده از برنامه</span></div><button class="del" data-act="delImported" data-id="${s.id}" aria-label="حذف">${I.trash}</button></div>`);
+    list += rows.length ? `<div class="hist">${rows.join('')}</div>` : `<div class="empty" style="padding:26px">هنوز حضوری ثبت نشده.</div>`;
   } else if(detTab==='pay'){
-    const py = [...(s.payments||[])].sort((a,b)=>b.date-a.date);
-    list = py.length ? `<div class="hist">${py.map(p=>`<div class="hrow"><div class="t"><b style="color:var(--gold)">${money(p.amount)}</b><span>${jdate(p.date)}${p.note?' · '+esc(p.note):''}</span></div><button class="del" data-act="delPay" data-id="${p.id}" aria-label="Delete">${I.trash}</button></div>`).join('')}</div>`
-      : `<div class="empty" style="padding:26px">No payments yet.</div>`;
+    const py = [...s.payments].sort((a,b)=>b.date-a.date);
+    list = py.length ? `<div class="hist">${py.map(p=>`<div class="hrow"><div class="t"><b style="color:var(--gold)">${money(p.amount)}</b><span>${jdate(p.date)}${p.note?' · '+esc(p.note):''}</span></div><button class="del" data-act="delPay" data-id="${p.id}" aria-label="حذف">${I.trash}</button></div>`).join('')}</div>`
+      : `<div class="empty" style="padding:26px">هنوز پرداختی ثبت نشده.</div>`;
+  } else if(detTab==='pkg'){
+    list = pks.length ? `<div class="hist">${[...pks].reverse().map(p=>`<div class="hrow"><div class="no">${fa(p.n)}</div><div class="t"><b>${fa(p.sessions)} جلسه · ${money(p.price)}</b><span>شروع ${jdate(p.date)} · ${fa(p.used)} جلسه استفاده شده</span></div><button class="del" data-act="delPkg" data-id="${p.id}" aria-label="حذف">${I.trash}</button></div>`).join('')}</div>`
+      : `<div class="empty" style="padding:26px">دوره‌ای ثبت نشده.</div>`;
   } else {
-    list = pks.length ? `<div class="hist">${[...pks].reverse().map(p=>`<div class="hrow"><div class="no">${p.n}</div><div class="t"><b>${plural(+p.sessions,'session')} · ${money(p.price)}</b><span>Started ${jdate(p.date)} · ${nf(p.used)} used</span></div><button class="del" data-act="delPkg" data-id="${p.id}" aria-label="Delete">${I.trash}</button></div>`).join('')}</div>`
-      : `<div class="empty" style="padding:26px">No packages yet.</div>`;
+    const fr = db.fridge.filter(f=>f.studentId===s.id).sort((a,b)=>b.date-a.date);
+    list = fr.length ? `<div class="hist">${fr.map(f=>`<div class="hrow"><div class="t"><b>${fa(f.qty)} ${esc(f.name)}</b><span>${jdate(f.date)}${f.unit?' · '+money(f.qty*f.unit):''}</span></div><button class="tog ${f.paid?'paid':'unpaid'}" data-act="fridgeToggle" data-id="${f.id}">${f.paid?'حساب کرد':'نسیه'}</button><button class="del" data-act="fridgeDel" data-id="${f.id}" aria-label="حذف">${I.trash}</button></div>`).join('')}</div>`
+      : `<div class="empty" style="padding:26px">چیزی از یخچال برنداشته.</div>`;
   }
 
   $('#sheetBody').innerHTML = `
-    <div class="det-top">${ava(s)}<div class="n"><b>${esc(s.name)}</b><span>Member since ${jdate(s.createdAt)}</span></div><button class="x" data-act="close" aria-label="Close">${I.x}</button></div>
+    <div class="det-top">${ava(s.name)}<div class="n"><b>${esc(s.name)}</b><span>${coach ? 'مربی ' + esc(coach.name) + ' · ' : ''}عضو از ${jdate(s.createdAt)}</span></div>
+      <button class="x" data-act="edit" data-id="${s.id}" aria-label="ویرایش">${I.edit}</button><button class="x" data-act="close" aria-label="بستن">${I.x}</button></div>
     ${s.note ? `<div class="note">${esc(s.note)}</div>` : ''}
     <div class="xp-card" style="--c:${S.c}">
-      <div class="big"><b>${nf(x.remaining)}</b><span>${x.remaining===1?'session left':'sessions left'}</span></div>
-      <div class="muted" style="font-size:13px;margin:4px 0 2px">${x.status==='none'?'No package yet':remText}</div>
+      <div class="big"><b>${fa(x.remaining)}</b><span>جلسه باقی‌مانده</span></div>
+      <div class="muted" style="font-size:13px;margin:4px 0 2px">${x.status==='none'?'هنوز دوره‌ای ثبت نشده':remText}</div>
       ${x.status!=='none'?pips(x,true):''}
       <div class="xp-grid">
-        <div><b>${nf(x.total)}</b><span>Total sessions</span></div>
-        <div><b>${nf(x.used)}</b><span>Attended</span></div>
-        <div><b style="color:${x.debt?'var(--danger)':'var(--gold)'}">${x.debt?money(x.debt):'Paid'}</b><span>${x.debt?'Owes':'Balance'}</span></div>
+        <div><b>${fa(x.total)}</b><span>کل جلسات</span></div>
+        <div><b>${fa(x.used)}</b><span>حضور</span></div>
+        <div><b style="color:${x.debt?'var(--danger)':'var(--gold)'}">${x.debt?fa(x.debt):'تسویه'}</b><span>${x.debt?'بدهی شهریه':'وضعیت مالی'}</span></div>
       </div>
     </div>
+    ${x.fridge ? `<div class="fridge-due">${I.bottle}<div class="t">${money(x.fridge)} از یخچال حساب نکرده</div><button class="btn sm primary" data-act="fridgeSettle" data-id="${s.id}">حساب کرد</button></div>` : ''}
     <div class="acts">
-      <button class="act ${x.todayIn?'done':'hot'}" data-act="check" data-id="${s.id}">${I.check}${x.todayIn?'Checked in':'Check in'}</button>
-      <button class="act" data-act="renew" data-id="${s.id}">${I.renew}Renew</button>
-      <button class="act" data-act="pay" data-id="${s.id}">${I.cash}Payment</button>
-      <button class="act" data-act="edit" data-id="${s.id}">${I.edit}Edit</button>
+      <button class="act ${x.todayIn?'done':'hot'}" data-act="check" data-id="${s.id}">${I.check}${x.todayIn?'حاضر شد':'حضور امروز'}</button>
+      <button class="act" data-act="renew" data-id="${s.id}">${I.renew}تمدید</button>
+      <button class="act" data-act="pay" data-id="${s.id}">${I.cash}پرداخت</button>
+      <button class="act" data-act="fridgeAdd" data-id="${s.id}">${I.bottle}یخچال</button>
     </div>
     ${phone ? `<div class="contact">
-      <a href="tel:${esc(phone)}">${I.phone}Call</a>
-      <a href="sms:${esc(phone)}&body=${encodeURIComponent(msgText)}">${I.msg}Text</a>
-      <a class="wa" href="https://wa.me/${waPhone(phone)}?text=${encodeURIComponent(msgText)}" target="_blank" rel="noopener">${I.wa}WhatsApp</a>
+      <a href="tel:${esc(phone)}">${I.phone}تماس</a>
+      <a href="sms:${esc(phone)}&body=${encodeURIComponent(msgText)}">${I.msg}پیامک</a>
+      <a class="wa" href="https://wa.me/${waPhone(phone)}?text=${encodeURIComponent(msgText)}" target="_blank" rel="noopener">${I.wa}واتساپ</a>
     </div>` : ''}
     <div class="seg" style="margin-top:16px">
-      <button class="${detTab==='att'?'on':''}" data-act="detTab" data-id="att">Check-ins (${nf(x.used)})</button>
-      <button class="${detTab==='pay'?'on':''}" data-act="detTab" data-id="pay">Payments</button>
-      <button class="${detTab==='pkg'?'on':''}" data-act="detTab" data-id="pkg">Packages</button>
+      <button class="${detTab==='att'?'on':''}" data-act="detTab" data-id="att">حضور</button>
+      <button class="${detTab==='pay'?'on':''}" data-act="detTab" data-id="pay">پرداخت</button>
+      <button class="${detTab==='pkg'?'on':''}" data-act="detTab" data-id="pkg">دوره‌ها</button>
+      <button class="${detTab==='fr'?'on':''}" data-act="detTab" data-id="fr">یخچال</button>
     </div>
     ${list}
-    <button class="btn danger block" style="margin-top:22px" data-act="delStudent" data-id="${s.id}">${I.trash} Delete student</button>`;
+    <button class="btn danger block" style="margin-top:22px" data-act="delStudent" data-id="${s.id}">${I.trash} حذف شاگرد</button>`;
 }
 
 /* ================== FORMS ================== */
-const sessionChips = sel => `<div class="qchips" data-chips="sessions">${[8,10,12,16,20,24].map(n=>`<button type="button" class="${sel==n?'on':''}" data-act="chip" data-id="${n}">${n}</button>`).join('')}</div>`;
-const dateField = (name, label, ts) => `<label class="fl">${label}<input type="date" name="${name}" value="${isoDay(ts||Date.now())}" data-jprev><span class="hint">${jday(ts||Date.now())}</span></label>`;
-const moneyField = (name, label, val, extra) => `<label class="fl"><span style="display:flex;justify-content:space-between">${label}${extra||''}</span><input class="money" name="${name}" inputmode="numeric" placeholder="0" value="${val?nf(val):''}"><span class="hint" data-words>${val?money(val):''}</span></label>`;
-const head = t => `<div class="sh"><h3>${t}</h3><button type="button" class="x" data-act="${detId?'back':'close'}" aria-label="Close">${I.x}</button></div>`;
-const payNow = '<button type="button" class="linkbtn" data-act="fullPay">Paid in full</button>';
+const sessionChips = sel => `<div class="qchips" data-radio="sessions">${[8,10,12,16,20,24].map(n=>`<button type="button" class="${sel==n?'on':''}" data-act="radio" data-id="${n}">${fa(n)}</button>`).join('')}</div>`;
+const dateField = (name, label, ts) => { ts = ts || Date.now(); return `<div class="fl">${label}<button type="button" class="datebtn" data-act="pickDate" data-id="${name}">${I.cal}<span class="dl">${jfull(ts)}</span><small>${rel(ts)}</small></button><input type="hidden" name="${name}" value="${ts}"></div>`; };
+const moneyField = (name, label, val, extra) => `<label class="fl"><span style="display:flex;justify-content:space-between;align-items:center">${label}${extra||''}</span><input class="money num" name="${name}" inputmode="numeric" placeholder="0" value="${val?Number(val).toLocaleString('en-US'):''}"><span class="hint" data-words>${val?money(val):''}</span></label>`;
+const head = t => `<div class="sh"><h3>${t}</h3><button type="button" class="x" data-act="${detId?'back':'close'}" aria-label="بستن">${I.x}</button></div>`;
+const payFull = '<button type="button" class="linkbtn" data-act="fullPay">کامل پرداخت کرده</button>';
+const coachChips = sel => `<div class="fl">مربی<div class="qchips wrap" data-radio="coachId">${db.coaches.map(c=>`<button type="button" class="${sel===c.id?'on':''}" data-act="radio" data-id="${c.id}">${esc(c.name)}</button>`).join('')}</div><input type="hidden" name="coachId" value="${sel}"></div>`;
 
 function formStudent(id){
   const s = id ? byId(id) : null;
-  $('#sheetBody').innerHTML = head(s ? 'Edit student' : 'New student') + `
+  const defCoach = s ? s.coachId : (db.settings.coachId || db.coaches[0].id);
+  $('#sheetBody').innerHTML = head(s ? 'ویرایش شاگرد' : 'شاگرد جدید') + `
     <form class="f" data-kind="student" autocomplete="off">
       <input type="hidden" name="id" value="${s?s.id:''}">
-      <label class="fl">Full name<input name="name" required value="${s?esc(s.name):''}" placeholder="e.g. Ali Rezaei" autocapitalize="words"></label>
-      <label class="fl">Phone<input name="phone" inputmode="tel" value="${s?esc(s.phone||''):''}" placeholder="0912 000 0000"></label>
-      ${s ? '' : `<div class="fl">Sessions in package${sessionChips(12)}<input name="sessions" inputmode="numeric" value="12"></div>
-      ${moneyField('price',`Package price (${curName()})`,'')}
-      ${moneyField('paid',`Amount paid (${curName()})`,'', payNow)}
-      ${dateField('date','Sign-up & payment date')}`}
-      <label class="fl">Notes<textarea name="note" placeholder="e.g. knee injury, goal: lose weight">${s?esc(s.note||''):''}</textarea></label>
-      <button class="btn primary block" type="submit">${I.check} ${s ? 'Save changes' : 'Add student'}</button>
+      <label class="fl">نام و نام خانوادگی<input name="name" required value="${s?esc(s.name):''}" placeholder="مثلاً علی رضایی"></label>
+      <label class="fl">شماره موبایل<input class="num" name="phone" inputmode="tel" value="${s?esc(s.phone||''):''}" placeholder="0912 000 0000"></label>
+      ${db.coaches.length>1 || s ? coachChips(defCoach) : `<input type="hidden" name="coachId" value="${defCoach}">`}
+      ${s ? dateField('createdAt','تاریخ عضویت', s.createdAt) : `
+      ${dateField('date','تاریخ ثبت‌نام و پرداخت')}
+      <div class="fl">تعداد جلسات دوره${sessionChips(12)}<input class="num" name="sessions" inputmode="numeric" value="12"></div>
+      <label class="fl">جلسات استفاده‌شده از قبل<input class="num" name="usedBefore" inputmode="numeric" placeholder="0"><span class="sub">اگه این شاگرد قبل از استفاده از برنامه چند جلسه از همین دوره اومده، تعدادش رو بزن.</span></label>
+      ${moneyField('price','شهریه‌ی دوره (تومان)','')}
+      ${moneyField('paid','مبلغ پرداخت شده (تومان)','', payFull)}`}
+      <label class="fl">یادداشت<textarea name="note" placeholder="مثلاً آسیب زانو، هدف کاهش وزن...">${s?esc(s.note||''):''}</textarea></label>
+      <button class="btn primary block" type="submit">${I.check} ${s ? 'ذخیره‌ی تغییرات' : 'افزودن شاگرد'}</button>
     </form>`;
 }
 function formRenew(id){
-  const s = byId(id), x = st(s);
-  const lastP = s.packages[s.packages.length-1];
-  $('#sheetBody').innerHTML = head('Renew · ' + esc(s.name)) + `
+  const s = byId(id), x = st(s), lastP = s.packages[s.packages.length-1];
+  $('#sheetBody').innerHTML = head('تمدید دوره · ' + esc(s.name)) + `
     <form class="f" data-kind="renew" autocomplete="off"><input type="hidden" name="id" value="${id}">
-      ${x.remaining<0 ? `<div class="note" style="color:var(--warn)">${plural(-x.remaining,'extra session')} will be deducted from the new package.</div>` : ''}
-      <div class="fl">Sessions in new package${sessionChips(lastP?lastP.sessions:12)}<input name="sessions" inputmode="numeric" value="${lastP?lastP.sessions:12}"></div>
-      ${moneyField('price',`Package price (${curName()})`, lastP?lastP.price:'')}
-      ${moneyField('paid',`Amount paid (${curName()})`,'', payNow)}
-      ${dateField('date','Renewal date')}
-      <button class="btn primary block" type="submit">${I.renew} Renew package</button>
+      ${x.remaining<0 ? `<div class="note" style="color:var(--warn)">${fa(-x.remaining)} جلسه‌ی اضافه از دوره‌ی جدید کم می‌شه.</div>` : ''}
+      ${dateField('date','تاریخ تمدید')}
+      <div class="fl">تعداد جلسات دوره‌ی جدید${sessionChips(lastP?lastP.sessions:12)}<input class="num" name="sessions" inputmode="numeric" value="${lastP?lastP.sessions:12}"></div>
+      ${moneyField('price','شهریه‌ی دوره (تومان)', lastP?lastP.price:'')}
+      ${moneyField('paid','مبلغ پرداخت شده (تومان)','', payFull)}
+      <button class="btn primary block" type="submit">${I.renew} تمدید دوره</button>
     </form>`;
 }
 function formPay(id){
   const s = byId(id), x = st(s);
-  $('#sheetBody').innerHTML = head('Add payment · ' + esc(s.name)) + `
+  $('#sheetBody').innerHTML = head('ثبت پرداخت · ' + esc(s.name)) + `
     <form class="f" data-kind="pay" autocomplete="off"><input type="hidden" name="id" value="${id}">
-      ${x.debt ? `<div class="note">Current balance: <b style="color:var(--danger)">${money(x.debt)}</b></div>` : ''}
-      ${moneyField('amount',`Amount (${curName()})`, x.debt||'')}
-      ${dateField('date','Payment date')}
-      <label class="fl">Note<input name="note" placeholder="e.g. card transfer, cash"></label>
-      <button class="btn primary block" type="submit">${I.cash} Add payment</button>
+      ${x.debt ? `<div class="note">بدهی فعلی: <b style="color:var(--danger)">${money(x.debt)}</b></div>` : ''}
+      ${moneyField('amount','مبلغ (تومان)', x.debt||'')}
+      ${dateField('date','تاریخ واریز')}
+      <label class="fl">توضیح<input name="note" placeholder="مثلاً کارت به کارت، نقدی"></label>
+      <button class="btn primary block" type="submit">${I.cash} ثبت پرداخت</button>
     </form>`;
 }
 function formAttDate(id){
   const s = byId(id);
-  $('#sheetBody').innerHTML = head('Check in · ' + esc(s.name)) + `
+  $('#sheetBody').innerHTML = head('ثبت حضور · ' + esc(s.name)) + `
     <form class="f" data-kind="attDate"><input type="hidden" name="id" value="${id}">
-      ${dateField('date','Session date', Date.now()-86400000)}
-      <button class="btn primary block" type="submit">${I.check} Check in</button>
+      ${dateField('date','تاریخ جلسه', Date.now()-86400000)}
+      <button class="btn primary block" type="submit">${I.check} ثبت حضور</button>
     </form>`;
+}
+function formCoach(id){
+  const c = id ? coachOf(id) : null;
+  $('#sheetBody').innerHTML = head(c ? 'ویرایش مربی' : 'مربی جدید') + `
+    <form class="f" data-kind="coach"><input type="hidden" name="id" value="${c?c.id:''}">
+      <label class="fl">نام مربی<input name="name" required value="${c?esc(c.name):''}" placeholder="مثلاً سارا"></label>
+      <button class="btn primary block" type="submit">${I.check} ذخیره</button>
+    </form>`;
+}
+function formItem(id){
+  const it = id ? itemOf(id) : null;
+  $('#sheetBody').innerHTML = head(it ? 'ویرایش آیتم یخچال' : 'آیتم جدید یخچال') + `
+    <form class="f" data-kind="item"><input type="hidden" name="id" value="${it?it.id:''}">
+      <label class="fl">نام<input name="name" required value="${it?esc(it.name):''}" placeholder="مثلاً نوشیدنی انرژی‌زا"></label>
+      ${moneyField('price','قیمت هر عدد (تومان)', it?it.price:'')}
+      <button class="btn primary block" type="submit">${I.check} ذخیره</button>
+    </form>`;
+}
+function formFridge(sid){
+  const people = scoped().slice().sort((a,b)=>a.name.localeCompare(b.name,'fa'));
+  const it = db.items[0];
+  $('#sheetBody').innerHTML = head('برداشت از یخچال') + `
+    <form class="f" data-kind="fridge" autocomplete="off">
+      <div class="fl">چه کسی برداشت؟
+        ${people.length>8 ? `<div class="search sm">${I.search}<input id="fq" placeholder="جستجوی نام"></div>` : ''}
+        <div class="pick" data-radio="who" id="fpick">
+          ${people.map(p=>`<button type="button" class="${p.id===sid?'on':''}" data-act="radio" data-id="${p.id}" data-name="${esc(p.name)}">${esc(p.name)}</button>`).join('')}
+          <button type="button" class="guest" data-act="radio" data-id="guest">+ مهمان / غیر عضو</button>
+        </div>
+        <input type="hidden" name="who" value="${sid||''}">
+      </div>
+      <label class="fl" id="guestWrap" hidden>نام مهمان<input name="guest" placeholder="مثلاً آقای کریمی"></label>
+      <div class="fl">چی برداشت؟<div class="qchips wrap" data-radio="itemId">${db.items.map(i=>`<button type="button" class="${i.id===it.id?'on':''}" data-act="radio" data-id="${i.id}">${esc(i.name)}</button>`).join('')}</div><input type="hidden" name="itemId" value="${it.id}"></div>
+      <div class="fl">تعداد<div class="qty"><button type="button" data-act="qty" data-id="1" aria-label="بیشتر">+</button><b id="qtyV">${fa(1)}</b><button type="button" data-act="qty" data-id="-1" aria-label="کمتر">−</button></div><input type="hidden" name="qty" value="1"></div>
+      <div class="sum-line" id="fsum"></div>
+      <div class="fl">حساب کرد؟<div class="seg big" data-radio="paid"><button type="button" class="on p" data-act="radio" data-id="1">حساب کرد</button><button type="button" data-act="radio" data-id="0">نسیه (بعداً)</button></div><input type="hidden" name="paid" value="1"></div>
+      ${dateField('date','تاریخ')}
+      <button class="btn primary block" type="submit">${I.check} ثبت</button>
+    </form>`;
+  updateFridgeSum();
+}
+function updateFridgeSum(){
+  const f = $('#sheetBody form[data-kind="fridge"]'); if(!f) return;
+  const it = itemOf(f.itemId.value), q = +f.qty.value;
+  $('#fsum').innerHTML = it && it.price ? `<span>${fa(q)} × ${money(it.price)}</span>${money(q*it.price)}` : `<span>قیمت این آیتم تعیین نشده</span>${fa(q)} عدد`;
 }
 
 const FORMS = {
   student(d){
-    const name = (d.name||'').trim(); if(!name){ toast('Enter the student\'s name.', 'warn'); return; }
+    const name = (d.name||'').trim(); if(!name){ toast('نام شاگرد رو وارد کن.', 'warn'); return; }
     if(d.id){
-      const s = byId(d.id); s.name = name; s.phone = toEn(d.phone).trim(); s.note = (d.note||'').trim();
-      save(); toast('Changes saved.', 'ok'); back(); refresh(); return;
+      const s = byId(d.id); s.name = name; s.phone = toEn(d.phone).trim(); s.note = (d.note||'').trim(); s.coachId = d.coachId || s.coachId;
+      if(d.createdAt) s.createdAt = +d.createdAt;
+      save(); toast('تغییرات ذخیره شد.', 'ok'); back(); refresh(); return;
     }
-    const date = parseDay(d.date), ses = num(d.sessions);
-    const s = { id:uid(), name, phone:toEn(d.phone).trim(), note:(d.note||'').trim(), createdAt:date, packages:[], attendance:[], payments:[] };
+    const date = stamp(+d.date || Date.now()), ses = num(d.sessions), before = Math.min(num(d.usedBefore), ses || 999);
+    const s = { id:uid(), name, phone:toEn(d.phone).trim(), note:(d.note||'').trim(), coachId:d.coachId || db.coaches[0].id, createdAt:date, packages:[], attendance:[], payments:[] };
     if(ses>0) s.packages.push({id:uid(), sessions:ses, price:num(d.price), date});
-    if(num(d.paid)>0) s.payments.push({id:uid(), amount:num(d.paid), date, note:'Sign-up'});
+    for(let i=0;i<before;i++) s.attendance.push({id:uid(), date:noon(date), imported:true});
+    if(num(d.paid)>0) s.payments.push({id:uid(), amount:num(d.paid), date, note:'ثبت‌نام'});
     db.students.push(s); save();
-    toast(`${name} added.`, 'ok'); closeSheet(); refresh();
+    toast(`${name} اضافه شد.`, 'ok'); closeSheet(); refresh();
   },
   renew(d){
-    const s = byId(d.id), ses = num(d.sessions); if(ses<=0){ toast('Enter the number of sessions.', 'warn'); return; }
-    const date = parseDay(d.date);
+    const s = byId(d.id), ses = num(d.sessions); if(ses<=0){ toast('تعداد جلسات رو وارد کن.', 'warn'); return; }
+    const date = stamp(+d.date);
     s.packages.push({id:uid(), sessions:ses, price:num(d.price), date});
-    if(num(d.paid)>0) s.payments.push({id:uid(), amount:num(d.paid), date, note:'Renewal'});
-    save(); toast(`${s.name} renewed. ${plural(st(s).remaining,'session')} left.`, 'ok'); back(); refresh();
+    if(num(d.paid)>0) s.payments.push({id:uid(), amount:num(d.paid), date, note:'تمدید'});
+    save(); toast(`دوره‌ی ${s.name} تمدید شد. ${fa(st(s).remaining)} جلسه باقی‌مانده.`, 'ok'); back(); refresh();
   },
   pay(d){
-    const s = byId(d.id), a = num(d.amount); if(a<=0){ toast('Enter an amount.', 'warn'); return; }
-    s.payments.push({id:uid(), amount:a, date:parseDay(d.date), note:(d.note||'').trim()});
-    save(); toast(`Payment of ${money(a)} added.`, 'ok'); back(); refresh();
+    const s = byId(d.id), a = num(d.amount); if(a<=0){ toast('مبلغ رو وارد کن.', 'warn'); return; }
+    s.payments.push({id:uid(), amount:a, date:stamp(+d.date), note:(d.note||'').trim()});
+    save(); toast(`پرداخت ${money(a)} ثبت شد.`, 'ok'); back(); refresh();
   },
   attDate(d){
-    const s = byId(d.id); s.attendance.push({id:uid(), date:parseDay(d.date)});
-    save(); afterCheckToast(s); back(); refresh();
+    const s = byId(d.id), day = +d.date;
+    if(inDay(s, day)){ toast('برای این روز قبلاً حضور ثبت شده.', 'warn'); return; }
+    s.attendance.push({id:uid(), date:stamp(day)}); save(); afterCheckToast(s); back(); refresh();
+  },
+  coach(d){
+    const name = (d.name||'').trim(); if(!name){ toast('نام مربی رو وارد کن.', 'warn'); return; }
+    if(d.id){ coachOf(d.id).name = name; } else db.coaches.push({id:uid(), name});
+    save(); toast('ذخیره شد.', 'ok'); closeSheet(); refresh();
+  },
+  item(d){
+    const name = (d.name||'').trim(); if(!name){ toast('نام آیتم رو وارد کن.', 'warn'); return; }
+    if(d.id){ const it = itemOf(d.id); it.name = name; it.price = num(d.price); } else db.items.push({id:uid(), name, price:num(d.price)});
+    save(); toast('ذخیره شد.', 'ok'); closeSheet(); refresh();
+  },
+  fridge(d){
+    if(!d.who){ toast('انتخاب کن کی برداشت.', 'warn'); return; }
+    const guest = d.who==='guest' ? (d.guest||'').trim() : '';
+    if(d.who==='guest' && !guest){ toast('نام مهمان رو بنویس.', 'warn'); return; }
+    const it = itemOf(d.itemId), qty = Math.max(1, +d.qty||1), paid = d.paid==='1', date = stamp(+d.date);
+    db.fridge.push({id:uid(), studentId: d.who==='guest' ? null : d.who, guest, itemId:it.id, name:it.name, unit:+it.price||0, qty, date, paid, paidAt: paid ? date : null});
+    save();
+    const nm = guest || (byId(d.who)||{}).name;
+    toast(`${fa(qty)} ${it.name} برای ${nm} ثبت شد${paid?'':' (نسیه)'}.`, paid ? 'ok' : 'warn');
+    back(); refresh();
   }
 };
 
 /* ================== ACTIONS ================== */
 function afterCheckToast(s){
   const r = st(s).remaining;
-  if(r===0) toast(`${s.name} just used their last session. Time to renew!`, 'danger', {label:'Renew', act:'renew', id:s.id});
-  else if(r<0) toast(`${s.name} is ${plural(-r,'session')} over their package.`, 'danger', {label:'Renew', act:'renew', id:s.id});
-  else if(r<=db.settings.warnAt) toast(`${s.name} checked in. Only ${plural(r,'session')} left.`, 'warn');
-  else toast(`${s.name} checked in. ${plural(r,'session')} left.`, 'ok');
+  if(r===0) toast(`جلسات ${s.name} تمام شد. وقت تمدیده!`, 'danger', {label:'تمدید', act:'renew', id:s.id});
+  else if(r<0) toast(`${s.name} ${fa(-r)} جلسه بیشتر از دوره اومده.`, 'danger', {label:'تمدید', act:'renew', id:s.id});
+  else if(r<=db.settings.warnAt) toast(`حضور ${s.name} ثبت شد. فقط ${fa(r)} جلسه مانده.`, 'warn');
+  else toast(`حضور ${s.name} ثبت شد. ${fa(r)} جلسه باقی‌مانده.`, 'ok');
 }
-async function checkIn(id){
-  const s = byId(id), x = st(s);
-  if(x.todayIn){
-    if(!await ask('Undo today\'s check-in?', `${s.name}'s check-in for today will be removed and the session given back.`, 'Undo check-in')) return;
-    const today = s.attendance.filter(a=>sameDay(a.date,Date.now())).sort((a,b)=>b.date-a.date)[0];
-    s.attendance = s.attendance.filter(a=>a!==today); save();
-    toast(`${s.name}'s check-in undone.`, 'info'); refresh(); return;
+async function checkIn(id, day){
+  day = day || Date.now();
+  const s = byId(id), x = st(s), isToday = sameDay(day, Date.now());
+  const dayTxt = isToday ? 'امروز' : jday(day);
+  if(inDay(s, day)){
+    if(!await ask(`لغو حضور ${dayTxt}؟`, `حضور ${s.name} برای ${dayTxt} حذف می‌شه و یک جلسه بهش برمی‌گرده.`, 'لغو حضور')) return;
+    const rec = realAtt(s).filter(a=>sameDay(a.date,day)).sort((a,b)=>b.date-a.date)[0];
+    s.attendance = s.attendance.filter(a=>a!==rec); save();
+    toast(`حضور ${s.name} لغو شد.`, 'info'); refresh(); return;
   }
   if(x.status==='none' || x.remaining<=0){
-    if(!await ask('No sessions left', `${s.name} ${x.status==='none'?'has no package yet':'has used all their sessions'}. Check in anyway? It will be deducted from the next package.`, 'Check in', false)) return;
+    if(!await ask('جلسه‌ای باقی نمونده', `${s.name} ${x.status==='none'?'هنوز دوره‌ای نداره':'جلساتش تموم شده'}. حضور ثبت بشه؟ بعد از تمدید از دوره‌ی جدید کم می‌شه.`, 'ثبت حضور', false)) return;
   }
-  s.attendance.push({id:uid(), date:Date.now()}); save();
+  s.attendance.push({id:uid(), date:stamp(day)}); save();
   afterCheckToast(s); refresh();
   const b = document.querySelector(`.chk[data-id="${id}"]`); if(b) b.classList.add('pop');
 }
+function coachSheet(){
+  const cur = db.settings.coachId;
+  const row = (id, name, n) => `<button class="set" style="width:100%;text-align:start" data-act="coachSet" data-id="${id}">${ava(name||'★',1)}<div class="t"><b>${esc(name)}</b><span>${fa(n)} شاگرد</span></div>${cur===id?`<span style="color:var(--gold)">${I.check}</span>`:''}</button>`;
+  $('#sheetBody').innerHTML = head('نمایش برای') + `<div class="box">
+    ${row('', 'همه‌ی مربی‌ها', db.students.length)}
+    ${db.coaches.map(c => row(c.id, 'مربی ' + c.name, db.students.filter(s=>s.coachId===c.id).length)).join('')}
+    </div><button class="btn ghost block" style="margin-top:14px" data-act="coachManage">${I.gear} مدیریت مربی‌ها</button>`;
+  showSheet();
+}
 
 const ACT = {
-  tab(id){ tab = id; q=''; render(true); window.scrollTo({top:0}); },
+  tab(id){ tab = id; q=''; if(id==='attend') attDay = Date.now(); closeSheet(); render(true); window.scrollTo({top:0}); },
   filter(id){ filter = id; render(false); },
   open(id){ openDetail(id); },
-  check(id){ checkIn(id); },
+  check(id, el){ checkIn(id, +el.dataset.day || Date.now()); },
   addStudent(){ detId = null; formStudent(); showSheet(); },
-  edit(id){ formStudent(id); },
-  renew(id){ if(!detId){ detId = id; } formRenew(id); showSheet(); },
-  pay(id){ if(!detId){ detId = id; } formPay(id); showSheet(); },
+  edit(id){ formStudent(id); $('#sheetBody').scrollTop = 0; },
+  renew(id){ if(!detId) detId = id; formRenew(id); showSheet(); },
+  pay(id){ if(!detId) detId = id; formPay(id); showSheet(); },
   attDate(id){ formAttDate(id); },
   detTab(id){ detTab = id; renderDetail(); },
   close(){ closeSheet(); },
   back(){ back(); },
-  chip(v, el){ const f = el.closest('form'); f.sessions.value = v; el.parentNode.querySelectorAll('button').forEach(b=>b.classList.toggle('on', b===el)); },
+  radio(v, el){
+    const box = el.closest('[data-radio]'), f = el.closest('form'), name = box.dataset.radio;
+    box.querySelectorAll('button').forEach(b => b.classList.toggle('on', b===el));
+    if(f && f[name]) f[name].value = v;
+    if(name==='who'){ const g = $('#guestWrap'); if(g){ g.hidden = v!=='guest'; if(v==='guest') g.querySelector('input').focus(); } }
+    if(name==='paid'){ box.querySelectorAll('button').forEach(b => { b.classList.remove('p','u'); }); el.classList.add(v==='1'?'p':'u'); }
+    if(name==='itemId') updateFridgeSum();
+  },
+  qty(d){ const f = $('#sheetBody form'); const n = Math.max(1, Math.min(99, (+f.qty.value||1) + (+d))); f.qty.value = n; $('#qtyV').textContent = fa(n); updateFridgeSum(); },
   fullPay(_, el){ const f = el.closest('form'); f.paid.value = f.price.value; updateWords(f.paid); },
-  async delAtt(aid){ const s = byId(detId); if(!await ask('Delete this check-in?','The session goes back to the student.','Delete')) return; s.attendance = s.attendance.filter(a=>a.id!==aid); save(); refresh(); toast('Check-in deleted.', 'info'); },
-  async delPay(pid){ const s = byId(detId); if(!await ask('Delete this payment?','The amount will be added back to the student\'s balance.','Delete')) return; s.payments = s.payments.filter(p=>p.id!==pid); save(); refresh(); toast('Payment deleted.', 'info'); },
-  async delPkg(pid){ const s = byId(detId); if(!await ask('Delete this package?','Its sessions and price will be removed from the student\'s account.','Delete')) return; s.packages = s.packages.filter(p=>p.id!==pid); save(); refresh(); toast('Package deleted.', 'info'); },
-  async delStudent(id){ const s = byId(id); if(!await ask(`Delete ${s.name}?`,'All their check-ins and payments will be erased. This can\'t be undone.','Delete student')) return; db.students = db.students.filter(x=>x.id!==id); save(); closeSheet(); refresh(); toast(`${s.name} deleted.`, 'info'); },
+  async pickDate(name, el){
+    const inp = el.parentNode.querySelector(`input[name="${name}"]`);
+    const ts = await datePicker(+inp.value || Date.now());
+    if(ts==null) return;
+    inp.value = ts; el.querySelector('.dl').textContent = jfull(ts); el.querySelector('small').textContent = rel(ts);
+  },
+  dayNav(d){ const n = new Date(attDay); n.setDate(n.getDate() + (+d)); if(n.getTime() > Date.now() && !sameDay(n, Date.now())) return; attDay = sameDay(n, Date.now()) ? Date.now() : noon(n); render(false); },
+  async dayPick(){ const ts = await datePicker(attDay, true); if(ts!=null){ attDay = ts; render(false); } },
+  dayToday(){ attDay = Date.now(); render(false); },
+  coachPick(){ detId = null; coachSheet(); },
+  coachSet(id){ db.settings.coachId = id; save(); closeSheet(); render(true); },
+  coachManage(){ closeSheet(); ACT.tab('settings'); },
+  coachForm(id){ detId = null; formCoach(id); showSheet(); },
+  async coachDel(id){
+    const c = coachOf(id), n = db.students.filter(s=>s.coachId===id).length;
+    if(db.coaches.length<=1){ toast('حداقل یک مربی باید باشه.', 'warn'); return; }
+    if(n){ toast(`${fa(n)} شاگرد با مربی ${c.name} ثبت شدن. اول مربی‌شون رو عوض کن.`, 'warn'); return; }
+    if(!await ask(`حذف مربی ${c.name}؟`, 'این مربی از لیست حذف می‌شه.', 'حذف')) return;
+    db.coaches = db.coaches.filter(x=>x.id!==id); if(db.settings.coachId===id) db.settings.coachId=''; save(); render(false);
+  },
+  itemForm(id){ detId = null; formItem(id); showSheet(); },
+  async itemDel(id){
+    if(db.items.length<=1){ toast('حداقل یک آیتم باید باشه.', 'warn'); return; }
+    const it = itemOf(id); if(!await ask(`حذف «${it.name}»؟`, 'سوابق قبلی برداشت این آیتم باقی می‌مونه.', 'حذف')) return;
+    db.items = db.items.filter(x=>x.id!==id); save(); render(false);
+  },
+  fridgeAdd(id){ if(id && !detId) detId = id; formFridge(id); showSheet(); },
+  fridgeToggle(id){ const f = db.fridge.find(x=>x.id===id); f.paid = !f.paid; f.paidAt = f.paid ? Date.now() : null; save(); refresh(); toast(f.paid ? 'حساب شد.' : 'به نسیه برگشت.', f.paid ? 'ok' : 'info'); },
+  async fridgeSettle(k){
+    const isG = k.startsWith('g:'), recs = db.fridge.filter(f => !f.paid && (isG ? (!f.studentId && f.guest===k.slice(2)) : f.studentId===k));
+    const sum = recs.reduce((a,f)=>a+f.qty*f.unit,0), nm = isG ? k.slice(2) : (byId(k)||{}).name;
+    if(!await ask('تسویه‌ی یخچال', `همه‌ی برداشت‌های ${nm}${sum?' به مبلغ '+money(sum):''} حساب‌شده ثبت بشه؟`, 'حساب کرد', false)) return;
+    recs.forEach(f => { f.paid = true; f.paidAt = Date.now(); }); save(); refresh(); toast(`حساب یخچال ${nm} تسویه شد.`, 'ok');
+  },
+  async fridgeDel(id){ if(!await ask('حذف این برداشت؟', 'این مورد کلاً پاک می‌شه.', 'حذف')) return; db.fridge = db.fridge.filter(x=>x.id!==id); save(); refresh(); },
+  async delAtt(aid){ const s = byId(detId); if(!await ask('حذف این حضور؟','یک جلسه به شاگرد برمی‌گرده.','حذف')) return; s.attendance = s.attendance.filter(a=>a.id!==aid); save(); refresh(); toast('حضور حذف شد.', 'info'); },
+  async delImported(id){ const s = byId(id); if(!await ask('حذف جلسات از قبل؟','جلساتی که موقع ثبت‌نام به‌عنوان «از قبل» زده بودی حذف می‌شن.','حذف')) return; s.attendance = s.attendance.filter(a=>!a.imported); save(); refresh(); },
+  async delPay(pid){ const s = byId(detId); if(!await ask('حذف این پرداخت؟','مبلغش به بدهی شاگرد اضافه می‌شه.','حذف')) return; s.payments = s.payments.filter(p=>p.id!==pid); save(); refresh(); toast('پرداخت حذف شد.', 'info'); },
+  async delPkg(pid){ const s = byId(detId); if(!await ask('حذف این دوره؟','جلسات و شهریه‌ی این دوره از حساب شاگرد حذف می‌شه.','حذف')) return; s.packages = s.packages.filter(p=>p.id!==pid); save(); refresh(); toast('دوره حذف شد.', 'info'); },
+  async delStudent(id){ const s = byId(id); if(!await ask(`حذف ${s.name}؟`,'همه‌ی حضورها، پرداخت‌ها و سوابق یخچالش هم پاک می‌شه.','حذف شاگرد')) return; db.students = db.students.filter(x=>x.id!==id); db.fridge = db.fridge.filter(f=>f.studentId!==id); save(); closeSheet(); refresh(); toast(`${s.name} حذف شد.`, 'info'); },
   warn(d){ db.settings.warnAt = Math.max(0, Math.min(10, db.settings.warnAt + (+d))); save(); render(false); },
-  currency(c){ db.settings.currency = c; save(); render(false); },
-  calendar(c){ db.settings.calendar = c; save(); render(false); },
   export(){ exportData(); },
   import(){ $('#importFile').value=''; $('#importFile').click(); },
-  async reset(){ if(!await ask('Erase all data?','All students, check-ins and payments will be erased. Back up first if you want to keep them.','Erase all')) return; db = DEF(); save(); render(true); toast('All data erased.', 'info'); },
+  async reset(){ if(!await ask('پاک کردن همه‌ی اطلاعات؟','همه‌ی شاگردها، مربی‌ها، حضورها، پرداخت‌ها و سوابق یخچال پاک می‌شن. اگه بکاپ نداری، اول بکاپ بگیر.','پاک کردن همه')) return; db = DEF(); save(); render(true); toast('همه‌ی اطلاعات پاک شد.', 'info'); },
 };
 
 document.addEventListener('click', e => {
@@ -768,27 +1058,20 @@ document.addEventListener('click', e => {
   ACT[a](el.dataset.id, el, e);
 });
 document.addEventListener('submit', e => {
-  e.preventDefault(); const f = e.target; const k = f.dataset.kind;
+  e.preventDefault(); const f = e.target, k = f.dataset.kind;
   if(FORMS[k]) FORMS[k](Object.fromEntries(new FormData(f)));
 });
-function updateWords(inp){
-  const n = num(inp.value); const w = inp.parentNode.querySelector('[data-words]');
-  if(w) w.textContent = n ? money(n) : '';
-}
+function updateWords(inp){ const n = num(inp.value), w = inp.parentNode.querySelector('[data-words]'); if(w) w.textContent = n ? money(n) : ''; }
 document.addEventListener('input', e => {
   const t = e.target;
   if(t.id==='q'){ q = t.value.trim(); const tmp = document.createElement('div'); tmp.innerHTML = VIEWS[tab](); const nr = tmp.querySelector('#res'), or = $('#res'); if(nr && or) or.innerHTML = nr.innerHTML; return; }
-  if(t.classList.contains('money')){ const n = num(t.value); t.value = n ? nf(n) : ''; updateWords(t); }
-  if(t.name==='sessions'){ t.value = toEn(t.value).replace(/[^\d]/g,''); const c = t.parentNode.querySelector('[data-chips]'); if(c) c.querySelectorAll('button').forEach(b=>b.classList.toggle('on', b.dataset.id===t.value)); }
-  if(t.name==='phone'){ t.value = toEn(t.value); }
-});
-document.addEventListener('change', e => {
-  const t = e.target;
-  if(t.id==='cc'){ db.settings.countryCode = toEn(t.value).replace(/[^\d]/g,''); save(); t.value = '+' + db.settings.countryCode; toast('Country code saved.', 'ok'); return; }
-  if(t.hasAttribute && t.hasAttribute('data-jprev')){ const h = t.parentNode.querySelector('.hint'); if(h && t.value) h.textContent = jday(new Date(t.value+'T12:00:00')); }
+  if(t.id==='fq'){ const v = t.value.trim(); document.querySelectorAll('#fpick button[data-name]').forEach(b => b.style.display = !v || b.dataset.name.includes(v) ? '' : 'none'); return; }
+  if(t.classList.contains('money')){ const n = num(t.value); t.value = n ? n.toLocaleString('en-US') : ''; updateWords(t); }
+  if(t.name==='sessions'){ t.value = toEn(t.value).replace(/[^\d]/g,''); const c = t.parentNode.querySelector('[data-radio]'); if(c) c.querySelectorAll('button').forEach(b=>b.classList.toggle('on', b.dataset.id===t.value)); }
+  if(t.name==='phone' || t.name==='usedBefore'){ t.value = toEn(t.value); }
 });
 
-/* ================== SHEET / TOAST / DIALOG ================== */
+/* ================== SHEET / TOAST / DIALOG / DATE PICKER ================== */
 function showSheet(){ $('#scrim').classList.add('show'); $('#sheet').classList.add('show'); $('#sheetBody').scrollTop = 0; document.body.style.overflow='hidden'; }
 function closeSheet(){ $('#scrim').classList.remove('show'); $('#sheet').classList.remove('show'); detId = null; document.body.style.overflow=''; }
 function back(){ if(detId && byId(detId)){ renderDetail(); $('#sheetBody').scrollTop = 0; } else closeSheet(); }
@@ -801,27 +1084,57 @@ function toast(msg, type='ok', action){
   while(box.children.length>3) box.lastChild.remove();
   setTimeout(()=>{ t.classList.add('out'); setTimeout(()=>t.remove(), 260); }, action ? 5200 : 2800);
 }
-function ask(title, msg, ok='OK', danger=true){
+function openDlg(html){ const d = $('#dlg'), c = $('#dlgCard'); c.onclick = null; c.innerHTML = html; d.classList.add('show'); return {d, c}; }
+function ask(title, msg, ok='تأیید', danger=true){
   return new Promise(res => {
-    const d = $('#dlg');
-    $('#dlgCard').innerHTML = `<h4>${esc(title)}</h4><p>${esc(msg)}</p><div class="bs"><button class="btn" id="dNo">Cancel</button><button class="btn ${danger?'danger':'primary'}" id="dOk">${esc(ok)}</button></div>`;
-    d.classList.add('show');
+    const {d} = openDlg(`<h4>${esc(title)}</h4><p>${esc(msg)}</p><div class="bs"><button class="btn" id="dNo">انصراف</button><button class="btn ${danger?'danger':'primary'}" id="dOk">${esc(ok)}</button></div>`);
     const done = v => { d.classList.remove('show'); res(v); };
     $('#dOk').onclick = e => { e.stopPropagation(); done(true); };
     $('#dNo').onclick = e => { e.stopPropagation(); done(false); };
     d.onclick = e => { if(e.target===d) done(false); };
   });
 }
+function datePicker(ts, noFuture){
+  return new Promise(res => {
+    const sel = jOf(ts), tj = jOf(Date.now());
+    let vy = sel.jy, vm = sel.jm;
+    const {d, c} = openDlg('');
+    const done = v => { d.classList.remove('show'); c.onclick = null; res(v); };
+    const draw = () => {
+      const len = jmLen(vy, vm), g = toG(vy, vm, 1), start = (new Date(g.gy, g.gm-1, g.gd).getDay() + 1) % 7;
+      let cells = ''; for(let i=0;i<start;i++) cells += '<span></span>';
+      for(let dd=1; dd<=len; dd++){
+        const isSel = vy===sel.jy && vm===sel.jm && dd===sel.jd, isT = vy===tj.jy && vm===tj.jm && dd===tj.jd;
+        const fri = (start + dd - 1) % 7 === 6;
+        const fut = noFuture && (vy>tj.jy || (vy===tj.jy && (vm>tj.jm || (vm===tj.jm && dd>tj.jd))));
+        cells += `<button class="${isSel?'on':''} ${isT?'today':''} ${fri?'fri':''}" data-d="${dd}" ${fut?'disabled':''}>${fd(dd)}</button>`;
+      }
+      c.innerHTML = `<div class="dp-h"><button data-nav="-1" aria-label="ماه قبل">${I.chevR}</button><b>${JM[vm-1]} ${fd(vy)}</b><button data-nav="1" aria-label="ماه بعد">${I.chevL}</button></div>
+        <div class="dp-w">${['ش','ی','د','س','چ','پ','ج'].map(w=>`<span>${w}</span>`).join('')}</div>
+        <div class="dp-g">${cells}</div>
+        <div class="dp-foot"><button class="btn" data-x="1">انصراف</button><button class="btn primary" data-today="1">امروز</button></div>`;
+    };
+    c.onclick = e => {
+      const b = e.target.closest('button'); if(!b || b.disabled) return; e.stopPropagation();
+      if(b.dataset.nav){ vm += +b.dataset.nav; if(vm<1){vm=12;vy--;} if(vm>12){vm=1;vy++;} draw(); }
+      else if(b.dataset.d){ const t = tsOfJ(vy, vm, +b.dataset.d); done(sameDay(t, Date.now()) ? Date.now() : t); }
+      else if(b.dataset.today) done(Date.now());
+      else if(b.dataset.x) done(null);
+    };
+    d.onclick = e => { if(e.target===d) done(null); };
+    draw();
+  });
+}
 
 /* ================== BACKUP ================== */
 async function exportData(){
-  const payload = JSON.stringify({app:'LevelUp', version:1, exportedAt:Date.now(), data:db}, null, 2);
-  const name = `LevelUp-backup-${isoDay(Date.now())}.json`;
+  const payload = JSON.stringify({app:'LevelUp', version:2, exportedAt:Date.now(), data:db}, null, 2);
+  const j = jOf(Date.now()), name = `LevelUp-backup-${j.jy}-${String(j.jm).padStart(2,'0')}-${String(j.jd).padStart(2,'0')}.json`;
   const blob = new Blob([payload], {type:'application/json'});
-  const mark = () => { db.settings.lastBackup = Date.now(); save(); refresh(); toast('Backup saved.', 'ok'); };
+  const mark = () => { db.settings.lastBackup = Date.now(); save(); refresh(); toast('بکاپ آماده شد.', 'ok'); };
   try{
     const file = new File([blob], name, {type:'application/json'});
-    if(navigator.canShare && navigator.canShare({files:[file]})){ await navigator.share({files:[file], title:'LevelUp backup'}); mark(); return; }
+    if(navigator.canShare && navigator.canShare({files:[file]})){ await navigator.share({files:[file], title:'بکاپ LevelUp'}); mark(); return; }
   }catch(e){ if(e && e.name==='AbortError') return; }
   const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name;
   document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 1500); mark();
@@ -831,11 +1144,9 @@ $('#importFile').addEventListener('change', async e => {
   try{
     const obj = JSON.parse(await f.text()); const data = obj.data || obj;
     if(!data || !Array.isArray(data.students)) throw new Error('bad');
-    if(!await ask('Restore backup?', `This file has ${plural(data.students.length,'student')}. Your current data will be replaced.`, 'Restore', false)) return;
-    data.settings = Object.assign(DEF().settings, data.settings||{});
-    data.students.forEach(s => { s.packages = s.packages||[]; s.attendance = s.attendance||[]; s.payments = s.payments||[]; });
-    db = data; save(); render(true); toast('Data restored.', 'ok');
-  }catch(err){ toast('That file isn\'t a LevelUp backup, or it\'s damaged.', 'danger'); }
+    if(!await ask('بازگردانی بکاپ؟', `${fa(data.students.length)} شاگرد در این فایل هست. اطلاعات فعلی با این فایل جایگزین می‌شه.`, 'بازگردانی', false)) return;
+    db = normalize(data); save(); render(true); toast('اطلاعات برگردونده شد.', 'ok');
+  }catch(err){ toast('این فایل بکاپ LevelUp نیست یا خراب شده.', 'danger'); }
 });
 
 /* ================== ICON / BOOT ================== */
