@@ -445,7 +445,7 @@ function rel(ts){
   const d = Math.round((a-b)/86400000);
   if(d===0) return 'امروز'; if(d===1) return 'دیروز'; if(d===-1) return 'فردا';
   if(d<0) return fa(-d)+' روز بعد';
-  if(d<7) return fa(d)+' روز پیش'; if(d<30) return fa(Math.floor(d/7))+' هفته پیش'; return jdate(ts);
+  if(d<7) return fa(d)+' روز پیش'; if(d<30) return fa(Math.floor(d/7))+' هفته پیش'; if(d<365) return fa(Math.floor(d/30))+' ماه پیش'; return jdate(ts);
 }
 const PALETTE = ['#D4AF37','#E0B872','#C98B5B','#9FB4C7','#B89AD8','#7FC4B0','#E08A8A','#C7C08A'];
 function avaColor(name){ let h=0; for(const c of String(name)) h = (h*31 + c.charCodeAt(0))|0; return PALETTE[Math.abs(h)%PALETTE.length]; }
@@ -736,7 +736,7 @@ function renderDetail(){
     const at = realAtt(s).sort((a,b)=>b.date-a.date);
     list = `<button class="btn sm ghost" style="margin-top:12px" data-act="attDate" data-id="${s.id}">${I.cal} ثبت حضور با تاریخ دیگه</button>`;
     const rows = at.map((a,i)=>`<div class="hrow"><div class="no">${fa(s.attendance.length-i)}</div><div class="t"><b>${jday(a.date)}</b><span>${jdate(a.date)}${sameDay(a.date,noon(a.date))&&new Date(a.date).getHours()===12&&new Date(a.date).getMinutes()===0?'':' · ساعت '+jtime(a.date)}</span></div><button class="del" data-act="delAtt" data-id="${a.id}" aria-label="حذف">${I.trash}</button></div>`);
-    if(imp.length) rows.push(`<div class="hrow"><div class="no">${fa(imp.length)}</div><div class="t"><b>${fa(imp.length)} جلسه از قبل</b><span>قبل از شروع استفاده از برنامه</span></div><button class="del" data-act="delImported" data-id="${s.id}" aria-label="حذف">${I.trash}</button></div>`);
+    if(imp.length) rows.push(`<div class="hrow"><div class="no">${fa(imp.length)}</div><div class="t"><b>${fa(imp.length)} جلسه بدون تاریخ دقیق</b><span>فقط تعدادشون موقع ثبت دوره زده شده</span></div><button class="del" data-act="delImported" data-id="${s.id}" aria-label="حذف">${I.trash}</button></div>`);
     list += rows.length ? `<div class="hist">${rows.join('')}</div>` : `<div class="empty" style="padding:26px">هنوز حضوری ثبت نشده.</div>`;
   } else if(detTab==='pay'){
     const py = [...s.payments].sort((a,b)=>b.date-a.date);
@@ -793,6 +793,8 @@ const dateField = (name, label, ts) => { ts = ts || Date.now(); return `<div cla
 const moneyField = (name, label, val, extra) => `<label class="fl"><span style="display:flex;justify-content:space-between;align-items:center">${label}${extra||''}</span><input class="money num" name="${name}" inputmode="numeric" placeholder="0" value="${val?Number(val).toLocaleString('en-US'):''}"><span class="hint" data-words>${val?money(val):''}</span></label>`;
 const head = t => `<div class="sh"><h3>${t}</h3><button type="button" class="x" data-act="${detId?'back':'close'}" aria-label="بستن">${I.x}</button></div>`;
 const payFull = '<button type="button" class="linkbtn" data-act="fullPay">کامل پرداخت کرده</button>';
+const usedField = `<label class="fl">جلسات رفته از این دوره (اختیاری)<input class="num" name="usedBefore" inputmode="numeric" placeholder="0"><span class="sub">اگه تاریخ دقیق جلسه‌ها رو نداری، فقط تعدادشون رو بزن. اگه تاریخ‌ها رو داری، خالی بذار و از صفحه‌ی حضور با تاریخ ثبتشون کن.</span></label>`;
+const payDateField = `<div id="payDateWrap" hidden>${dateField('payDate','تاریخ پرداخت')}<div class="sub" style="font-size:12px;color:var(--muted);margin-top:6px">اگه قسطی پرداخت کرده، بقیه‌ی قسط‌ها رو بعداً از «پرداخت» با تاریخ خودشون ثبت کن.</div></div>`;
 const coachChips = sel => `<div class="fl">مربی<div class="qchips wrap" data-radio="coachId">${db.coaches.map(c=>`<button type="button" class="${sel===c.id?'on':''}" data-act="radio" data-id="${c.id}">${esc(c.name)}</button>`).join('')}</div><input type="hidden" name="coachId" value="${sel}"></div>`;
 
 function formStudent(id){
@@ -805,11 +807,12 @@ function formStudent(id){
       <label class="fl">شماره موبایل<input class="num" name="phone" inputmode="tel" value="${s?esc(s.phone||''):''}" placeholder="0912 000 0000"></label>
       ${db.coaches.length>1 || s ? coachChips(defCoach) : `<input type="hidden" name="coachId" value="${defCoach}">`}
       ${s ? dateField('createdAt','تاریخ عضویت', s.createdAt) : `
-      ${dateField('date','تاریخ ثبت‌نام و پرداخت')}
+      ${dateField('date','تاریخ شروع دوره (ثبت‌نام)')}
       <div class="fl">تعداد جلسات دوره${sessionChips(12)}<input class="num" name="sessions" inputmode="numeric" value="12"></div>
-      <label class="fl">جلسات استفاده‌شده از قبل<input class="num" name="usedBefore" inputmode="numeric" placeholder="0"><span class="sub">اگه این شاگرد قبل از استفاده از برنامه چند جلسه از همین دوره اومده، تعدادش رو بزن.</span></label>
+      ${usedField}
       ${moneyField('price','شهریه‌ی دوره (تومان)','')}
-      ${moneyField('paid','مبلغ پرداخت شده (تومان)','', payFull)}`}
+      ${moneyField('paid','مبلغ پرداخت شده (تومان)','', payFull)}
+      ${payDateField}`}
       <label class="fl">یادداشت<textarea name="note" placeholder="مثلاً آسیب زانو، هدف کاهش وزن...">${s?esc(s.note||''):''}</textarea></label>
       <button class="btn primary block" type="submit">${I.check} ${s ? 'ذخیره‌ی تغییرات' : 'افزودن شاگرد'}</button>
     </form>`;
@@ -819,10 +822,12 @@ function formRenew(id){
   $('#sheetBody').innerHTML = head('تمدید دوره · ' + esc(s.name)) + `
     <form class="f" data-kind="renew" autocomplete="off"><input type="hidden" name="id" value="${id}">
       ${x.remaining<0 ? `<div class="note" style="color:var(--warn)">${fa(-x.remaining)} جلسه‌ی اضافه از دوره‌ی جدید کم می‌شه.</div>` : ''}
-      ${dateField('date','تاریخ تمدید')}
+      ${dateField('date','تاریخ شروع دوره‌ی جدید')}
       <div class="fl">تعداد جلسات دوره‌ی جدید${sessionChips(lastP?lastP.sessions:12)}<input class="num" name="sessions" inputmode="numeric" value="${lastP?lastP.sessions:12}"></div>
+      ${usedField}
       ${moneyField('price','شهریه‌ی دوره (تومان)', lastP?lastP.price:'')}
       ${moneyField('paid','مبلغ پرداخت شده (تومان)','', payFull)}
+      ${payDateField}
       <button class="btn primary block" type="submit">${I.renew} تمدید دوره</button>
     </form>`;
 }
@@ -899,19 +904,20 @@ const FORMS = {
       if(d.createdAt) s.createdAt = +d.createdAt;
       save(); toast('تغییرات ذخیره شد.', 'ok'); back(); refresh(); return;
     }
-    const date = stamp(+d.date || Date.now()), ses = num(d.sessions), before = Math.min(num(d.usedBefore), ses || 999);
+    const date = stamp(+d.date || Date.now()), payDate = stamp(+d.payDate || +d.date || Date.now()), ses = num(d.sessions), before = Math.min(num(d.usedBefore), ses || 999);
     const s = { id:uid(), name, phone:toEn(d.phone).trim(), note:(d.note||'').trim(), coachId:d.coachId || db.coaches[0].id, createdAt:date, packages:[], attendance:[], payments:[] };
     if(ses>0) s.packages.push({id:uid(), sessions:ses, price:num(d.price), date});
     for(let i=0;i<before;i++) s.attendance.push({id:uid(), date:noon(date), imported:true});
-    if(num(d.paid)>0) s.payments.push({id:uid(), amount:num(d.paid), date, note:'ثبت‌نام'});
+    if(num(d.paid)>0) s.payments.push({id:uid(), amount:num(d.paid), date:payDate, note:'ثبت‌نام'});
     db.students.push(s); save();
     toast(`${name} اضافه شد.`, 'ok'); closeSheet(); refresh();
   },
   renew(d){
     const s = byId(d.id), ses = num(d.sessions); if(ses<=0){ toast('تعداد جلسات رو وارد کن.', 'warn'); return; }
-    const date = stamp(+d.date);
+    const date = stamp(+d.date), payDate = stamp(+d.payDate || +d.date), before = Math.min(num(d.usedBefore), ses);
     s.packages.push({id:uid(), sessions:ses, price:num(d.price), date});
-    if(num(d.paid)>0) s.payments.push({id:uid(), amount:num(d.paid), date, note:'تمدید'});
+    for(let i=0;i<before;i++) s.attendance.push({id:uid(), date:noon(date), imported:true});
+    if(num(d.paid)>0) s.payments.push({id:uid(), amount:num(d.paid), date:payDate, note:'تمدید'});
     save(); toast(`دوره‌ی ${s.name} تمدید شد. ${fa(st(s).remaining)} جلسه باقی‌مانده.`, 'ok'); back(); refresh();
   },
   pay(d){
@@ -1004,12 +1010,15 @@ const ACT = {
     if(name==='itemId') updateFridgeSum();
   },
   qty(d){ const f = $('#sheetBody form'); const n = Math.max(1, Math.min(99, (+f.qty.value||1) + (+d))); f.qty.value = n; $('#qtyV').textContent = fa(n); updateFridgeSum(); },
-  fullPay(_, el){ const f = el.closest('form'); f.paid.value = f.price.value; updateWords(f.paid); },
+  fullPay(_, el){ const f = el.closest('form'); f.paid.value = f.price.value; updateWords(f.paid); togglePayDate(f); },
   async pickDate(name, el){
     const inp = el.parentNode.querySelector(`input[name="${name}"]`);
     const ts = await datePicker(+inp.value || Date.now());
     if(ts==null) return;
     inp.value = ts; el.querySelector('.dl').textContent = jfull(ts); el.querySelector('small').textContent = rel(ts);
+    const f = el.closest('form');
+    if(f && name==='payDate') f.dataset.payTouched = '1';
+    if(f && name==='date' && f.payDate && !f.dataset.payTouched) setDateField(f, 'payDate', ts);
   },
   dayNav(d){ const n = new Date(attDay); n.setDate(n.getDate() + (+d)); if(n.getTime() > Date.now() && !sameDay(n, Date.now())) return; attDay = sameDay(n, Date.now()) ? Date.now() : noon(n); render(false); },
   async dayPick(){ const ts = await datePicker(attDay, true); if(ts!=null){ attDay = ts; render(false); } },
@@ -1041,7 +1050,7 @@ const ACT = {
   },
   async fridgeDel(id){ if(!await ask('حذف این برداشت؟', 'این مورد کلاً پاک می‌شه.', 'حذف')) return; db.fridge = db.fridge.filter(x=>x.id!==id); save(); refresh(); },
   async delAtt(aid){ const s = byId(detId); if(!await ask('حذف این حضور؟','یک جلسه به شاگرد برمی‌گرده.','حذف')) return; s.attendance = s.attendance.filter(a=>a.id!==aid); save(); refresh(); toast('حضور حذف شد.', 'info'); },
-  async delImported(id){ const s = byId(id); if(!await ask('حذف جلسات از قبل؟','جلساتی که موقع ثبت‌نام به‌عنوان «از قبل» زده بودی حذف می‌شن.','حذف')) return; s.attendance = s.attendance.filter(a=>!a.imported); save(); refresh(); },
+  async delImported(id){ const s = byId(id); if(!await ask('حذف جلسات بدون تاریخ؟','جلساتی که فقط تعدادشون رو زده بودی حذف می‌شن.','حذف')) return; s.attendance = s.attendance.filter(a=>!a.imported); save(); refresh(); },
   async delPay(pid){ const s = byId(detId); if(!await ask('حذف این پرداخت؟','مبلغش به بدهی شاگرد اضافه می‌شه.','حذف')) return; s.payments = s.payments.filter(p=>p.id!==pid); save(); refresh(); toast('پرداخت حذف شد.', 'info'); },
   async delPkg(pid){ const s = byId(detId); if(!await ask('حذف این دوره؟','جلسات و شهریه‌ی این دوره از حساب شاگرد حذف می‌شه.','حذف')) return; s.packages = s.packages.filter(p=>p.id!==pid); save(); refresh(); toast('دوره حذف شد.', 'info'); },
   async delStudent(id){ const s = byId(id); if(!await ask(`حذف ${s.name}؟`,'همه‌ی حضورها، پرداخت‌ها و سوابق یخچالش هم پاک می‌شه.','حذف شاگرد')) return; db.students = db.students.filter(x=>x.id!==id); db.fridge = db.fridge.filter(f=>f.studentId!==id); save(); closeSheet(); refresh(); toast(`${s.name} حذف شد.`, 'info'); },
@@ -1061,12 +1070,14 @@ document.addEventListener('submit', e => {
   e.preventDefault(); const f = e.target, k = f.dataset.kind;
   if(FORMS[k]) FORMS[k](Object.fromEntries(new FormData(f)));
 });
+function togglePayDate(f){ const w = f && f.querySelector('#payDateWrap'); if(!w) return; const show = num(f.paid.value) > 0; if(show && w.hidden && !f.dataset.payTouched){ setDateField(f, 'payDate', +f.date.value); } w.hidden = !show; }
+function setDateField(f, name, ts){ const inp = f.querySelector(`input[name="${name}"]`), btn = f.querySelector(`[data-act="pickDate"][data-id="${name}"]`); if(!inp || !btn) return; inp.value = ts; btn.querySelector('.dl').textContent = jfull(ts); btn.querySelector('small').textContent = rel(ts); }
 function updateWords(inp){ const n = num(inp.value), w = inp.parentNode.querySelector('[data-words]'); if(w) w.textContent = n ? money(n) : ''; }
 document.addEventListener('input', e => {
   const t = e.target;
   if(t.id==='q'){ q = t.value.trim(); const tmp = document.createElement('div'); tmp.innerHTML = VIEWS[tab](); const nr = tmp.querySelector('#res'), or = $('#res'); if(nr && or) or.innerHTML = nr.innerHTML; return; }
   if(t.id==='fq'){ const v = t.value.trim(); document.querySelectorAll('#fpick button[data-name]').forEach(b => b.style.display = !v || b.dataset.name.includes(v) ? '' : 'none'); return; }
-  if(t.classList.contains('money')){ const n = num(t.value); t.value = n ? n.toLocaleString('en-US') : ''; updateWords(t); }
+  if(t.classList.contains('money')){ const n = num(t.value); t.value = n ? n.toLocaleString('en-US') : ''; updateWords(t); if(t.name==='paid') togglePayDate(t.form); }
   if(t.name==='sessions'){ t.value = toEn(t.value).replace(/[^\d]/g,''); const c = t.parentNode.querySelector('[data-radio]'); if(c) c.querySelectorAll('button').forEach(b=>b.classList.toggle('on', b.dataset.id===t.value)); }
   if(t.name==='phone' || t.name==='usedBefore'){ t.value = toEn(t.value); }
 });
