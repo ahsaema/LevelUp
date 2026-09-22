@@ -1,0 +1,860 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LevelUp">
+<meta name="theme-color" content="#0A0A0B">
+<title>LevelUp · Gym</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0A0A0B; --bg2:#111112; --surface:#161618; --surface2:#222225; --line:rgba(255,255,255,.07); --gline:rgba(212,175,55,.28);
+  --text:#F4EFE3; --muted:#9A9384;
+  --gold:#D4AF37; --gold2:#F3D98B; --gold3:#8C6A1C; --gold-ink:#1A1405;
+  --goldgrad:linear-gradient(135deg,#F7E3A1 0%,#D4AF37 45%,#A67C1F 100%);
+  --ok:#D4AF37; --warn:#FF8A3D; --danger:#FF4D5E;
+  --shadow:0 14px 36px rgba(0,0,0,.55);
+  --r-lg:24px; --r-md:18px;
+  --tab-h:74px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--text)}
+body{font-family:'Manrope',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:15px;line-height:1.55;overscroll-behavior-y:none;-webkit-font-smoothing:antialiased}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none;padding:0}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:8px}
+svg{display:block}
+
+/* ---------- layout ---------- */
+.top{position:sticky;top:0;z-index:20;padding:calc(env(safe-area-inset-top,0px) + 12px) 20px 12px;
+  background:linear-gradient(var(--bg) 70%,transparent);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-mark{width:38px;height:38px;border-radius:12px;background:var(--goldgrad);display:grid;place-items:center;color:var(--gold-ink);font-family:'Russo One',sans-serif;font-size:15px;box-shadow:0 6px 18px rgba(212,175,55,.3)}
+.logo-text{font-family:'Russo One',sans-serif;font-size:19px;line-height:1;letter-spacing:.5px}
+.logo-text span{color:var(--gold)}
+.top-date{font-size:13px;color:var(--muted);text-align:right;font-weight:600}
+main{padding:4px 18px calc(var(--tab-h) + env(safe-area-inset-bottom,0px) + 36px);max-width:720px;margin:0 auto}
+.view-in{animation:vin .28s ease}
+@keyframes vin{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+h1{font-size:26px;line-height:1.25;margin:0;font-weight:800;letter-spacing:-.4px}
+h2.sec{font-size:17px;font-weight:800;margin:28px 2px 12px;display:flex;align-items:center;gap:8px;letter-spacing:-.2px}
+h2.sec .n{font-size:12px;font-weight:700;background:var(--surface2);color:var(--muted);border-radius:99px;padding:1px 9px}
+.muted{color:var(--muted)}
+
+/* ---------- hero (the one bold thing) ---------- */
+.hero{position:relative;overflow:hidden;border-radius:var(--r-lg);padding:22px 20px 20px;margin-top:6px;
+  background:var(--goldgrad);color:var(--gold-ink);box-shadow:0 18px 40px rgba(212,175,55,.18)}
+.hero::before{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.35) 45%,transparent 60%);pointer-events:none}
+.hero::after{content:"LEVEL UP";position:absolute;right:-8px;bottom:-24px;font-family:'Russo One',sans-serif;font-size:76px;color:rgba(26,20,5,.08);white-space:nowrap;pointer-events:none}
+.hero p{margin:6px 0 18px;color:rgba(26,20,5,.72);font-weight:600}
+.hero-xp{display:flex;align-items:center;gap:12px;margin-bottom:18px;position:relative}
+.hero-xp .bar{flex:1;height:10px;border-radius:99px;background:rgba(26,20,5,.16);overflow:hidden}
+.hero-xp .bar i{display:block;height:100%;background:var(--gold-ink);border-radius:99px;transition:width .6s cubic-bezier(.2,.8,.2,1)}
+.hero-xp b{font-size:13px;white-space:nowrap}
+.hero .btn{background:var(--gold-ink);color:var(--gold2);box-shadow:none;position:relative}
+
+/* ---------- stats ---------- */
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:14px 15px}
+.stat .v{font-size:24px;font-weight:800;line-height:1.3;letter-spacing:-.5px}
+.stat .l{font-size:12.5px;color:var(--muted);font-weight:600}
+.stat.money .v{font-size:18px}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:48px;padding:0 20px;border-radius:14px;font-weight:800;font-size:15px;background:var(--surface2);color:var(--text);transition:transform .12s}
+.btn:active{transform:scale(.97)}
+.btn svg{width:20px;height:20px}
+.btn.primary{background:var(--goldgrad);color:var(--gold-ink);box-shadow:0 8px 20px rgba(212,175,55,.22)}
+.btn.danger{background:rgba(255,77,94,.13);color:var(--danger)}
+.btn.ghost{background:transparent;border:1px solid var(--line)}
+.btn.block{width:100%}
+.btn.sm{height:36px;padding:0 13px;font-size:13px;border-radius:11px}
+
+/* ---------- student card ---------- */
+.list{display:flex;flex-direction:column;gap:10px}
+.stu{display:flex;align-items:center;gap:13px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:13px 14px;cursor:pointer;transition:transform .12s}
+.stu:active{transform:scale(.99)}
+.ava{flex:none;width:46px;height:46px;border-radius:15px;display:grid;place-items:center;font-weight:800;font-size:16px;color:var(--c);background:color-mix(in srgb,var(--c) 16%,var(--surface2));border:1px solid color-mix(in srgb,var(--c) 35%,transparent)}
+.stu-main{flex:1;min-width:0}
+.stu-name{font-weight:800;font-size:15.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stu-meta{font-size:12.5px;color:var(--muted);display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:1px}
+.pips{display:flex;gap:3px;margin-top:7px;flex-wrap:wrap;max-width:100%}
+.pips i{width:9px;height:9px;border-radius:3px;background:var(--surface2)}
+.pips i.on{background:var(--c,var(--ok))}
+.pips.big i{width:14px;height:14px;border-radius:5px}
+.rem{flex:none;text-align:center;min-width:44px}
+.rem b{display:block;font-size:22px;font-weight:800;line-height:1.1;color:var(--c,var(--text))}
+.rem small{font-size:11px;color:var(--muted);font-weight:600}
+.chk{flex:none;width:48px;height:48px;border-radius:15px;display:grid;place-items:center;background:var(--surface2);color:var(--muted);transition:all .18s}
+.chk svg{width:24px;height:24px}
+.chk.done{background:var(--goldgrad);color:var(--gold-ink)}
+.chk.pop{animation:pop .4s ease}
+@keyframes pop{40%{transform:scale(1.18)}}
+
+.pill{font-size:11.5px;font-weight:700;border-radius:99px;padding:1px 9px;white-space:nowrap}
+.pill.ok{background:rgba(212,175,55,.13);color:var(--gold)}
+.pill.warn{background:rgba(255,138,61,.14);color:var(--warn)}
+.pill.end{background:rgba(255,77,94,.14);color:var(--danger)}
+.pill.none{background:var(--surface2);color:var(--muted)}
+.pill.debt{background:rgba(255,77,94,.1);color:var(--danger)}
+
+/* ---------- alert rows ---------- */
+.alert{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:12px 14px;border-left:4px solid var(--c);cursor:pointer}
+.alert .t{flex:1;min-width:0}
+.alert .t b{display:block;font-weight:800}
+.alert .t span{font-size:12.5px;color:var(--muted)}
+.banner{display:flex;gap:12px;align-items:center;background:rgba(212,175,55,.07);border:1px solid var(--gline);border-radius:var(--r-md);padding:12px 14px;margin-top:14px;font-size:13.5px}
+.banner svg{width:22px;height:22px;color:var(--gold);flex:none}
+.banner .t{flex:1}
+
+/* ---------- search & chips ---------- */
+.search{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:0 14px;height:50px;margin-top:6px}
+.search:focus-within{border-color:var(--gline)}
+.search svg{width:20px;height:20px;color:var(--muted);flex:none}
+.search input{flex:1;border:0;background:transparent;outline:0;font-size:16px;height:100%}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:12px 0 4px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;height:36px;padding:0 15px;border-radius:99px;background:var(--surface);border:1px solid var(--line);font-size:13.5px;font-weight:700;color:var(--muted)}
+.chip.on{background:var(--gold);color:var(--gold-ink);border-color:var(--gold)}
+
+/* ---------- attendance page ---------- */
+.att-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-top:6px}
+.att-count{font-size:42px;font-weight:800;line-height:1;letter-spacing:-1px}
+.att-count small{font-size:16px;color:var(--muted);font-weight:700;letter-spacing:0}
+.ring-bar{height:8px;border-radius:99px;background:var(--surface2);overflow:hidden;margin:14px 0 4px}
+.ring-bar i{display:block;height:100%;background:var(--goldgrad);border-radius:99px;transition:width .5s}
+
+/* ---------- money ---------- */
+.pay{display:flex;align-items:center;gap:12px;padding:12px 2px;border-bottom:1px solid var(--line)}
+.pay:last-child{border-bottom:0}
+.pay .t{flex:1;min-width:0}
+.pay .t b{display:block;font-weight:700}
+.pay .t span{font-size:12.5px;color:var(--muted)}
+.pay .a{font-weight:800;white-space:nowrap}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:4px 14px}
+.month-h{display:flex;justify-content:space-between;align-items:baseline;margin:22px 2px 8px;font-weight:800}
+.month-h span{font-size:13px;color:var(--gold)}
+
+/* ---------- settings ---------- */
+.set{display:flex;align-items:center;gap:14px;padding:14px 2px;border-bottom:1px solid var(--line)}
+.set:last-child{border-bottom:0}
+.set .t{flex:1}
+.set .t b{display:block;font-weight:700}
+.set .t span{font-size:12.5px;color:var(--muted)}
+.stepper{display:flex;align-items:center;gap:4px;background:var(--surface2);border-radius:12px;padding:3px}
+.stepper button{width:34px;height:34px;border-radius:9px;font-size:20px;font-weight:700}
+.stepper button:active{background:var(--surface)}
+.stepper b{min-width:26px;text-align:center}
+.seg{display:flex;background:var(--surface2);border-radius:12px;padding:3px;gap:2px}
+.seg button{flex:1;height:34px;border-radius:9px;font-size:13px;font-weight:700;color:var(--muted);padding:0 10px;white-space:nowrap}
+.seg button.on{background:var(--bg);color:var(--gold);box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.cc{width:74px;height:40px;border-radius:11px;border:1px solid var(--line);background:var(--surface2);text-align:center;font-weight:700;outline:0;font-size:16px}
+
+/* ---------- empty ---------- */
+.empty{text-align:center;padding:40px 20px;color:var(--muted)}
+.empty .ic{width:72px;height:72px;margin:0 auto 14px;border-radius:24px;background:var(--surface);border:1px solid var(--gline);display:grid;place-items:center;color:var(--gold)}
+.empty .ic svg{width:34px;height:34px}
+.empty b{display:block;color:var(--text);font-size:17px;margin-bottom:4px}
+.empty .btn{margin-top:18px}
+
+/* ---------- tab bar ---------- */
+.tabbar{position:fixed;bottom:0;left:0;right:0;z-index:30;padding:8px 10px calc(env(safe-area-inset-bottom,0px) + 8px);
+  background:rgba(10,10,11,.84);-webkit-backdrop-filter:blur(18px) saturate(1.4);backdrop-filter:blur(18px) saturate(1.4);border-top:1px solid var(--line)}
+.tabbar .in{display:flex;justify-content:space-around;align-items:center;max-width:560px;margin:0 auto}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;font-weight:700;color:var(--muted);padding:4px 0}
+.tab svg{width:24px;height:24px}
+.tab.on{color:var(--text)}
+.tab.on svg{color:var(--gold)}
+.tab.mid .c{width:56px;height:56px;border-radius:19px;background:var(--goldgrad);display:grid;place-items:center;margin-top:-22px;box-shadow:0 10px 24px rgba(212,175,55,.3);border:4px solid var(--bg)}
+.tab.mid .c svg{width:28px;height:28px;color:var(--gold-ink)}
+.fab{position:fixed;right:20px;bottom:calc(var(--tab-h) + env(safe-area-inset-bottom,0px) + 16px);z-index:25;width:58px;height:58px;border-radius:20px;background:var(--goldgrad);color:var(--gold-ink);display:grid;place-items:center;box-shadow:0 10px 26px rgba(212,175,55,.3)}
+.fab svg{width:28px;height:28px}
+.fab[hidden]{display:none}
+
+/* ---------- bottom sheet ---------- */
+.scrim{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.65);opacity:0;pointer-events:none;transition:opacity .25s}
+.scrim.show{opacity:1;pointer-events:auto}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:51;max-height:calc(100% - env(safe-area-inset-top,0px) - 24px);display:flex;flex-direction:column;
+  background:var(--bg2);border-radius:28px 28px 0 0;border-top:1px solid var(--gline);transform:translateY(105%);transition:transform .32s cubic-bezier(.2,.9,.25,1);max-width:720px;margin:0 auto;box-shadow:0 -10px 40px rgba(0,0,0,.5)}
+.sheet:not(.show){visibility:hidden;transition:transform .32s cubic-bezier(.2,.9,.25,1),visibility 0s .32s}
+.sheet.show{transform:none;visibility:visible}
+.sheet .grab{width:40px;height:5px;border-radius:99px;background:var(--surface2);margin:10px auto 0;flex:none}
+.sheet .body{overflow-y:auto;-webkit-overflow-scrolling:touch;padding:8px 20px calc(env(safe-area-inset-bottom,0px) + 24px)}
+.sh{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:8px 0 16px}
+.sh h3{margin:0;font-size:20px;font-weight:800;letter-spacing:-.3px}
+.x{width:36px;height:36px;border-radius:12px;background:var(--surface2);display:grid;place-items:center;color:var(--muted);flex:none}
+.x svg{width:18px;height:18px}
+
+/* ---------- forms ---------- */
+.f{display:flex;flex-direction:column;gap:14px}
+.fl{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:700;color:var(--muted)}
+.fl input,.fl textarea{height:52px;border-radius:14px;border:1px solid var(--line);background:var(--surface);padding:0 14px;font-size:16px;font-weight:600;color:var(--text);outline:0;width:100%;-webkit-appearance:none;appearance:none}
+.fl textarea{height:84px;padding:12px 14px;resize:none}
+.fl input:focus,.fl textarea:focus{border-color:var(--gold)}
+.fl .hint{font-weight:600;font-size:12px;color:var(--gold)}
+.qchips{display:flex;gap:6px}
+.qchips button{flex:1;min-width:0;height:40px;padding:0 4px;border-radius:12px;background:var(--surface);border:1px solid var(--line);font-weight:800}
+.qchips button.on{background:var(--gold);border-color:var(--gold);color:var(--gold-ink)}
+.linkbtn{color:var(--gold);font-weight:700;font-size:12.5px}
+
+/* ---------- detail ---------- */
+.det-top{display:flex;align-items:center;gap:14px;margin:6px 0 18px}
+.det-top .ava{width:60px;height:60px;border-radius:20px;font-size:21px}
+.det-top .n{flex:1;min-width:0}
+.det-top .n b{display:block;font-size:20px;font-weight:800;line-height:1.3;letter-spacing:-.3px}
+.det-top .n span{font-size:13px;color:var(--muted)}
+.xp-card{background:var(--surface);border:1px solid var(--gline);border-radius:var(--r-lg);padding:18px}
+.xp-card .big{display:flex;align-items:baseline;gap:8px}
+.xp-card .big b{font-size:46px;font-weight:800;line-height:1;color:var(--c);letter-spacing:-1px}
+.xp-card .big span{color:var(--muted);font-weight:700}
+.xp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+.xp-grid div{text-align:center}
+.xp-grid b{display:block;font-size:16px;font-weight:800}
+.xp-grid span{font-size:11.5px;color:var(--muted)}
+.acts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0}
+.act{display:flex;flex-direction:column;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 4px;font-size:12px;font-weight:700;text-align:center}
+.act svg{width:22px;height:22px;color:var(--gold)}
+.act.hot{background:var(--goldgrad);border-color:transparent;color:var(--gold-ink)}
+.act.hot svg{color:var(--gold-ink)}
+.act.done{background:rgba(212,175,55,.12);border-color:var(--gline);color:var(--gold)}
+.contact{display:flex;gap:8px;margin-bottom:6px}
+.contact a{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;height:44px;border-radius:13px;background:var(--surface);border:1px solid var(--line);color:var(--text);text-decoration:none;font-size:13px;font-weight:700}
+.contact a svg{width:18px;height:18px;color:var(--gold)}
+.contact a.wa svg{color:#25D366}
+.hist{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:2px 14px;margin-top:12px}
+.hrow{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}
+.hrow:last-child{border-bottom:0}
+.hrow .t{flex:1;min-width:0}
+.hrow .t b{display:block;font-weight:700;font-size:14px}
+.hrow .t span{font-size:12px;color:var(--muted)}
+.hrow .del{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;color:var(--muted)}
+.hrow .del svg{width:17px;height:17px}
+.hrow .no{width:30px;height:30px;border-radius:10px;background:var(--surface2);display:grid;place-items:center;font-size:12px;font-weight:800;flex:none;color:var(--gold)}
+.note{background:var(--surface);border:1px dashed var(--line);border-radius:14px;padding:10px 14px;font-size:13.5px;color:var(--muted);margin-bottom:12px;white-space:pre-wrap}
+
+/* ---------- toast & dialog ---------- */
+.toasts{position:fixed;top:calc(env(safe-area-inset-top,0px) + 10px);left:12px;right:12px;z-index:80;display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none}
+.toast{pointer-events:auto;display:flex;align-items:center;gap:10px;max-width:520px;width:100%;padding:12px 14px;border-radius:16px;background:#1B1B1D;border:1px solid var(--line);box-shadow:var(--shadow);font-weight:700;font-size:14px;animation:tin .3s cubic-bezier(.2,.9,.25,1)}
+.toast .d{width:10px;height:10px;border-radius:99px;background:var(--c);flex:none;box-shadow:0 0 0 4px color-mix(in srgb,var(--c) 25%,transparent)}
+.toast .m{flex:1}
+.toast .btn{height:32px;font-size:12.5px;padding:0 12px;border-radius:10px}
+.toast.out{animation:tout .25s forwards}
+@keyframes tin{from{opacity:0;transform:translateY(-14px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes tout{to{opacity:0;transform:translateY(-10px)}}
+.dlg{position:fixed;inset:0;z-index:90;display:grid;place-items:center;padding:24px;background:rgba(0,0,0,.65);opacity:0;pointer-events:none;transition:opacity .2s}
+.dlg.show{opacity:1;pointer-events:auto}
+.dlg .card{width:100%;max-width:360px;background:var(--bg2);border:1px solid var(--gline);border-radius:24px;padding:22px;box-shadow:var(--shadow);transform:scale(.95);transition:transform .2s}
+.dlg.show .card{transform:none}
+.dlg h4{margin:0 0 6px;font-size:18px;font-weight:800}
+.dlg p{margin:0 0 20px;color:var(--muted);font-size:14px}
+.dlg .bs{display:flex;gap:10px}
+.dlg .bs .btn{flex:1}
+.foot{text-align:center;font-size:12px;color:var(--muted);margin-top:30px}
+.foot b{font-family:'Russo One',sans-serif;font-weight:400;color:var(--gold)}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="logo">
+    <div class="logo-mark">LU</div>
+    <div class="logo-text">LEVEL<span>UP</span></div>
+  </div>
+  <div class="top-date" id="topDate"></div>
+</header>
+<main id="view"></main>
+<button class="fab" id="fab" data-act="addStudent" aria-label="Add student" hidden></button>
+<nav class="tabbar"><div class="in" id="tabs"></div></nav>
+<div class="scrim" id="scrim" data-act="close"></div>
+<section class="sheet" id="sheet" role="dialog" aria-modal="true"><div class="grab"></div><div class="body" id="sheetBody"></div></section>
+<div class="toasts" id="toasts"></div>
+<div class="dlg" id="dlg"><div class="card" id="dlgCard"></div></div>
+<input type="file" id="importFile" accept="application/json,.json" hidden>
+
+<script>
+/* ================== ICONS ================== */
+const I = {
+  home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>',
+  users:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0"/><path d="M16 4.5a4 4 0 0 1 0 7M22 21a7 7 0 0 0-4-6.3"/></svg>',
+  check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>',
+  plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
+  wallet:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="14" rx="3"/><path d="M3 10h18M16 15h2M6 6l9-3 1.5 3"/></svg>',
+  gear:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>',
+  x:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>',
+  search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>',
+  renew:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 1-15.5 6.2L3 16M3 12a9 9 0 0 1 15.5-6.2L21 8"/><path d="M21 3v5h-5M3 21v-5h5"/></svg>',
+  cash:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2.5"/><circle cx="12" cy="12" r="2.6"/><path d="M6 12h.01M18 12h.01"/></svg>',
+  edit:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13.5 6.5 4 4"/></svg>',
+  trash:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>',
+  phone:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>',
+  msg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8.5 8.5 0 0 1-12.6 7.4L3 21l1.6-5.2A8.5 8.5 0 1 1 21 12z"/></svg>',
+  wa:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7a11.4 11.4 0 0 1-4.4-3.9c-.3-.5-1.1-1.5-1.1-2.8s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.1.1.6-.1 1.2z"/></svg>',
+  alert:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 20h20z"/><path d="M12 10v4M12 17h.01"/></svg>',
+  download:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-4.5-4.5M12 15l4.5-4.5M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>',
+  upload:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3m0 0L7.5 7.5M12 3l4.5 4.5M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>',
+  cal:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',
+};
+
+/* ================== DATA ================== */
+const KEY = 'levelup_gym_v1';
+const DEF = () => ({ students: [], settings: { warnAt: 2, currency: 'toman', calendar: 'gregorian', countryCode: '98', lastBackup: null } });
+let db = load();
+function load(){
+  try{ const r = localStorage.getItem(KEY); if(r){ const d = JSON.parse(r); d.settings = Object.assign(DEF().settings, d.settings||{}); d.students = d.students||[]; return d; } }catch(e){}
+  return DEF();
+}
+function save(){
+  try{ localStorage.setItem(KEY, JSON.stringify(db)); }
+  catch(e){ toast('Could not save. Browser storage is full or unavailable.', 'danger'); }
+}
+try{ navigator.storage && navigator.storage.persist && navigator.storage.persist(); }catch(e){}
+
+/* ================== HELPERS ================== */
+const $ = s => document.querySelector(s);
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,7);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const nf = n => Number(n||0).toLocaleString('en-US');
+const CUR = { toman:{label:'Toman', f:n=>nf(n)+' Toman'}, eur:{label:'€ Euro', f:n=>'€'+nf(n)}, usd:{label:'$ Dollar', f:n=>'$'+nf(n)} };
+const money = n => (CUR[db.settings.currency]||CUR.toman).f(n);
+const curName = () => db.settings.currency==='eur' ? 'EUR' : db.settings.currency==='usd' ? 'USD' : 'Toman';
+const toEn = s => String(s ?? '').replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d));
+const num = s => { const n = parseInt(toEn(s).replace(/[^\d]/g,''), 10); return isNaN(n) ? 0 : n; };
+const loc = () => db.settings.calendar==='persian' ? 'en-u-ca-persian' : 'en-GB';
+const fmt = (ts, o) => new Intl.DateTimeFormat(loc(), o).format(new Date(ts)).replace(/\s?AP$/,'');
+const jdate = ts => fmt(ts, {day:'numeric', month:'short', year:'numeric'});
+const jday = ts => fmt(ts, {weekday:'long', day:'numeric', month:'long'});
+const jtime = ts => new Date(ts).toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'});
+const monthKey = ts => { const p = new Intl.DateTimeFormat(loc(),{year:'numeric',month:'numeric'}).formatToParts(new Date(ts)); return (p.find(x=>x.type==='year')||{}).value + '-' + (p.find(x=>x.type==='month')||{}).value; };
+const monthName = ts => fmt(ts, {month:'long', year:'numeric'});
+const sameDay = (a,b) => { const x=new Date(a), y=new Date(b); return x.getFullYear()===y.getFullYear() && x.getMonth()===y.getMonth() && x.getDate()===y.getDate(); };
+const isoDay = ts => { const d = new Date(ts); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); };
+const parseDay = v => { if(!v) return Date.now(); const d = new Date(v+'T12:00:00'); if(sameDay(d, Date.now())) return Date.now(); return isNaN(d) ? Date.now() : d.getTime(); };
+const byId = id => db.students.find(s => s.id === id);
+const plural = (n, w) => nf(n) + ' ' + w + (n===1 ? '' : 's');
+function rel(ts){
+  const a = new Date(); a.setHours(0,0,0,0); const b = new Date(ts); b.setHours(0,0,0,0);
+  const d = Math.round((a-b)/86400000);
+  if(d<=0) return 'today'; if(d===1) return 'yesterday'; if(d<7) return d+' days ago';
+  if(d<30) return plural(Math.floor(d/7),'week')+' ago'; return 'on '+jdate(ts);
+}
+const PALETTE = ['#D4AF37','#E0B872','#C98B5B','#9FB4C7','#B89AD8','#7FC4B0','#E08A8A','#C7C08A'];
+function avaColor(name){ let h=0; for(const c of String(name)) h = (h*31 + c.charCodeAt(0))|0; return PALETTE[Math.abs(h)%PALETTE.length]; }
+function initials(name){ const p = String(name).trim().split(/\s+/); return esc(((p[0]||'?').charAt(0) + (p[1] ? p[p.length-1].charAt(0) : '')).toUpperCase()); }
+function ava(s){ return `<div class="ava" style="--c:${avaColor(s.name)}">${initials(s.name)}</div>`; }
+function waPhone(p){
+  const raw = toEn(p).trim(); let d = raw.replace(/[^\d]/g,'');
+  if(raw.startsWith('+')) return d; if(d.startsWith('00')) return d.slice(2);
+  if(d.startsWith('0')) return (db.settings.countryCode||'').replace(/[^\d]/g,'') + d.slice(1);
+  return d;
+}
+
+/* ================== STUDENT STATS ================== */
+const STATUS = {
+  ok:{label:'Active', c:'var(--ok)'}, warn:{label:'Ending soon', c:'var(--warn)'},
+  end:{label:'Sessions used up', c:'var(--danger)'}, none:{label:'No package', c:'var(--muted)'}
+};
+function st(s){
+  const pk = s.packages||[], at = s.attendance||[], py = s.payments||[];
+  const total = pk.reduce((a,p)=>a+(+p.sessions||0),0);
+  const used = at.length, remaining = total - used;
+  const price = pk.reduce((a,p)=>a+(+p.price||0),0);
+  const paid = py.reduce((a,p)=>a+(+p.amount||0),0);
+  const debt = Math.max(0, price - paid);
+  const cur = pk[pk.length-1];
+  const curTotal = cur ? +cur.sessions : 0;
+  const last = at.length ? Math.max(...at.map(a=>a.date)) : null;
+  const todayIn = at.some(a=>sameDay(a.date, Date.now()));
+  const status = !pk.length ? 'none' : remaining<=0 ? 'end' : remaining<=db.settings.warnAt ? 'warn' : 'ok';
+  return {total, used, remaining, price, paid, debt, cur, curTotal, last, todayIn, status};
+}
+function pips(x, big){
+  const n = Math.min(30, Math.max(x.curTotal, x.remaining, 1));
+  const on = Math.max(0, Math.min(n, x.remaining));
+  let h = ''; for(let i=0;i<n;i++) h += `<i class="${i<on?'on':''}"></i>`;
+  return `<div class="pips ${big?'big':''}" style="--c:${STATUS[x.status].c}">${h}</div>`;
+}
+
+/* ================== RENDER ================== */
+let tab = 'home', q = '', filter = 'all', detId = null, detTab = 'att';
+const TABS = [
+  {id:'home', t:'Home', i:'home'}, {id:'students', t:'Students', i:'users'},
+  {id:'attend', t:'Check-in', i:'check', mid:true}, {id:'money', t:'Payments', i:'wallet'}, {id:'settings', t:'Settings', i:'gear'}
+];
+function renderTabs(){
+  $('#tabs').innerHTML = TABS.map(t => t.mid
+    ? `<button class="tab mid ${tab===t.id?'on':''}" data-act="tab" data-id="${t.id}"><span class="c">${I[t.i]}</span>${t.t}</button>`
+    : `<button class="tab ${tab===t.id?'on':''}" data-act="tab" data-id="${t.id}">${I[t.i]}${t.t}</button>`).join('');
+  $('#fab').hidden = tab !== 'students';
+  $('#fab').innerHTML = I.plus;
+}
+function render(anim){
+  $('#topDate').textContent = fmt(Date.now(), {weekday:'short', day:'numeric', month:'short'});
+  renderTabs();
+  const v = $('#view');
+  v.innerHTML = VIEWS[tab]();
+  if(anim){ v.classList.remove('view-in'); void v.offsetWidth; v.classList.add('view-in'); }
+}
+function refresh(){ render(false); if(detId) renderDetail(); }
+
+function studentCard(s){
+  const x = st(s);
+  const meta = [];
+  meta.push(`<span class="pill ${x.status}">${STATUS[x.status].label}</span>`);
+  if(x.debt>0) meta.push(`<span class="pill debt">Owes ${money(x.debt)}</span>`);
+  meta.push(`<span>${x.last ? 'Last seen ' + rel(x.last) : 'No visits yet'}</span>`);
+  return `<div class="stu" data-act="open" data-id="${s.id}">
+    ${ava(s)}
+    <div class="stu-main"><div class="stu-name">${esc(s.name)}</div><div class="stu-meta">${meta.join('')}</div>${x.status!=='none'?pips(x):''}</div>
+    <div class="rem" style="--c:${STATUS[x.status].c}"><b>${nf(x.remaining)}</b><small>left</small></div>
+    <button class="chk ${x.todayIn?'done':''}" data-act="check" data-id="${s.id}" aria-label="${x.todayIn?'Undo today\'s check-in':'Check in today'}">${x.todayIn?I.check:I.plus}</button>
+  </div>`;
+}
+function emptyState(title, text, btn){
+  return `<div class="empty"><div class="ic">${I.users}</div><b>${title}</b>${text}${btn?`<div><button class="btn primary" data-act="addStudent">${I.plus} Add student</button></div>`:''}</div>`;
+}
+
+const VIEWS = {
+  home(){
+    const all = db.students.map(s=>({s, x:st(s)}));
+    const todayCnt = all.filter(o=>o.x.todayIn).length;
+    const active = all.filter(o=>o.x.status==='ok'||o.x.status==='warn');
+    const mk = monthKey(Date.now());
+    const income = db.students.flatMap(s=>s.payments||[]).filter(p=>monthKey(p.date)===mk).reduce((a,p)=>a+p.amount,0);
+    const debt = all.reduce((a,o)=>a+o.x.debt,0);
+    const pct = active.length ? Math.round(todayCnt/active.length*100) : 0;
+    const need = all.filter(o=>o.x.status==='end'||o.x.status==='warn').sort((a,b)=>a.x.remaining-b.x.remaining);
+    const debtors = all.filter(o=>o.x.debt>0).sort((a,b)=>b.x.debt-a.x.debt);
+    const hour = new Date().getHours();
+    const hi = hour<12 ? 'Good morning' : hour<17 ? 'Good afternoon' : 'Good evening';
+
+    let h = `<section class="hero">
+      <h1>${hi}, Coach Mehdi</h1>
+      <p>${db.students.length ? `${plural(todayCnt,'student')} of ${nf(active.length)} active checked in today.` : 'Add your first student to get the class going.'}</p>
+      ${db.students.length ? `<div class="hero-xp"><div class="bar"><i style="width:${Math.min(pct,100)}%"></i></div><b>${Math.min(pct,100)}% attendance</b></div>
+      <button class="btn" data-act="tab" data-id="attend">${I.check} Take today's attendance</button>`
+      : `<button class="btn" data-act="addStudent">${I.plus} Add student</button>`}
+    </section>`;
+
+    if(!db.students.length) return h;
+
+    const lb = db.settings.lastBackup;
+    if(!lb || Date.now()-lb > 7*86400000){
+      h += `<div class="banner">${I.alert}<div class="t">${lb ? 'Last backup was ' + rel(lb) + '.' : 'You haven\'t backed up yet.'} Your data lives only on this phone.</div><button class="btn sm primary" data-act="export">Back up</button></div>`;
+    }
+
+    h += `<div class="stats">
+      <div class="stat"><div class="v">${nf(active.length)}</div><div class="l">Active students</div></div>
+      <div class="stat"><div class="v" style="color:${need.length?'var(--danger)':'inherit'}">${nf(need.length)}</div><div class="l">Need renewal</div></div>
+      <div class="stat money"><div class="v" style="color:var(--gold)">${money(income)}</div><div class="l">Received in ${fmt(Date.now(),{month:'long'})}</div></div>
+      <div class="stat money"><div class="v" style="color:${debt?'var(--danger)':'inherit'}">${money(debt)}</div><div class="l">Outstanding</div></div>
+    </div>`;
+
+    if(need.length){
+      h += `<h2 class="sec">Need renewal <span class="n">${nf(need.length)}</span></h2><div class="list">`;
+      h += need.map(({s,x}) => `<div class="alert" style="--c:${STATUS[x.status].c}" data-act="open" data-id="${s.id}">
+        ${ava(s)}<div class="t"><b>${esc(s.name)}</b><span>${x.remaining<=0 ? (x.remaining<0 ? plural(-x.remaining,'session')+' over the package' : 'All sessions used') : 'Only '+plural(x.remaining,'session')+' left'}</span></div>
+        <button class="btn sm primary" data-act="renew" data-id="${s.id}">Renew</button></div>`).join('');
+      h += `</div>`;
+    }
+    if(debtors.length){
+      h += `<h2 class="sec">Unpaid balances <span class="n">${nf(debtors.length)}</span></h2><div class="list">`;
+      h += debtors.slice(0,6).map(({s,x}) => `<div class="alert" style="--c:var(--danger)" data-act="open" data-id="${s.id}">
+        ${ava(s)}<div class="t"><b>${esc(s.name)}</b><span>${money(x.debt)} due</span></div>
+        <button class="btn sm" data-act="pay" data-id="${s.id}">Add payment</button></div>`).join('');
+      h += `</div>`;
+    }
+    const todayList = all.filter(o=>o.x.todayIn);
+    if(todayList.length){
+      h += `<h2 class="sec">Checked in today <span class="n">${nf(todayList.length)}</span></h2><div class="list">${todayList.map(o=>studentCard(o.s)).join('')}</div>`;
+    }
+    return h;
+  },
+
+  students(){
+    const F = [['all','All'],['ok','Active'],['warn','Ending soon'],['end','Used up'],['debt','Owes money']];
+    let list = db.students.map(s=>({s,x:st(s)}));
+    const ql = q.toLowerCase();
+    if(q) list = list.filter(o => o.s.name.toLowerCase().includes(ql) || toEn(o.s.phone||'').includes(toEn(q)));
+    if(filter==='debt') list = list.filter(o=>o.x.debt>0);
+    else if(filter!=='all') list = list.filter(o=>o.x.status===filter || (filter==='end' && o.x.status==='none'));
+    list.sort((a,b)=>a.s.name.localeCompare(b.s.name));
+    let h = `<div class="search">${I.search}<input id="q" type="search" placeholder="Search name or phone" value="${esc(q)}" autocomplete="off"></div>
+      <div class="chips">${F.map(([k,t])=>`<button class="chip ${filter===k?'on':''}" data-act="filter" data-id="${k}">${t}</button>`).join('')}</div>`;
+    if(!db.students.length) return h + emptyState('No students yet', 'Tap the gold button below to add your first one.', true);
+    if(!list.length) return h + `<div id="res"><div class="empty"><b>No matches</b>Try a different search or filter.</div></div>`;
+    return h + `<div id="res"><div class="list" style="margin-top:8px">${list.map(o=>studentCard(o.s)).join('')}</div></div>`;
+  },
+
+  attend(){
+    let list = db.students.map(s=>({s,x:st(s)}));
+    const present = list.filter(o=>o.x.todayIn).length;
+    const base = list.filter(o=>o.x.status!=='none');
+    const ql = q.toLowerCase();
+    if(q) list = list.filter(o=>o.s.name.toLowerCase().includes(ql));
+    list.sort((a,b) => (a.x.todayIn - b.x.todayIn) || (a.x.status==='none') - (b.x.status==='none') || a.s.name.localeCompare(b.s.name));
+    const pct = base.length ? present/base.length*100 : 0;
+    let h = `<div class="att-head"><div><div class="muted" style="font-size:13px;font-weight:700">${jday(Date.now())}</div>
+      <div class="att-count">${nf(present)} <small>of ${nf(base.length)} checked in</small></div></div></div>
+      <div class="ring-bar"><i style="width:${Math.min(pct,100)}%"></i></div>
+      <div class="search" style="margin-top:14px">${I.search}<input id="q" type="search" placeholder="Quick search" value="${esc(q)}" autocomplete="off"></div>`;
+    if(!db.students.length) return h + emptyState('Nobody to check in', 'Add your students first.', true);
+    return h + `<div id="res"><div class="list" style="margin-top:14px">${list.map(o=>studentCard(o.s)).join('')}</div></div>
+      <p class="muted" style="font-size:12.5px;text-align:center;margin-top:16px">Tap the button next to a student to check them in. Tap again to undo.</p>`;
+  },
+
+  money(){
+    const pays = db.students.flatMap(s => (s.payments||[]).map(p => ({...p, s})));
+    pays.sort((a,b)=>b.date-a.date);
+    const mk = monthKey(Date.now());
+    const monthSum = pays.filter(p=>monthKey(p.date)===mk).reduce((a,p)=>a+p.amount,0);
+    const all = db.students.map(s=>({s,x:st(s)}));
+    const debtors = all.filter(o=>o.x.debt>0).sort((a,b)=>b.x.debt-a.x.debt);
+    const debt = debtors.reduce((a,o)=>a+o.x.debt,0);
+    let h = `<div class="stats" style="margin-top:6px">
+      <div class="stat money"><div class="v" style="color:var(--gold)">${money(monthSum)}</div><div class="l">Received this month</div></div>
+      <div class="stat money"><div class="v" style="color:${debt?'var(--danger)':'inherit'}">${money(debt)}</div><div class="l">Outstanding</div></div></div>`;
+    if(debtors.length){
+      h += `<h2 class="sec">Unpaid balances</h2><div class="box">${debtors.map(({s,x}) => `<div class="pay" data-act="open" data-id="${s.id}" style="cursor:pointer">${ava(s)}<div class="t"><b>${esc(s.name)}</b><span>Paid ${money(x.paid)} of ${money(x.price)}</span></div><div class="a" style="color:var(--danger)">${money(x.debt)}</div></div>`).join('')}</div>`;
+    }
+    if(!pays.length) return h + `<div class="empty"><div class="ic">${I.wallet}</div><b>No payments yet</b>Payments you record at sign-up or renewal show up here.</div>`;
+    const groups = {};
+    pays.forEach(p => { const k = monthKey(p.date); (groups[k] = groups[k] || {name:monthName(p.date), items:[], sum:0}); groups[k].items.push(p); groups[k].sum += p.amount; });
+    Object.values(groups).forEach(g => {
+      h += `<div class="month-h">${g.name}<span>${money(g.sum)}</span></div><div class="box">`;
+      h += g.items.map(p => `<div class="pay" data-act="open" data-id="${p.s.id}" style="cursor:pointer">${ava(p.s)}<div class="t"><b>${esc(p.s.name)}</b><span>${jdate(p.date)}${p.note?' · '+esc(p.note):''}</span></div><div class="a">+${money(p.amount)}</div></div>`).join('');
+      h += `</div>`;
+    });
+    return h;
+  },
+
+  settings(){
+    const S = db.settings;
+    const cnt = db.students.length, att = db.students.reduce((a,s)=>a+(s.attendance||[]).length,0);
+    return `<h2 class="sec" style="margin-top:8px">Class</h2><div class="box">
+      <div class="set"><div class="t"><b>Low-session alert</b><span>Warn when this many sessions or fewer are left</span></div>
+        <div class="stepper"><button data-act="warn" data-id="-1" aria-label="Decrease">−</button><b>${S.warnAt}</b><button data-act="warn" data-id="1" aria-label="Increase">+</button></div></div>
+      <div class="set"><div class="t"><b>Currency</b></div>
+        <div class="seg">${Object.entries(CUR).map(([k,c])=>`<button class="${S.currency===k?'on':''}" data-act="currency" data-id="${k}">${k==='toman'?'Toman':k==='eur'?'€':'$'}</button>`).join('')}</div></div>
+      <div class="set"><div class="t"><b>Calendar</b><span>How dates are shown</span></div>
+        <div class="seg"><button class="${S.calendar==='gregorian'?'on':''}" data-act="calendar" data-id="gregorian">Gregorian</button><button class="${S.calendar==='persian'?'on':''}" data-act="calendar" data-id="persian">Persian</button></div></div>
+      <div class="set"><div class="t"><b>Country code</b><span>Used for WhatsApp links when a number starts with 0</span></div>
+        <input class="cc" id="cc" inputmode="numeric" value="+${esc(S.countryCode)}"></div>
+    </div>
+    <h2 class="sec">Data & backup</h2><div class="box">
+      <div class="set"><div class="t"><b>Back up</b><span>${S.lastBackup ? 'Last backup: ' + jdate(S.lastBackup) : 'No backup yet'}</span></div><button class="btn sm primary" data-act="export">${I.download} Save</button></div>
+      <div class="set"><div class="t"><b>Restore from backup</b><span>Pick a LevelUp backup file</span></div><button class="btn sm" data-act="import">${I.upload} Choose file</button></div>
+      <div class="set"><div class="t"><b>Erase everything</b><span>${plural(cnt,'student')}, ${plural(att,'check-in')}</span></div><button class="btn sm danger" data-act="reset">Erase</button></div>
+    </div>
+    <h2 class="sec">Install on iPhone</h2><div class="box"><div class="set"><div class="t"><span style="font-size:13.5px;line-height:1.8">In Safari, tap Share, then “Add to Home Screen”. LevelUp will open like a regular app. All data stays on this phone only, so back up regularly and keep the file in iCloud or Telegram.</span></div></div></div>
+    <div class="foot"><b>LEVELUP</b> · Coach Mehdi</div>`;
+  }
+};
+
+/* ================== DETAIL SHEET ================== */
+function openDetail(id){ detId = id; detTab = 'att'; renderDetail(); showSheet(); }
+function renderDetail(){
+  const s = byId(detId); if(!s){ closeSheet(); return; }
+  const x = st(s);
+  const S = STATUS[x.status];
+  const remText = x.remaining<=0 ? (x.remaining<0 ? `Attended ${plural(-x.remaining,'session')} beyond the package` : 'This package is used up') : x.remaining<=db.settings.warnAt ? 'Package ending soon' : 'Package in progress';
+  const first = s.name.split(/\s+/)[0];
+  const msgText = x.remaining<=0
+    ? `Hi ${first},\nYour sessions at LevelUp gym are used up. Let me know when you'd like to renew.\nCoach Mehdi`
+    : x.debt>0 ? `Hi ${first},\nA balance of ${money(x.debt)} is still open for your LevelUp membership. Thanks for settling it when you can.\nCoach Mehdi`
+    : `Hi ${first},\nYou have ${plural(x.remaining,'session')} left in your LevelUp package.\nCoach Mehdi`;
+  const phone = toEn(s.phone||'');
+
+  let left = (s.attendance||[]).length;
+  const pks = (s.packages||[]).map((p,i) => { const u = Math.min(left, +p.sessions); left -= u; return {...p, used:u, n:i+1}; });
+
+  let list = '';
+  if(detTab==='att'){
+    const at = [...(s.attendance||[])].sort((a,b)=>b.date-a.date);
+    list = `<button class="btn sm ghost" style="margin-top:12px" data-act="attDate" data-id="${s.id}">${I.cal} Check in for another date</button>`;
+    list += at.length ? `<div class="hist">${at.map((a,i)=>`<div class="hrow"><div class="no">${at.length-i}</div><div class="t"><b>${jday(a.date)}</b><span>${jtime(a.date)}</span></div><button class="del" data-act="delAtt" data-id="${a.id}" aria-label="Delete">${I.trash}</button></div>`).join('')}</div>`
+      : `<div class="empty" style="padding:26px">No check-ins yet.</div>`;
+  } else if(detTab==='pay'){
+    const py = [...(s.payments||[])].sort((a,b)=>b.date-a.date);
+    list = py.length ? `<div class="hist">${py.map(p=>`<div class="hrow"><div class="t"><b style="color:var(--gold)">${money(p.amount)}</b><span>${jdate(p.date)}${p.note?' · '+esc(p.note):''}</span></div><button class="del" data-act="delPay" data-id="${p.id}" aria-label="Delete">${I.trash}</button></div>`).join('')}</div>`
+      : `<div class="empty" style="padding:26px">No payments yet.</div>`;
+  } else {
+    list = pks.length ? `<div class="hist">${[...pks].reverse().map(p=>`<div class="hrow"><div class="no">${p.n}</div><div class="t"><b>${plural(+p.sessions,'session')} · ${money(p.price)}</b><span>Started ${jdate(p.date)} · ${nf(p.used)} used</span></div><button class="del" data-act="delPkg" data-id="${p.id}" aria-label="Delete">${I.trash}</button></div>`).join('')}</div>`
+      : `<div class="empty" style="padding:26px">No packages yet.</div>`;
+  }
+
+  $('#sheetBody').innerHTML = `
+    <div class="det-top">${ava(s)}<div class="n"><b>${esc(s.name)}</b><span>Member since ${jdate(s.createdAt)}</span></div><button class="x" data-act="close" aria-label="Close">${I.x}</button></div>
+    ${s.note ? `<div class="note">${esc(s.note)}</div>` : ''}
+    <div class="xp-card" style="--c:${S.c}">
+      <div class="big"><b>${nf(x.remaining)}</b><span>${x.remaining===1?'session left':'sessions left'}</span></div>
+      <div class="muted" style="font-size:13px;margin:4px 0 2px">${x.status==='none'?'No package yet':remText}</div>
+      ${x.status!=='none'?pips(x,true):''}
+      <div class="xp-grid">
+        <div><b>${nf(x.total)}</b><span>Total sessions</span></div>
+        <div><b>${nf(x.used)}</b><span>Attended</span></div>
+        <div><b style="color:${x.debt?'var(--danger)':'var(--gold)'}">${x.debt?money(x.debt):'Paid'}</b><span>${x.debt?'Owes':'Balance'}</span></div>
+      </div>
+    </div>
+    <div class="acts">
+      <button class="act ${x.todayIn?'done':'hot'}" data-act="check" data-id="${s.id}">${I.check}${x.todayIn?'Checked in':'Check in'}</button>
+      <button class="act" data-act="renew" data-id="${s.id}">${I.renew}Renew</button>
+      <button class="act" data-act="pay" data-id="${s.id}">${I.cash}Payment</button>
+      <button class="act" data-act="edit" data-id="${s.id}">${I.edit}Edit</button>
+    </div>
+    ${phone ? `<div class="contact">
+      <a href="tel:${esc(phone)}">${I.phone}Call</a>
+      <a href="sms:${esc(phone)}&body=${encodeURIComponent(msgText)}">${I.msg}Text</a>
+      <a class="wa" href="https://wa.me/${waPhone(phone)}?text=${encodeURIComponent(msgText)}" target="_blank" rel="noopener">${I.wa}WhatsApp</a>
+    </div>` : ''}
+    <div class="seg" style="margin-top:16px">
+      <button class="${detTab==='att'?'on':''}" data-act="detTab" data-id="att">Check-ins (${nf(x.used)})</button>
+      <button class="${detTab==='pay'?'on':''}" data-act="detTab" data-id="pay">Payments</button>
+      <button class="${detTab==='pkg'?'on':''}" data-act="detTab" data-id="pkg">Packages</button>
+    </div>
+    ${list}
+    <button class="btn danger block" style="margin-top:22px" data-act="delStudent" data-id="${s.id}">${I.trash} Delete student</button>`;
+}
+
+/* ================== FORMS ================== */
+const sessionChips = sel => `<div class="qchips" data-chips="sessions">${[8,10,12,16,20,24].map(n=>`<button type="button" class="${sel==n?'on':''}" data-act="chip" data-id="${n}">${n}</button>`).join('')}</div>`;
+const dateField = (name, label, ts) => `<label class="fl">${label}<input type="date" name="${name}" value="${isoDay(ts||Date.now())}" data-jprev><span class="hint">${jday(ts||Date.now())}</span></label>`;
+const moneyField = (name, label, val, extra) => `<label class="fl"><span style="display:flex;justify-content:space-between">${label}${extra||''}</span><input class="money" name="${name}" inputmode="numeric" placeholder="0" value="${val?nf(val):''}"><span class="hint" data-words>${val?money(val):''}</span></label>`;
+const head = t => `<div class="sh"><h3>${t}</h3><button type="button" class="x" data-act="${detId?'back':'close'}" aria-label="Close">${I.x}</button></div>`;
+const payNow = '<button type="button" class="linkbtn" data-act="fullPay">Paid in full</button>';
+
+function formStudent(id){
+  const s = id ? byId(id) : null;
+  $('#sheetBody').innerHTML = head(s ? 'Edit student' : 'New student') + `
+    <form class="f" data-kind="student" autocomplete="off">
+      <input type="hidden" name="id" value="${s?s.id:''}">
+      <label class="fl">Full name<input name="name" required value="${s?esc(s.name):''}" placeholder="e.g. Ali Rezaei" autocapitalize="words"></label>
+      <label class="fl">Phone<input name="phone" inputmode="tel" value="${s?esc(s.phone||''):''}" placeholder="0912 000 0000"></label>
+      ${s ? '' : `<div class="fl">Sessions in package${sessionChips(12)}<input name="sessions" inputmode="numeric" value="12"></div>
+      ${moneyField('price',`Package price (${curName()})`,'')}
+      ${moneyField('paid',`Amount paid (${curName()})`,'', payNow)}
+      ${dateField('date','Sign-up & payment date')}`}
+      <label class="fl">Notes<textarea name="note" placeholder="e.g. knee injury, goal: lose weight">${s?esc(s.note||''):''}</textarea></label>
+      <button class="btn primary block" type="submit">${I.check} ${s ? 'Save changes' : 'Add student'}</button>
+    </form>`;
+}
+function formRenew(id){
+  const s = byId(id), x = st(s);
+  const lastP = s.packages[s.packages.length-1];
+  $('#sheetBody').innerHTML = head('Renew · ' + esc(s.name)) + `
+    <form class="f" data-kind="renew" autocomplete="off"><input type="hidden" name="id" value="${id}">
+      ${x.remaining<0 ? `<div class="note" style="color:var(--warn)">${plural(-x.remaining,'extra session')} will be deducted from the new package.</div>` : ''}
+      <div class="fl">Sessions in new package${sessionChips(lastP?lastP.sessions:12)}<input name="sessions" inputmode="numeric" value="${lastP?lastP.sessions:12}"></div>
+      ${moneyField('price',`Package price (${curName()})`, lastP?lastP.price:'')}
+      ${moneyField('paid',`Amount paid (${curName()})`,'', payNow)}
+      ${dateField('date','Renewal date')}
+      <button class="btn primary block" type="submit">${I.renew} Renew package</button>
+    </form>`;
+}
+function formPay(id){
+  const s = byId(id), x = st(s);
+  $('#sheetBody').innerHTML = head('Add payment · ' + esc(s.name)) + `
+    <form class="f" data-kind="pay" autocomplete="off"><input type="hidden" name="id" value="${id}">
+      ${x.debt ? `<div class="note">Current balance: <b style="color:var(--danger)">${money(x.debt)}</b></div>` : ''}
+      ${moneyField('amount',`Amount (${curName()})`, x.debt||'')}
+      ${dateField('date','Payment date')}
+      <label class="fl">Note<input name="note" placeholder="e.g. card transfer, cash"></label>
+      <button class="btn primary block" type="submit">${I.cash} Add payment</button>
+    </form>`;
+}
+function formAttDate(id){
+  const s = byId(id);
+  $('#sheetBody').innerHTML = head('Check in · ' + esc(s.name)) + `
+    <form class="f" data-kind="attDate"><input type="hidden" name="id" value="${id}">
+      ${dateField('date','Session date', Date.now()-86400000)}
+      <button class="btn primary block" type="submit">${I.check} Check in</button>
+    </form>`;
+}
+
+const FORMS = {
+  student(d){
+    const name = (d.name||'').trim(); if(!name){ toast('Enter the student\'s name.', 'warn'); return; }
+    if(d.id){
+      const s = byId(d.id); s.name = name; s.phone = toEn(d.phone).trim(); s.note = (d.note||'').trim();
+      save(); toast('Changes saved.', 'ok'); back(); refresh(); return;
+    }
+    const date = parseDay(d.date), ses = num(d.sessions);
+    const s = { id:uid(), name, phone:toEn(d.phone).trim(), note:(d.note||'').trim(), createdAt:date, packages:[], attendance:[], payments:[] };
+    if(ses>0) s.packages.push({id:uid(), sessions:ses, price:num(d.price), date});
+    if(num(d.paid)>0) s.payments.push({id:uid(), amount:num(d.paid), date, note:'Sign-up'});
+    db.students.push(s); save();
+    toast(`${name} added.`, 'ok'); closeSheet(); refresh();
+  },
+  renew(d){
+    const s = byId(d.id), ses = num(d.sessions); if(ses<=0){ toast('Enter the number of sessions.', 'warn'); return; }
+    const date = parseDay(d.date);
+    s.packages.push({id:uid(), sessions:ses, price:num(d.price), date});
+    if(num(d.paid)>0) s.payments.push({id:uid(), amount:num(d.paid), date, note:'Renewal'});
+    save(); toast(`${s.name} renewed. ${plural(st(s).remaining,'session')} left.`, 'ok'); back(); refresh();
+  },
+  pay(d){
+    const s = byId(d.id), a = num(d.amount); if(a<=0){ toast('Enter an amount.', 'warn'); return; }
+    s.payments.push({id:uid(), amount:a, date:parseDay(d.date), note:(d.note||'').trim()});
+    save(); toast(`Payment of ${money(a)} added.`, 'ok'); back(); refresh();
+  },
+  attDate(d){
+    const s = byId(d.id); s.attendance.push({id:uid(), date:parseDay(d.date)});
+    save(); afterCheckToast(s); back(); refresh();
+  }
+};
+
+/* ================== ACTIONS ================== */
+function afterCheckToast(s){
+  const r = st(s).remaining;
+  if(r===0) toast(`${s.name} just used their last session. Time to renew!`, 'danger', {label:'Renew', act:'renew', id:s.id});
+  else if(r<0) toast(`${s.name} is ${plural(-r,'session')} over their package.`, 'danger', {label:'Renew', act:'renew', id:s.id});
+  else if(r<=db.settings.warnAt) toast(`${s.name} checked in. Only ${plural(r,'session')} left.`, 'warn');
+  else toast(`${s.name} checked in. ${plural(r,'session')} left.`, 'ok');
+}
+async function checkIn(id){
+  const s = byId(id), x = st(s);
+  if(x.todayIn){
+    if(!await ask('Undo today\'s check-in?', `${s.name}'s check-in for today will be removed and the session given back.`, 'Undo check-in')) return;
+    const today = s.attendance.filter(a=>sameDay(a.date,Date.now())).sort((a,b)=>b.date-a.date)[0];
+    s.attendance = s.attendance.filter(a=>a!==today); save();
+    toast(`${s.name}'s check-in undone.`, 'info'); refresh(); return;
+  }
+  if(x.status==='none' || x.remaining<=0){
+    if(!await ask('No sessions left', `${s.name} ${x.status==='none'?'has no package yet':'has used all their sessions'}. Check in anyway? It will be deducted from the next package.`, 'Check in', false)) return;
+  }
+  s.attendance.push({id:uid(), date:Date.now()}); save();
+  afterCheckToast(s); refresh();
+  const b = document.querySelector(`.chk[data-id="${id}"]`); if(b) b.classList.add('pop');
+}
+
+const ACT = {
+  tab(id){ tab = id; q=''; render(true); window.scrollTo({top:0}); },
+  filter(id){ filter = id; render(false); },
+  open(id){ openDetail(id); },
+  check(id){ checkIn(id); },
+  addStudent(){ detId = null; formStudent(); showSheet(); },
+  edit(id){ formStudent(id); },
+  renew(id){ if(!detId){ detId = id; } formRenew(id); showSheet(); },
+  pay(id){ if(!detId){ detId = id; } formPay(id); showSheet(); },
+  attDate(id){ formAttDate(id); },
+  detTab(id){ detTab = id; renderDetail(); },
+  close(){ closeSheet(); },
+  back(){ back(); },
+  chip(v, el){ const f = el.closest('form'); f.sessions.value = v; el.parentNode.querySelectorAll('button').forEach(b=>b.classList.toggle('on', b===el)); },
+  fullPay(_, el){ const f = el.closest('form'); f.paid.value = f.price.value; updateWords(f.paid); },
+  async delAtt(aid){ const s = byId(detId); if(!await ask('Delete this check-in?','The session goes back to the student.','Delete')) return; s.attendance = s.attendance.filter(a=>a.id!==aid); save(); refresh(); toast('Check-in deleted.', 'info'); },
+  async delPay(pid){ const s = byId(detId); if(!await ask('Delete this payment?','The amount will be added back to the student\'s balance.','Delete')) return; s.payments = s.payments.filter(p=>p.id!==pid); save(); refresh(); toast('Payment deleted.', 'info'); },
+  async delPkg(pid){ const s = byId(detId); if(!await ask('Delete this package?','Its sessions and price will be removed from the student\'s account.','Delete')) return; s.packages = s.packages.filter(p=>p.id!==pid); save(); refresh(); toast('Package deleted.', 'info'); },
+  async delStudent(id){ const s = byId(id); if(!await ask(`Delete ${s.name}?`,'All their check-ins and payments will be erased. This can\'t be undone.','Delete student')) return; db.students = db.students.filter(x=>x.id!==id); save(); closeSheet(); refresh(); toast(`${s.name} deleted.`, 'info'); },
+  warn(d){ db.settings.warnAt = Math.max(0, Math.min(10, db.settings.warnAt + (+d))); save(); render(false); },
+  currency(c){ db.settings.currency = c; save(); render(false); },
+  calendar(c){ db.settings.calendar = c; save(); render(false); },
+  export(){ exportData(); },
+  import(){ $('#importFile').value=''; $('#importFile').click(); },
+  async reset(){ if(!await ask('Erase all data?','All students, check-ins and payments will be erased. Back up first if you want to keep them.','Erase all')) return; db = DEF(); save(); render(true); toast('All data erased.', 'info'); },
+};
+
+document.addEventListener('click', e => {
+  const el = e.target.closest('[data-act]'); if(!el) return;
+  const a = el.dataset.act; if(!ACT[a]) return;
+  e.preventDefault(); e.stopPropagation();
+  ACT[a](el.dataset.id, el, e);
+});
+document.addEventListener('submit', e => {
+  e.preventDefault(); const f = e.target; const k = f.dataset.kind;
+  if(FORMS[k]) FORMS[k](Object.fromEntries(new FormData(f)));
+});
+function updateWords(inp){
+  const n = num(inp.value); const w = inp.parentNode.querySelector('[data-words]');
+  if(w) w.textContent = n ? money(n) : '';
+}
+document.addEventListener('input', e => {
+  const t = e.target;
+  if(t.id==='q'){ q = t.value.trim(); const tmp = document.createElement('div'); tmp.innerHTML = VIEWS[tab](); const nr = tmp.querySelector('#res'), or = $('#res'); if(nr && or) or.innerHTML = nr.innerHTML; return; }
+  if(t.classList.contains('money')){ const n = num(t.value); t.value = n ? nf(n) : ''; updateWords(t); }
+  if(t.name==='sessions'){ t.value = toEn(t.value).replace(/[^\d]/g,''); const c = t.parentNode.querySelector('[data-chips]'); if(c) c.querySelectorAll('button').forEach(b=>b.classList.toggle('on', b.dataset.id===t.value)); }
+  if(t.name==='phone'){ t.value = toEn(t.value); }
+});
+document.addEventListener('change', e => {
+  const t = e.target;
+  if(t.id==='cc'){ db.settings.countryCode = toEn(t.value).replace(/[^\d]/g,''); save(); t.value = '+' + db.settings.countryCode; toast('Country code saved.', 'ok'); return; }
+  if(t.hasAttribute && t.hasAttribute('data-jprev')){ const h = t.parentNode.querySelector('.hint'); if(h && t.value) h.textContent = jday(new Date(t.value+'T12:00:00')); }
+});
+
+/* ================== SHEET / TOAST / DIALOG ================== */
+function showSheet(){ $('#scrim').classList.add('show'); $('#sheet').classList.add('show'); $('#sheetBody').scrollTop = 0; document.body.style.overflow='hidden'; }
+function closeSheet(){ $('#scrim').classList.remove('show'); $('#sheet').classList.remove('show'); detId = null; document.body.style.overflow=''; }
+function back(){ if(detId && byId(detId)){ renderDetail(); $('#sheetBody').scrollTop = 0; } else closeSheet(); }
+
+function toast(msg, type='ok', action){
+  const C = {ok:'var(--gold)', warn:'var(--warn)', danger:'var(--danger)', info:'#9FB4C7'};
+  const t = document.createElement('div'); t.className = 'toast'; t.style.setProperty('--c', C[type]||C.ok);
+  t.innerHTML = `<span class="d"></span><span class="m">${esc(msg)}</span>${action?`<button class="btn primary" data-act="${action.act}" data-id="${action.id}">${action.label}</button>`:''}`;
+  const box = $('#toasts'); box.prepend(t);
+  while(box.children.length>3) box.lastChild.remove();
+  setTimeout(()=>{ t.classList.add('out'); setTimeout(()=>t.remove(), 260); }, action ? 5200 : 2800);
+}
+function ask(title, msg, ok='OK', danger=true){
+  return new Promise(res => {
+    const d = $('#dlg');
+    $('#dlgCard').innerHTML = `<h4>${esc(title)}</h4><p>${esc(msg)}</p><div class="bs"><button class="btn" id="dNo">Cancel</button><button class="btn ${danger?'danger':'primary'}" id="dOk">${esc(ok)}</button></div>`;
+    d.classList.add('show');
+    const done = v => { d.classList.remove('show'); res(v); };
+    $('#dOk').onclick = e => { e.stopPropagation(); done(true); };
+    $('#dNo').onclick = e => { e.stopPropagation(); done(false); };
+    d.onclick = e => { if(e.target===d) done(false); };
+  });
+}
+
+/* ================== BACKUP ================== */
+async function exportData(){
+  const payload = JSON.stringify({app:'LevelUp', version:1, exportedAt:Date.now(), data:db}, null, 2);
+  const name = `LevelUp-backup-${isoDay(Date.now())}.json`;
+  const blob = new Blob([payload], {type:'application/json'});
+  const mark = () => { db.settings.lastBackup = Date.now(); save(); refresh(); toast('Backup saved.', 'ok'); };
+  try{
+    const file = new File([blob], name, {type:'application/json'});
+    if(navigator.canShare && navigator.canShare({files:[file]})){ await navigator.share({files:[file], title:'LevelUp backup'}); mark(); return; }
+  }catch(e){ if(e && e.name==='AbortError') return; }
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 1500); mark();
+}
+$('#importFile').addEventListener('change', async e => {
+  const f = e.target.files && e.target.files[0]; if(!f) return;
+  try{
+    const obj = JSON.parse(await f.text()); const data = obj.data || obj;
+    if(!data || !Array.isArray(data.students)) throw new Error('bad');
+    if(!await ask('Restore backup?', `This file has ${plural(data.students.length,'student')}. Your current data will be replaced.`, 'Restore', false)) return;
+    data.settings = Object.assign(DEF().settings, data.settings||{});
+    data.students.forEach(s => { s.packages = s.packages||[]; s.attendance = s.attendance||[]; s.payments = s.payments||[]; });
+    db = data; save(); render(true); toast('Data restored.', 'ok');
+  }catch(err){ toast('That file isn\'t a LevelUp backup, or it\'s damaged.', 'danger'); }
+});
+
+/* ================== ICON / BOOT ================== */
+function makeIcon(){
+  try{
+    const c = document.createElement('canvas'); c.width = c.height = 180; const g = c.getContext('2d');
+    g.fillStyle = '#0A0A0B'; g.fillRect(0,0,180,180);
+    const gr = g.createLinearGradient(30,30,150,150); gr.addColorStop(0,'#F7E3A1'); gr.addColorStop(.5,'#D4AF37'); gr.addColorStop(1,'#A67C1F');
+    g.fillStyle = gr; g.font = '76px "Russo One", "Arial Black", sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle';
+    g.fillText('LU', 90, 82);
+    g.beginPath(); g.roundRect ? g.roundRect(44,130,92,10,5) : g.rect(44,130,92,10); g.fill();
+    const l = document.createElement('link'); l.rel = 'apple-touch-icon'; l.href = c.toDataURL('image/png'); document.head.appendChild(l);
+    const f = document.createElement('link'); f.rel = 'icon'; f.href = l.href; document.head.appendChild(f);
+  }catch(e){}
+}
+render(true);
+(document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(makeIcon);
+document.addEventListener('visibilitychange', () => { if(!document.hidden) refresh(); });
+if('serviceWorker' in navigator && location.protocol === 'https:'){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
+</script>
+</body>
+</html>
