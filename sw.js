@@ -1,5 +1,5 @@
 // LevelUp — offline cache (network first, cache fallback)
-const CACHE = 'levelup-v3';
+const CACHE = 'levelup-v4';
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['./', './index.html'])).catch(() => {}));
   self.skipWaiting();
